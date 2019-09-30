@@ -130,7 +130,7 @@ public class PlansAndPricingSummaryPage extends TechnicalComponents {
 		TechnicalComponents.click(lnk_PremierPlan, "clicked on packageid 36");
 	}
 
-	@FindBy(xpath = "//ul//div[@data-name='standard_monthly']//a[@class='wds-button wds-button--ghost plan-cta-btn standard']")
+	@FindBy(xpath = "//th[@data-package='standard_monthly']//a[@class='wds-button ft__cta-btn standard']")
 	public static WebElement lnkSignupMonthlyPlan;
 
 	public void signupMonthlyPlan() {
@@ -138,10 +138,10 @@ public class PlansAndPricingSummaryPage extends TechnicalComponents {
 
 	}
 
-	@FindBy(xpath = "//ul//div[@data-name='standard_annual']//a[@class='wds-button wds-button--ghost plan-cta-btn standard']")
+	@FindBy(xpath = "//th[@data-package='standard_annual']//a[@class='wds-button ft__cta-btn standard']")
 	public static WebElement lnkSignupStnadardAnnualPlan;
 
-	@FindBy(xpath = "//a[@data-switch='standard_monthly']")
+	@FindBy(xpath = "//button[@data-switch='standard_monthly']")
 	public static WebElement lnkSwitchAnnualPlan;
 
 	public void signupStandardAnnualPlan() {
@@ -150,7 +150,7 @@ public class PlansAndPricingSummaryPage extends TechnicalComponents {
 
 	}
 
-	@FindBy(xpath = "//ul//a[@class='wds-button wds-button--ghost plan-cta-btn advantage']")
+	@FindBy(xpath = "//th//a[@class='wds-button ft__cta-btn advantage']")
 	public static WebElement lnkSignupAdvantagePlan;
 
 	public void signupAdvantagePlan() {
@@ -158,7 +158,7 @@ public class PlansAndPricingSummaryPage extends TechnicalComponents {
 
 	}
 
-	@FindBy(xpath = "//ul//a[@class='wds-button wds-button--ghost plan-cta-btn premier']")
+	@FindBy(xpath = "//th//a[@class='wds-button ft__cta-btn premier']")
 	public static WebElement lnkSignupPremierPlan;
 
 	public void signupPremierPlan() {

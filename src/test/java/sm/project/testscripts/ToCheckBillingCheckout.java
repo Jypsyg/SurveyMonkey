@@ -53,7 +53,7 @@ public class ToCheckBillingCheckout extends BusinessComponents {
 				}
 
 				verify_Redirection("dashboard");
-				clickLink("plansandpricingsummary");
+				clickLink("clickMySurveys");
 				AdvantagePopupHandle();
 				verify_Redirection("pricingsummary");
 				clickLink("IndividualPricingPage");
@@ -77,6 +77,7 @@ public class ToCheckBillingCheckout extends BusinessComponents {
 						Frequency, TotalSeatCount);
 				clickLink("signOut");
 				verify_Redirection("homepage");
+				//OutlookEmail("Jypsyg@surveymonkey.com","Jazz$123",)
 
 			} catch (FrameworkException e) {
 

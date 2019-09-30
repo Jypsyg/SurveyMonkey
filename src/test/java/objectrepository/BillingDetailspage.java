@@ -55,6 +55,10 @@ public class BillingDetailspage extends TechnicalComponents {
 
 	@FindBy(xpath = "//div[@id='contact-details-modal']")
 	public static WebElement editBillingDetailModal;
+	
+	@FindBy(xpath = "//a[@class='action-links']")
+	public static WebElement lnkPricingAnalyze;
+	
 
 	/**
 	 * function to validate the redirection to billing details page.
@@ -167,6 +171,10 @@ public class BillingDetailspage extends TechnicalComponents {
 
 	public void clickEditContactButton() {
 		TechnicalComponents.click(btnEditContact, "Edit Billing contact button clicked");
+	}
+	
+	public void clickPricingAnalyzeLink() {
+		TechnicalComponents.click(lnkPricingAnalyze, "Pricing Analyze link  clicked");
 	}
 
 	public Boolean isContactModalOpened() {

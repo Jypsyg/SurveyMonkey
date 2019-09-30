@@ -65,8 +65,12 @@ public class ToChecFlexPlanCheckout extends BusinessComponents {
 				String ActualInvoice = getInvoiceNumber("billingconfirm");
 				clickLink("billingPage");
 				verify_Redirection("billingDetail");
-				VerifyBillingDetails("US", PlanNameDetails, Frequency, getDate("annual", "MMM D,yyyy").trim(),
-						AutoRenew, NextBillingAmount, TaxStatus);
+				clickLink("pricingAnalyze");
+				verify_Redirection("pricingAnalyze");
+				backBrowser();
+				verify_Redirection("billingDetail");
+				VerifyBillingDetails("US", PlanNameDetails, Frequency, getDate("1month", "MMM dd,yyyy").trim(),
+						AutoRenew, NextBillingAmount, TaxStatus);			
 				clickLink("transactionHistoryPage");
 				verify_Redirection("transactionhistory");
 				verifyPurchaseActivityDetails("transactionhistory", ActualInvoice, getDate("currentday", "dd-MMM-yy"),

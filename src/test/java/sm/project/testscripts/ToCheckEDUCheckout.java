@@ -37,6 +37,7 @@ public class ToCheckEDUCheckout extends BusinessComponents {
 				clickLink("plansandpricingsummary");
 				verify_Redirection("pricingsummary");
 				clickLink("eduPricing");
+				verify_Redirection("edu_pricing");
 				SignUpEDUPlan(PlanName);
 				verify_Redirection("signup");
 				String newUser = "automation" + Utilities.randomNum();
@@ -52,7 +53,7 @@ public class ToCheckEDUCheckout extends BusinessComponents {
 				click_CrossIcon();
 				clickLink("billingPage");
 				verify_Redirection("billingDetail");
-				VerifyBillingDetails("US", PlanNameDetails, Frequency, getDate("annual", "MMM D,yyyy").trim(),
+				VerifyBillingDetails("US", PlanNameDetails, Frequency, getDate("annual", "MMM DD,yyyy").trim(),
 						AutoRenew, NextBillingAmount, TaxStatus);
 				clickLink("transactionHistoryPage");
 				verify_Redirection("transactionhistory");

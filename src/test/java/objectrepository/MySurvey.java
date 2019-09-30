@@ -26,21 +26,20 @@ import reusablecomponents.TechnicalComponents;
  * @author Jypsy
  *
  */
-public class Dashboard extends TechnicalComponents {
+public class MySurvey extends TechnicalComponents {
 
 	WebDriver driver;
-	public static String Dashboard_title = "Welcome to SurveyMonkey!";
-	public static String urlsuffix = "/dashboard/";
+	public static String urlsuffix = "/home//";	
 
-	public Dashboard(WebDriver driver) {
+	public MySurvey(WebDriver driver) {
 
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}
 
-	@FindBy(xpath = "//h1[@class='welcome-line']")
-	public static WebElement txt_Welcome;
-
+	@FindBy(xpath = "//button[@class='wds-button']")
+	public static WebElement btnAddQuestion;
+	
 	/**
 	 * function to validate the redirection to plans and pricing page.
 	 * 
@@ -49,7 +48,7 @@ public class Dashboard extends TechnicalComponents {
 	 */
 	public boolean isPageOpened() {
 		try {
-			TechnicalComponents.waitTill(txt_Welcome, "visible");
+			TechnicalComponents.waitTill(btnAddQuestion, "visible");
 			if (driver.getCurrentUrl().contains(urlsuffix)) {
 				return true;
 			} else {
@@ -57,27 +56,18 @@ public class Dashboard extends TechnicalComponents {
 			}
 		} catch (FrameworkException e) {
 			throw new FrameworkException(
-					"Dashboard Not Loaded within specified time.---" + e.getClass() + "---" + e.getMessage());
+					"My Survey Page Loaded within specified time.---" + e.getClass() + "---" + e.getMessage());
 		}
 
 	}
-	
-	@FindBy(xpath = "//div[@id='hd']//a[contains(@href,'/pricing')]")
-	public static WebElement lnk_PlansAndpricing;
-	
-	public void clickPlansAndPricing() {
-		
-		TechnicalComponents.click(lnk_PlansAndpricing, "plans and pricing");
-	}
-	
-	
-	@FindBy(xpath = "//div[@class='inner-header clearfix']//a[contains(@href,'/home/?ut_source=header')]")
-	public static WebElement lnk_MySurveys;
-	
-	
-	public void clickMySurveys() {
-		
-		TechnicalComponents.click(lnk_MySurveys, "My Surveys");
-	}
+	@FindBy(xpath = "//input[@id='create-title-input']")
+	public static WebElement txtAreainput;
 
+	public void  enterSurveyName(String SurveyName) {
+		TechnicalComponents.type(txtAreainput, SurveyName, "Survey Name entered");
+	}
+	
+	public void  clickAddQuestion() {
+		TechnicalComponents.click(btnAddQuestion, "Add question button clicked");
+	}
 }

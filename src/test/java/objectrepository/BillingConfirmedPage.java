@@ -39,7 +39,7 @@ public class BillingConfirmedPage extends TechnicalComponents {
 	}
 
 
-	@FindBy(xpath = "//div[@class='unit size1of2 confirmation-info']")
+	@FindBy(xpath = "//h3")
 	public static WebElement txtConfirmation;
 
 

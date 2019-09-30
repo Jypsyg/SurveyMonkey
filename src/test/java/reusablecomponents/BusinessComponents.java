@@ -33,6 +33,7 @@ import objectrepository.HomePage;
 import objectrepository.LoginPage;
 import objectrepository.MyAccountPage;
 import objectrepository.PlansAndPricingSummaryPage;
+import objectrepository.PricingAnalyze;
 import objectrepository.ProfileDefaultPage;
 import objectrepository.SignUpPage;
 import objectrepository.TeamPricing;
@@ -153,7 +154,10 @@ public class BusinessComponents extends TechnicalComponents {
 				TeamSetUp t2 = new TeamSetUp(driver);
 				redirectionsuccess = t2.isPageOpened();
 				break;
-
+			case "pricingAnalyze":
+				PricingAnalyze pr = new PricingAnalyze(driver);
+				redirectionsuccess = pr.isPageOpened();
+				break;
 			default:
 				throw new FrameworkException("redirection verification not configure " + ScreenName);
 			}
@@ -371,7 +375,17 @@ public class BusinessComponents extends TechnicalComponents {
 			PlansAndPricingSummaryPage pr = new PlansAndPricingSummaryPage(driver);
 			pr.clickeduPlans();
 			logger.log(LogStatus.PASS, "clicked Succesfully" + LinkName);
+			break;
 
+		case "pricingAnalyze":
+			BillingDetailspage br = new BillingDetailspage(driver);
+			br.clickPricingAnalyzeLink();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + LinkName);
+			break;
+		case "mySurvey":
+			Dashboard de = new 	Dashboard(driver);
+			de.clickMySurveys();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + LinkName);
 			break;
 		default:
 			logger.log(LogStatus.INFO, "No link found" + LinkName);
