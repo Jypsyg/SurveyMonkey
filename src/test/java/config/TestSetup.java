@@ -107,9 +107,7 @@ public class TestSetup {
 			} else {
 				reportName = "Remote_" + System.getProperty("BrowserDevice") + "_FirstRun_";
 			}
-			if (System.getProperty("language").toLowerCase().equals("french")) {
-				isFrench = true;
-			}
+			
 		} else {
 			reportName = "LocalRun_";
 			if (Utilities.getProperty("LANGUAGE").toLowerCase().equals("french")) {
@@ -159,7 +157,7 @@ public class TestSetup {
 		excelReport ="Reports/" + reportName+".xlsx"; 
 		Utilities.setProperty("SCREENSHOTS_LOCATION_FOR_RUN",
 				System.getProperty("user.dir") + "/Reports/" + Utilities.getCurrentDate().replace("/", "") + "/Screenshots/");
-		Mappings.setFrenchMappings();
+		//Mappings.setFrenchMappings();
 		testCaseCount = 0;
 		
 	}
@@ -344,7 +342,7 @@ public class TestSetup {
 		testCaseResult.put(testCaseCount, testCaseStatus);
 		testCaseExecuted = testCasePassed + testCaseFailed;
 		if (toBeTested && (!testCaseCategory.get(testName).equalsIgnoreCase("api"))){
-			driver.quit();
+			//driver.quit();
 		}
 	}
 

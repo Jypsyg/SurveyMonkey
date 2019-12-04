@@ -21,66 +21,56 @@ import reusablecomponents.BusinessComponents;
 import reusablecomponents.TechnicalComponents;
 
 /**
- * Object repository of the billingConfirmed page.
+ * Object repository of the credit confirmation  page.
  * 
  * @author Jypsy
  *
  */
-public class TeamSetUp extends TechnicalComponents {
+public class CreditConfirmationPageWithoutPay extends TechnicalComponents {
 
 	WebDriver driver;
-	public static String urlsuffix = "/team/setup/";
-	
-	
-	public TeamSetUp(WebDriver driver) {
+
+	private String Credit_confirmation_title = "SurveyMonkey - Thank you for your credits purchase";
+	public static String urlsuffix = "/billing/pw/credits-confirmation";
+
+	public CreditConfirmationPageWithoutPay(WebDriver driver) {
 
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}
 
 
-	@FindBy(xpath = "//div[@class='team-setup-intro small-team-setup-intro']")
-	public static WebElement txtTeamSetUp;
-
-
 	/**
-	 * function to validate the redirection to billing/confirm page.
+	 * function to validate the redirection to credit confirmation  page.
 	 * 
 	 * @author Jypsy
 	 *
 	 */
 	public boolean isPageOpened() {
 		try {
-			TechnicalComponents.waitTill(txtTeamSetUp, "visible");
-			if (driver.getCurrentUrl().contains(urlsuffix)) {
+			TechnicalComponents.waitTill(btnPayNow, "visible");
+			if (driver.getCurrentUrl().endsWith(urlsuffix)) {
 				return true;
 			} else {
 				return false;
 			}
 		} catch (FrameworkException e) {
 			throw new FrameworkException(
-					"Team Set Up  page Not Loaded within specified time.---" + e.getClass() + "---" + e.getMessage());
+					"Credit Confirmation  Page Not Loaded within specified time.---" + e.getClass() + "---" + e.getMessage());
 		}
 
 	}
 	
-	@FindBy(xpath = "//div[@class='banner-body']//span")
-	public static WebElement txtInvoiceNumber;
-	
-	
 
-	public String getInvoice() {
-		String ActualInvoice = TechnicalComponents.getAttribute(txtInvoiceNumber, "text", "invoice number");
-		return ActualInvoice;
+	@FindBy(xpath = "//a[contains(text(),'PAY NOW')]")
+	public static WebElement btnPayNow;
+	
+	public void clickPayNow() {
+
+		TechnicalComponents.click(btnPayNow,"Clicked on PayNOw");
+
 	}
-	
-	@FindBy(xpath = "//a[contains(text(),'UPGRADE')]")
-	public static WebElement btnUpgrade;
-	
-	public void clickUpgarde() {
-		TechnicalComponents.click(btnUpgrade, "upgrade clciked");
-	}
-	
+
 
 
 }

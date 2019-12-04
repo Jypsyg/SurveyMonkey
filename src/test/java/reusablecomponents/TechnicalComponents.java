@@ -39,6 +39,7 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.InvalidElementStateException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.NoSuchFrameException;
@@ -55,6 +56,7 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.server.handler.SendKeys;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -106,14 +108,10 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Function to type using keyboard keys. Mostly used to mimic shortcuts.
 	 * 
-	 * @param element
-	 *            - Element on which action needs to be performed.
-	 * @param text
-	 *            - Keys that needs to be entered.
-	 * @param desc
-	 *            - Free text used to identify field.
-	 * @throws FrameworkException
-	 *             in case of Error.
+	 * @param element - Element on which action needs to be performed.
+	 * @param text    - Keys that needs to be entered.
+	 * @param desc    - Free text used to identify field.
+	 * @throws FrameworkException in case of Error.
 	 */
 	public static void type(WebElement element, Keys text, String desc) {
 		try {
@@ -153,14 +151,10 @@ public class TechnicalComponents extends TestSetup {
 	 * Function to type the text on field. This function will first clear the text
 	 * on screen and will then enter text.
 	 * 
-	 * @param element
-	 *            - Element on which action needs to be performed.
-	 * @param text
-	 *            - Text that needs to be entered.
-	 * @param desc
-	 *            - Free text used to identify field.
-	 * @throws FrameworkException
-	 *             in case of Error.
+	 * @param element - Element on which action needs to be performed.
+	 * @param text    - Text that needs to be entered.
+	 * @param desc    - Free text used to identify field.
+	 * @throws FrameworkException in case of Error.
 	 */
 	public static void type(WebElement element, String text, String desc) {
 		try {
@@ -216,12 +210,9 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Function to click on particular element.
 	 * 
-	 * @param element
-	 *            - Element to be clicked.
-	 * @param desc
-	 *            - Free Text to identify field.
-	 * @throws FrameworkException
-	 *             in case of error.
+	 * @param element - Element to be clicked.
+	 * @param desc    - Free Text to identify field.
+	 * @throws FrameworkException in case of error.
 	 */
 	public static void click(WebElement element, String desc) {
 		try {
@@ -268,12 +259,9 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Function to click on particular element.
 	 * 
-	 * @param element
-	 *            - Element to be clicked.
-	 * @param desc
-	 *            - Free Text to identify field.
-	 * @throws FrameworkException
-	 *             in case of error.
+	 * @param element - Element to be clicked.
+	 * @param desc    - Free Text to identify field.
+	 * @throws FrameworkException in case of error.
 	 */
 	public static void click_exceptional(WebElement element, String desc) {
 		try {
@@ -321,12 +309,9 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Function to hover on particular element.
 	 * 
-	 * @param element
-	 *            - Element to be hovered.
-	 * @param desc
-	 *            - Free Text to identify field.
-	 * @throws FrameworkException
-	 *             in case of error.
+	 * @param element - Element to be hovered.
+	 * @param desc    - Free Text to identify field.
+	 * @throws FrameworkException in case of error.
 	 */
 	public static void mouseHover(WebElement element, String desc) {
 		try {
@@ -358,19 +343,15 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Verify Attribute of particular field.
 	 * 
-	 * @param element
-	 *            - Element on which validation needs to be performed.
-	 * @param attributeDesc
-	 *            - Attribute to be validated, performs both equals and contains
-	 *            validation. Expected format 'AttributeName'-'validation to be
-	 *            performed' Expected validation equals or contains, if not passed
-	 *            then will perform exact match.
-	 * @param value
-	 *            - Expected value of Attribute.
-	 * @param desc
-	 *            - Free text to identify field.
-	 * @throws FrameworkException
-	 *             in case of failure.
+	 * @param element       - Element on which validation needs to be performed.
+	 * @param attributeDesc - Attribute to be validated, performs both equals and
+	 *                      contains validation. Expected format
+	 *                      'AttributeName'-'validation to be performed' Expected
+	 *                      validation equals or contains, if not passed then will
+	 *                      perform exact match.
+	 * @param value         - Expected value of Attribute.
+	 * @param desc          - Free text to identify field.
+	 * @throws FrameworkException in case of failure.
 	 * 
 	 */
 	public static void verifyAttribute(WebElement element, String attributeDesc, String value, String desc,
@@ -484,16 +465,12 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Get the attribute value of particular element.
 	 * 
-	 * @param element
-	 *            - Element for which attribute value needs to be retrieved.
-	 * @param attribute
-	 *            - Attribute to be retrieved.
-	 * @param desc
-	 *            - Free text to identify field.
+	 * @param element   - Element for which attribute value needs to be retrieved.
+	 * @param attribute - Attribute to be retrieved.
+	 * @param desc      - Free text to identify field.
 	 * @return - Returns attribute value for the element. Returns "" in case value
 	 *         is null.
-	 * @throws FrameworkException
-	 *             in case of failure.
+	 * @throws FrameworkException in case of failure.
 	 */
 	public static String getAttribute(WebElement element, String attribute, String desc) {
 		// isDisplayed(element,desc);
@@ -532,13 +509,10 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Function to wait for any element to be visible, invisible or enable.
 	 * 
-	 * @param element
-	 *            - Element to be looked for.
-	 * @param state
-	 *            - Expected state of Element. Expected values: "visible", "enable",
-	 *            "invisible"
-	 * @throws FrameworkException
-	 *             - in case of error.
+	 * @param element - Element to be looked for.
+	 * @param state   - Expected state of Element. Expected values: "visible",
+	 *                "enable", "invisible"
+	 * @throws FrameworkException - in case of error.
 	 */
 	public static void waitTill(WebElement element, String state) {
 		try {
@@ -579,15 +553,11 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Function to wait for element to contains expected text.
 	 * 
-	 * @param element
-	 *            - Element where text is expected.
-	 * @param state
-	 *            - should be text in order to validate presence of text. Expected
-	 *            state can be: visible, invisible, text or enable.
-	 * @param text
-	 *            - Expected text.
-	 * @throws FrameworkException
-	 *             in case of error.
+	 * @param element - Element where text is expected.
+	 * @param state   - should be text in order to validate presence of text.
+	 *                Expected state can be: visible, invisible, text or enable.
+	 * @param text    - Expected text.
+	 * @throws FrameworkException in case of error.
 	 */
 	public static void waitTill(WebElement element, String state, String text) {
 		try {
@@ -627,11 +597,9 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Function to save screenshot.
 	 * 
-	 * @param driver
-	 *            - driver instance to which screenshot needs to be taken.
+	 * @param driver - driver instance to which screenshot needs to be taken.
 	 * @return file name of the file.
-	 * @throws FrameworkException
-	 *             in case of error
+	 * @throws FrameworkException in case of error
 	 */
 	public static String screenshot(WebDriver driver) {
 
@@ -670,15 +638,11 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Select value from drop down values where list is dynamic.
 	 * 
-	 * @param dd_Options
-	 *            - List with drop down values.
-	 * @param value
-	 *            - value to be selected.
-	 * @param isDynamic
-	 *            - true if list is dynamic else false. Will wait for 3 secs for
-	 *            list to be updated in case value is not found.
-	 * @throws FrameworkException
-	 *             in case of error.
+	 * @param dd_Options - List with drop down values.
+	 * @param value      - value to be selected.
+	 * @param isDynamic  - true if list is dynamic else false. Will wait for 3 secs
+	 *                   for list to be updated in case value is not found.
+	 * @throws FrameworkException in case of error.
 	 */
 	public static void selectValuefromDropdown(List<WebElement> dd_Options, String value, boolean isDynamic) {
 		WebElement option;
@@ -728,12 +692,9 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Select value from drop down values.
 	 * 
-	 * @param dd_Options
-	 *            - List with drop down values.
-	 * @param value
-	 *            - value to be selected.
-	 * @throws FrameworkException
-	 *             in case of error.
+	 * @param dd_Options - List with drop down values.
+	 * @param value      - value to be selected.
+	 * @throws FrameworkException in case of error.
 	 */
 	public static void selectValuefromDropdown(List<WebElement> dd_Options, String value) {
 
@@ -762,6 +723,8 @@ public class TechnicalComponents extends TestSetup {
 				select.selectByVisibleText(value);
 			} else if (selectBy.toLowerCase().contains("index")) {
 				select.selectByIndex(Integer.valueOf(value));
+			} else if (selectBy.toLowerCase().contains("actualdata")) {
+				select.selectByValue(value);
 			} else {
 				throw new FrameworkException(selectBy + " not configured. Please contact Automation Team.");
 			}
@@ -779,14 +742,11 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Get element at run time using locator type and locator value.
 	 * 
-	 * @param locatorType
-	 *            - locator Type to be used to identify element, Expected: xpath,
-	 *            id, link text
-	 * @param locator
-	 *            - locator value to be utilized to identify object.
+	 * @param locatorType - locator Type to be used to identify element, Expected:
+	 *                    xpath, id, link text
+	 * @param locator     - locator value to be utilized to identify object.
 	 * @return element retrieved.
-	 * @throws FrameworkException
-	 *             in case of error.
+	 * @throws FrameworkException in case of error.
 	 */
 	public static WebElement getElement(String locatorType, String locator) {
 		try {
@@ -841,22 +801,18 @@ public class TechnicalComponents extends TestSetup {
 	 * Get element and index from the start of list based on attribute. Works for
 	 * both exact attribute match and partial attribute match.
 	 * 
-	 * @param elements
-	 *            - list of elements from which particular element needs to be
-	 *            fetched.
-	 * @param attributeDesc
-	 *            - Attribute to be matched, performs both equals and contains
-	 *            match. Expected format 'AttributeName'-'validation to be
-	 *            performed' Expected validation equals or contains, if not passed
-	 *            then will perform exact match.
-	 * @param value
-	 *            - value of attribute to be matched.
-	 * @param listName
-	 *            - Free text to identify list name.
+	 * @param elements      - list of elements from which particular element needs
+	 *                      to be fetched.
+	 * @param attributeDesc - Attribute to be matched, performs both equals and
+	 *                      contains match. Expected format
+	 *                      'AttributeName'-'validation to be performed' Expected
+	 *                      validation equals or contains, if not passed then will
+	 *                      perform exact match.
+	 * @param value         - value of attribute to be matched.
+	 * @param listName      - Free text to identify list name.
 	 * @return element and index of element. Index will be based on consideration
 	 *         that first element will start from 0.
-	 * @throws FrameworkException
-	 *             in case of Failure.
+	 * @throws FrameworkException in case of Failure.
 	 */
 	public static ElementIndex getElementFromList(List<WebElement> elements, String attributeDesc, String value,
 			String listName) {
@@ -955,22 +911,18 @@ public class TechnicalComponents extends TestSetup {
 	 * Get element and index from the end of list based on attribute. Works for both
 	 * exact attribute match and partial attribute match.
 	 * 
-	 * @param elements
-	 *            - list of elements from which particular element needs to be
-	 *            fetched.
-	 * @param attributeDesc
-	 *            - Attribute to be matched, performs both equals and contains
-	 *            match. Expected format 'AttributeName'-'validation to be
-	 *            performed' Expected validation equals or contains, if not passed
-	 *            then will perform exact match.
-	 * @param value
-	 *            - value of attribute to be matched.
-	 * @param listName
-	 *            - Free text to identify list name.
+	 * @param elements      - list of elements from which particular element needs
+	 *                      to be fetched.
+	 * @param attributeDesc - Attribute to be matched, performs both equals and
+	 *                      contains match. Expected format
+	 *                      'AttributeName'-'validation to be performed' Expected
+	 *                      validation equals or contains, if not passed then will
+	 *                      perform exact match.
+	 * @param value         - value of attribute to be matched.
+	 * @param listName      - Free text to identify list name.
 	 * @return element and index of element. Index will be based on consideration
 	 *         that first element will start from 0.
-	 * @throws FrameworkException
-	 *             in case of Failure.
+	 * @throws FrameworkException in case of Failure.
 	 */
 	public static ElementIndex getElementFromListInReverseOrder(List<WebElement> elements, String attributeDesc,
 			String value, String listName) {
@@ -1066,16 +1018,12 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Get element from the start of list based on index.
 	 * 
-	 * @param elements
-	 *            - list of elements from which particular element needs to be
-	 *            fetched.
-	 * @param index
-	 *            - index from which element needs to be retrieved.
-	 * @param listName
-	 *            - Free text to identify list name.
+	 * @param elements - list of elements from which particular element needs to be
+	 *                 fetched.
+	 * @param index    - index from which element needs to be retrieved.
+	 * @param listName - Free text to identify list name.
 	 * @return element at index
-	 * @throws FrameworkException
-	 *             in case of Failure.
+	 * @throws FrameworkException in case of Failure.
 	 */
 	public static WebElement getElementFromList(List<WebElement> elements, int index, String listName) {
 		try {
@@ -1111,15 +1059,12 @@ public class TechnicalComponents extends TestSetup {
 	 * Verify option values from a list. This list can be anything with common
 	 * linkage viz dropdown options, header values, portlets etc.
 	 * 
-	 * @param optionValues
-	 *            - List of elements that needs to be validated.
-	 * @param optionValuesFromData
-	 *            - expected option values separated by ':'
-	 * @param optionName
-	 *            - Free text to identify option list.
-	 * @throws FrameworkException
-	 *             in case of failure. This will also fail in case option values
-	 *             count do not match or if any of the expected option is missing.
+	 * @param optionValues         - List of elements that needs to be validated.
+	 * @param optionValuesFromData - expected option values separated by ':'
+	 * @param optionName           - Free text to identify option list.
+	 * @throws FrameworkException in case of failure. This will also fail in case
+	 *                            option values count do not match or if any of the
+	 *                            expected option is missing.
 	 */
 	public static void verifyOptionValues(List<WebElement> optionValues, String optionValuesFromData,
 			String optionName) {
@@ -1188,10 +1133,8 @@ public class TechnicalComponents extends TestSetup {
 	 * Brings element to the top of screen and then scroll down a bit to get element
 	 * on screen.
 	 * 
-	 * @param element
-	 *            - element to which control should be passed.
-	 * @throws FrameworkException
-	 *             in case of failure.
+	 * @param element - element to which control should be passed.
+	 * @throws FrameworkException in case of failure.
 	 */
 	public static void scroll(WebElement element) {
 		try {
@@ -1223,12 +1166,9 @@ public class TechnicalComponents extends TestSetup {
 	 * Verify if element is displayed or not. Will wait for element till it gets
 	 * displayed or till timeout is reached whichever is lower.
 	 * 
-	 * @param element
-	 *            - expected element.
-	 * @param desc
-	 *            - Free text to identify element.
-	 * @throws FrameworkException
-	 *             in case of failure.
+	 * @param element - expected element.
+	 * @param desc    - Free text to identify element.
+	 * @throws FrameworkException in case of failure.
 	 */
 	public static void isDisplayed(WebElement element, String desc) {
 		long timeOut = TestSetup.timeOut;
@@ -1259,13 +1199,10 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Verify if element is selected or not.
 	 * 
-	 * @param element
-	 *            - expected element.
-	 * @param desc
-	 *            - Free text to identify element.
+	 * @param element - expected element.
+	 * @param desc    - Free text to identify element.
 	 * @return true if element is selected else false
-	 * @throws FrameworkException
-	 *             in case of failure.
+	 * @throws FrameworkException in case of failure.
 	 */
 	public static boolean isSelected(WebElement element, String desc) {
 		try {
@@ -1292,14 +1229,10 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Verify the state of element as enabled or disabled.
 	 * 
-	 * @param element
-	 *            - Element for which state needs to be validated.
-	 * @param expectedState
-	 *            - Expected state of element. enable or disable
-	 * @param fieldDesc
-	 *            - Free text to identify field.
-	 * @throws FrameworkException
-	 *             in case of error.
+	 * @param element       - Element for which state needs to be validated.
+	 * @param expectedState - Expected state of element. enable or disable
+	 * @param fieldDesc     - Free text to identify field.
+	 * @throws FrameworkException in case of error.
 	 */
 	public static void verifyElementState(WebElement element, String expectedState, String fieldDesc) {
 		try {
@@ -1338,14 +1271,10 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Verify the state of element as displayed or not displayed.
 	 * 
-	 * @param element
-	 *            - Element for which state needs to be validated.
-	 * @param expectedState
-	 *            - Expected state of element. displayed or not displayed
-	 * @param fieldDesc
-	 *            - Free text to identify field.
-	 * @throws FrameworkException
-	 *             in case of error.
+	 * @param element       - Element for which state needs to be validated.
+	 * @param expectedState - Expected state of element. displayed or not displayed
+	 * @param fieldDesc     - Free text to identify field.
+	 * @throws FrameworkException in case of error.
 	 */
 	public static void verifyElementPresence(WebElement element, String expectedState, String fieldDesc) {
 		try {
@@ -1378,8 +1307,7 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Refreshes the page.
 	 * 
-	 * @throws FrameworkException
-	 *             in case of error.
+	 * @throws FrameworkException in case of error.
 	 */
 	public static void refreshPage() {
 		try {
@@ -1432,8 +1360,7 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Wait till defined time limit. Time unit is in seconds.
 	 * 
-	 * @param time
-	 *            - Expected wait time.
+	 * @param time - Expected wait time.
 	 */
 	public static void waitTill(int time) {
 		try {
@@ -1463,15 +1390,32 @@ public class TechnicalComponents extends TestSetup {
 
 	}
 
+	public static void switchtoiframe(WebElement frameEle) {
+		try {
+			driver.switchTo().frame(frameEle);
+			driverWait = Long.parseLong(Utilities.getProperty("IMPLICIT_WAIT"));
+			loggerForLogs.log(LogStatus.INFO, "Switched to '" + frameEle + "' frame. ");
+		} catch (NoSuchFrameException e) {
+			if (driverWait > 0) {
+				driverWait--;
+				waitTill(1);
+				switchtoiframe(frameEle);
+			} else {
+				throw new FrameworkException("Frame " + frameEle + " not found.");
+			}
+		} catch (Exception e) {
+			throw new FrameworkException("Unknown exception occured while switching to Frame: " + frameEle + "---"
+					+ e.getClass() + "---" + e.getMessage());
+		}
+
+	}
+
 	/**
 	 * Clears the field.
 	 * 
-	 * @param element
-	 *            - Field to be cleared.
-	 * @param desc
-	 *            - Free text to identify field.
-	 * @throws FrameworkException
-	 *             in case of failure.
+	 * @param element - Field to be cleared.
+	 * @param desc    - Free text to identify field.
+	 * @throws FrameworkException in case of failure.
 	 */
 	public static void clear(WebElement element, String desc) {
 		try {
@@ -1506,13 +1450,11 @@ public class TechnicalComponents extends TestSetup {
 	 * Sets the logger test description to the one from sheet and customize waits
 	 * per test case complexity
 	 * 
-	 * @param testDesc
-	 *            - Test Description to be entered.
-	 * @param complexity
-	 *            - Complexity of test case i.e. high, medium or low. high will have
-	 *            maximum wait and will be reduced from high till low.
-	 * @throws FrameworkException
-	 *             in case of error.
+	 * @param testDesc   - Test Description to be entered.
+	 * @param complexity - Complexity of test case i.e. high, medium or low. high
+	 *                   will have maximum wait and will be reduced from high till
+	 *                   low.
+	 * @throws FrameworkException in case of error.
 	 */
 	public static void setParametersPerTestCase(String testDesc, String complexity) {
 		logger.getTest().setName("TestCase # " + testCaseCount + "---" + logger.getTest().getName() + "---" + testDesc);
@@ -1564,10 +1506,8 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Function to switch to new window by using windows title name.
 	 * 
-	 * @param title
-	 *            - title of the window to be switched.
-	 * @exception FrameworkException
-	 *                in case window is not found.
+	 * @param title - title of the window to be switched.
+	 * @exception FrameworkException in case window is not found.
 	 */
 	public static void switchToNewWindow(String title) {
 		boolean windowFound = false;
@@ -1597,18 +1537,12 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Verify email being sent to User.
 	 * 
-	 * @param emailTo
-	 *            - Email Id to which email has been sent
-	 * @param from
-	 *            - Email from which email has been sent
-	 * @param subject
-	 *            - Subject of the email
-	 * @param content
-	 *            - Content to be verified
-	 * @param toBeVerified
-	 *            - true in case email needs to be verified else false
-	 * @throws FrameworkException
-	 *             - in case of error
+	 * @param emailTo      - Email Id to which email has been sent
+	 * @param from         - Email from which email has been sent
+	 * @param subject      - Subject of the email
+	 * @param content      - Content to be verified
+	 * @param toBeVerified - true in case email needs to be verified else false
+	 * @throws FrameworkException - in case of error
 	 */
 	public static void verifyEmail(String emailTo, String from, String subject, String content[],
 			boolean toBeVerified) {
@@ -1711,8 +1645,7 @@ public class TechnicalComponents extends TestSetup {
 	/**
 	 * Function to get the current window title.
 	 * 
-	 * @exception FrameworkException
-	 *                in case window title not found.
+	 * @exception FrameworkException in case window title not found.
 	 */
 	public static String getcurrentwindowTitle() {
 		String title = null;
@@ -1924,15 +1857,12 @@ public class TechnicalComponents extends TestSetup {
 	 * comparision. This list can be anything with common linkage viz dropdown
 	 * options, header values, portlets etc.
 	 * 
-	 * @param optionValues
-	 *            - List of elements that needs to be validated.
-	 * @param optionValuesFromData
-	 *            - expected option values separated by ':'
-	 * @param optionName
-	 *            - Free text to identify option list.
-	 * @throws FrameworkException
-	 *             in case of failure. This will also fail in case option values
-	 *             count do not match or if any of the expected option is missing.
+	 * @param optionValues         - List of elements that needs to be validated.
+	 * @param optionValuesFromData - expected option values separated by ':'
+	 * @param optionName           - Free text to identify option list.
+	 * @throws FrameworkException in case of failure. This will also fail in case
+	 *                            option values count do not match or if any of the
+	 *                            expected option is missing.
 	 */
 	public static void verifyOptionValues(List<WebElement> optionValues, String optionValuesFromData, String optionName,
 			boolean replacewithnumber) {
@@ -2093,6 +2023,101 @@ public class TechnicalComponents extends TestSetup {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	public static void EnterKeys(WebElement element, String keyName) {
+		try {
+			element.sendKeys(Keys.valueOf(keyName.toUpperCase()));
+		} catch (Exception e) {
+			throw new FrameworkException(
+					"Unknown exception occured while handling alerts.---" + e.getClass() + "---" + e.getMessage());
+		}
+	}
+
+	/**
+	 * Function to type the text on field. This function will first clear the text
+	 * on screen and will then enter text.
+	 * 
+	 * @param element - Element on which action needs to be performed.
+	 * @param text    - Text that needs to be entered.
+	 * @param desc    - Free text used to identify field.
+	 * @throws FrameworkException in case of Error.
+	 */
+	public static void typeWithoutClear(WebElement element, String text, String desc) {
+		try {
+			if (element.isDisplayed()) {
+				if (element.isEnabled()) {
+					Actions action = new Actions(driver);
+					action.moveToElement(element).click();
+					action.sendKeys(element, text);
+					action.build().perform();
+				} else {
+					if (driverWait > 0) {
+						driverWait--;
+						waitTill(1);
+						type(element, text, desc);
+					} else {
+						throw new FrameworkException("Field " + desc + " is disabled.");
+					}
+				}
+			} else {
+				if (driverWait > 0) {
+					driverWait--;
+					waitTill(1);
+					type(element, text, desc);
+				} else {
+					throw new FrameworkException("Field " + desc + " is not displayed.");
+				}
+			}
+			driverWait = Long.parseLong(Utilities.getProperty("IMPLICIT_WAIT"));
+			loggerForLogs.log(LogStatus.INFO, "Typed '" + text + "' to " + desc);
+		} catch (NoSuchElementException e) {
+			if (driverWait > 0) {
+				driverWait--;
+				waitTill(1);
+				type(element, text, desc);
+			} else {
+				throw new FrameworkException("Field " + desc + " not found.");
+			}
+		} catch (ElementNotVisibleException e) {
+			scroll(element);
+			type(element, text, desc);
+		} catch (FrameworkException e) {
+			throw new FrameworkException(e.getMessage());
+		} catch (Exception e) {
+			throw new FrameworkException(
+					"Unknown exception occured while typing on: " + desc + e.getClass() + "---" + e.getMessage());
+		}
+
+	}
+
+	public static void visibleInvisible(WebElement element) {
+		try {
+			TechnicalComponents.waitTill(element, "visible");
+			logger.log(LogStatus.PASS, "element","value is visible");
+			TechnicalComponents.waitTill(element, "invisible");
+			logger.log(LogStatus.PASS, "element","value is invisible");
+
+		} catch (Exception e) {
+			throw new FrameworkException(
+					"Unknown exception occured while handling alerts.---" + e.getClass() + "---" + e.getMessage());
+		}
+
+	}
+
+	public static void switchToWindowClose(String ParentWindow) {
+		try {
+			if (ParentWindow != null) {
+				String PresentWindow = driver.getWindowHandle();
+				TechnicalComponents.switchToTab(PresentWindow);
+				driver.close();
+				TechnicalComponents.switchToTab(ParentWindow);
+			}
+		} catch (Exception e) {
+			throw new FrameworkException(
+					"switching window handle.---" + e.getClass() + "---" + e.getMessage());
+		}
+
 	}
 
 }

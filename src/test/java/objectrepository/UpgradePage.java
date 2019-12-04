@@ -8,6 +8,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.server.handler.GetCurrentUrl;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -26,21 +27,21 @@ import reusablecomponents.TechnicalComponents;
  * @author Jypsy
  *
  */
-public class TeamSetUp extends TechnicalComponents {
+public class UpgradePage extends TechnicalComponents {
 
 	WebDriver driver;
-	public static String urlsuffix = "/team/setup/";
+	public static String urlsuffix = "/upgrade";
 	
 	
-	public TeamSetUp(WebDriver driver) {
+	public UpgradePage(WebDriver driver) {
 
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}
 
 
-	@FindBy(xpath = "//div[@class='team-setup-intro small-team-setup-intro']")
-	public static WebElement txtTeamSetUp;
+	@FindBy(xpath = "//h1[contains(text(),'Upgrade Your Account')]")
+	public static WebElement txtUpgradeAccount;
 
 
 	/**
@@ -51,7 +52,7 @@ public class TeamSetUp extends TechnicalComponents {
 	 */
 	public boolean isPageOpened() {
 		try {
-			TechnicalComponents.waitTill(txtTeamSetUp, "visible");
+			TechnicalComponents.waitTill(txtUpgradeAccount, "visible");
 			if (driver.getCurrentUrl().contains(urlsuffix)) {
 				return true;
 			} else {
@@ -59,28 +60,19 @@ public class TeamSetUp extends TechnicalComponents {
 			}
 		} catch (FrameworkException e) {
 			throw new FrameworkException(
-					"Team Set Up  page Not Loaded within specified time.---" + e.getClass() + "---" + e.getMessage());
+					"Upgarde page Not Loaded within specified time.---" + e.getClass() + "---" + e.getMessage());
 		}
 
 	}
 	
-	@FindBy(xpath = "//div[@class='banner-body']//span")
-	public static WebElement txtInvoiceNumber;
-	
-	
 
-	public String getInvoice() {
-		String ActualInvoice = TechnicalComponents.getAttribute(txtInvoiceNumber, "text", "invoice number");
-		return ActualInvoice;
+	@FindBy(xpath = "//input[@value='CONFIRM']")
+	public static WebElement btnConfirm;
+	
+	public void clickUpgradeConfirm() {
+		Actions action = new Actions(driver);
+		action.moveToElement(btnConfirm).click().perform();
 	}
 	
-	@FindBy(xpath = "//a[contains(text(),'UPGRADE')]")
-	public static WebElement btnUpgrade;
-	
-	public void clickUpgarde() {
-		TechnicalComponents.click(btnUpgrade, "upgrade clciked");
-	}
-	
-
-
 }
+

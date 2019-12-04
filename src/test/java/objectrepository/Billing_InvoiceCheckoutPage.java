@@ -36,7 +36,7 @@ public class Billing_InvoiceCheckoutPage extends TechnicalComponents {
 		PageFactory.initElements(driver, this);
 	}	
 
-	@FindBy(xpath = "//input[@name='first_name']")
+	@FindBy(xpath = "//input[contains(@name,'first')]")
 	public static WebElement txt_FirstName;
 
 	@FindBy(xpath = "//input[@name='last_name']")
@@ -121,7 +121,52 @@ public class Billing_InvoiceCheckoutPage extends TechnicalComponents {
 
 	}
 	
+	@FindBy(xpath = "//input[@value='CONFIRM']")
+	public static WebElement btnConfirm;
+	
+	public void clickConfirm() {
+		
+		TechnicalComponents.click(btnConfirm,"Clicked on Confirm");
 
+	}
+	
+	@FindBy(xpath = "(//input[@id='cardnumber'])[1]")
+	public static WebElement txtCreditAddNumber;
 	
 	
+	public void enterAddCreditCardNum() {
+		
+		TechnicalComponents.type(txtCreditAddNumber, "4111111111111111", "CardNumber");
+	}
+	
+	
+	@FindBy(xpath = "(//input[@name='name_on_card'])[1]")
+	public static WebElement txtCreditCardName;
+	
+	public void enterAddCreditCardName() {
+		
+		TechnicalComponents.type(txtCreditCardName, "test test", "CardName");
+	}
+	
+	@FindBy(xpath = "(//select[@name='month'])[1]")
+	public static WebElement ddlExpDate;
+	
+	@FindBy(xpath = "(//select[@name='year'])[1]")
+	public static WebElement ddlExpYear;
+	
+	
+	@FindBy(xpath = "(//input[@name='security_code'])[1]")
+	public static WebElement txtAddCreditInvoiceCVV;
+	
+	public void selectExpDateYear() {
+		
+		TechnicalComponents.selectValuefromDropdown(ddlExpDate, "value", "10");
+		TechnicalComponents.selectValuefromDropdown(ddlExpYear, "value", "2020");
+	}
+	
+	public void enterCVV() {
+		
+		TechnicalComponents.type(txtAddCreditInvoiceCVV, "737", "cvv");
+	
+	}
 }

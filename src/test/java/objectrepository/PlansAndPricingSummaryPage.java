@@ -150,7 +150,7 @@ public class PlansAndPricingSummaryPage extends TechnicalComponents {
 
 	}
 
-	@FindBy(xpath = "//ul//a[@class='wds-button wds-button--ghost plan-cta-btn advantage']")
+	@FindBy(xpath = "//thead//a[@class='wds-button ft__cta-btn premier']")
 	public static WebElement lnkSignupAdvantagePlan;
 
 	public void signupAdvantagePlan() {

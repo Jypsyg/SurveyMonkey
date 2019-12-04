@@ -76,7 +76,7 @@ public class BillingDetailspage extends TechnicalComponents {
 		}
 	}
 
-	@FindBy(xpath = "//a[contains(@class , 'sm-track action-links')]/preceding-sibling::span")
+	@FindBy(xpath = "//a[contains(@class,'action-links')]/preceding-sibling::span")
 	public static WebElement txt_PlanName;
 
 	public void verifyPlanType(String PlanName) {
@@ -247,13 +247,55 @@ public class BillingDetailspage extends TechnicalComponents {
 	}
 
 	public void enterContactDetails() {
+		try {
+			editBillingEmail();
+			editFirstname();
+			editlastName();
+			editAlternateEmail();
+			editCompanyName();
+			clickSave();
 
-		editBillingEmail();
-		editFirstname();
-		editlastName();
-		editAlternateEmail();
-		editCompanyName();
-		clickSave();
+		} catch (FrameworkException e) {
+			throw new FrameworkException("Billing confirm page Not Loaded within specified time.---" + e.getClass()
+					+ "---" + e.getMessage());
+		}
+
+	}
+
+	@FindBy(xpath = "//select[@name='country']")
+	private WebElement ddlCountry;
+
+	@FindBy(css = ".info-container.active input[name='security_code']")
+	private WebElement txtCVV;
+
+	@FindBy(xpath = "//div[@class='info-container ic-bottom active edit-billing']//div[@class='country-info']//input[@name='postalcode']")
+	private WebElement txtPostalCode;
+
+	@FindBy(xpath = "//div[@class='info-container ic-bottom active edit-billing']//div[@data-target='city-input-row']//input[@name='city']")
+	private WebElement txtCity;
+	@FindBy(xpath = "//a[contains(text(),'CONFIRM')]")
+	private WebElement btnConfirm;
+
+	@FindBy(xpath = "(//span[contains(@class,'loading-indicator')])[2]")
+	private WebElement loadingicon;
+
+	public void UpadteBillingCountry(String CountryName) {
+		try {
+			TechnicalComponents.waitTill(ddlCountry, "enable");
+			TechnicalComponents.selectValuefromDropdown(ddlCountry, "actualdata", CountryName);
+			TechnicalComponents.waitTill(loadingicon, "invisible");
+			TechnicalComponents.waitTill(txtPostalCode, "visible");
+			TechnicalComponents.type(txtPostalCode, "SK13TA", "postalcode");
+			TechnicalComponents.waitTill(txtCity, "visible");
+			TechnicalComponents.type(txtCity, "TestCity", "City");
+			TechnicalComponents.waitTill(txtCVV, "visible");
+			TechnicalComponents.type(txtCVV, "737", "cvv");
+			TechnicalComponents.click(btnConfirm, "Confirm Clicked");
+			TechnicalComponents.waitTill(txtCVV, "invisible");
+		} catch (FrameworkException e) {
+			throw new FrameworkException("Billing update page Not Loaded within specified time.---" + e.getClass()
+					+ "---" + e.getMessage());
+		}
 
 	}
 
@@ -270,7 +312,7 @@ public class BillingDetailspage extends TechnicalComponents {
 						ArrayListItems[i]);
 
 			}
- 
+
 		} catch (Exception e) {
 			logger.log(LogStatus.PASS, "contact details verified successfully " + "jypsyg@surveymonkey.com"
 					+ "FirstName" + "LastName" + "jypsyg@surveymonkey.com" + "TestCompany" + "yes");

@@ -26,21 +26,21 @@ import reusablecomponents.TechnicalComponents;
  * @author Jypsy
  *
  */
-public class TeamSetUp extends TechnicalComponents {
+public class BillingOTCSuccessful extends TechnicalComponents {
 
 	WebDriver driver;
-	public static String urlsuffix = "/team/setup/";
+	public static String urlsuffix = "billing_complete=true";
 	
 	
-	public TeamSetUp(WebDriver driver) {
+	public BillingOTCSuccessful(WebDriver driver) {
 
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}
 
 
-	@FindBy(xpath = "//div[@class='team-setup-intro small-team-setup-intro']")
-	public static WebElement txtTeamSetUp;
+	@FindBy(xpath = "//Strong[contains(text(),'Purchase Complete!')]")
+	public static WebElement txtPurchaseCompelte;
 
 
 	/**
@@ -51,7 +51,7 @@ public class TeamSetUp extends TechnicalComponents {
 	 */
 	public boolean isPageOpened() {
 		try {
-			TechnicalComponents.waitTill(txtTeamSetUp, "visible");
+			TechnicalComponents.waitTill(txtPurchaseCompelte, "visible");
 			if (driver.getCurrentUrl().contains(urlsuffix)) {
 				return true;
 			} else {
@@ -59,26 +59,9 @@ public class TeamSetUp extends TechnicalComponents {
 			}
 		} catch (FrameworkException e) {
 			throw new FrameworkException(
-					"Team Set Up  page Not Loaded within specified time.---" + e.getClass() + "---" + e.getMessage());
+					"Billing OTC confirm page Not Loaded within specified time.---" + e.getClass() + "---" + e.getMessage());
 		}
 
-	}
-	
-	@FindBy(xpath = "//div[@class='banner-body']//span")
-	public static WebElement txtInvoiceNumber;
-	
-	
-
-	public String getInvoice() {
-		String ActualInvoice = TechnicalComponents.getAttribute(txtInvoiceNumber, "text", "invoice number");
-		return ActualInvoice;
-	}
-	
-	@FindBy(xpath = "//a[contains(text(),'UPGRADE')]")
-	public static WebElement btnUpgrade;
-	
-	public void clickUpgarde() {
-		TechnicalComponents.click(btnUpgrade, "upgrade clciked");
 	}
 	
 

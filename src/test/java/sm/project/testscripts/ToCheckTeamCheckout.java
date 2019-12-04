@@ -14,7 +14,7 @@ import reusablecomponents.TechnicalComponents;
 import reusablecomponents.Utilities;
 
 /**
- * Test Class to validate edu checkout.
+ * Test Class to validate team  checkout.
  * 
  * @author jypsy
  *
@@ -50,10 +50,9 @@ public class ToCheckTeamCheckout extends BusinessComponents {
 				default:
 					break;
 				}
-
 				verify_Redirection("dashboard");
-				clickLink("plansandpricingsummary");
-				verify_Redirection("pricingsummary");
+				clickLink("Upgrade");
+				verify_Redirection("TeamPricingsummary");
 				selectPlan(PlanName);
 				verify_Redirection("billingCheckout");
 				EnterBillingDetails(Firstname, Lastname, Country, PostalCode, Billing_Email);
@@ -69,9 +68,9 @@ public class ToCheckTeamCheckout extends BusinessComponents {
 						AutoRenew, NextBillingAmount, TaxStatus);
 				clickLink("transactionHistoryPage");
 				verify_Redirection("transactionhistory");
-				verifyPurchaseActivityDetails("transactionhistory", ActualInvoice, getDate("currentday", "dd-MMM-yy"),
-						PlanDescription, Additional_SeatCount, "Paid", PayNow, ActualTotalAmount, PlanDescription,
-						Frequency, TotalSeatCount);
+//				verifyPurchaseActivityDetails("transactionhistory", ActualInvoice, getDate("currentday", "dd-MMM-yy"),
+//						PlanDescription, Additional_SeatCount, "Paid", PayNow, ActualTotalAmount, PlanDescription,
+//						Frequency, TotalSeatCount);
 				clickLink("signOut");
 				verify_Redirection("homepage");
 

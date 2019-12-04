@@ -41,6 +41,9 @@ public class Dashboard extends TechnicalComponents {
 	@FindBy(xpath = "//h1[@class='welcome-line']")
 	public static WebElement txt_Welcome;
 
+	@FindBy(xpath = "//a[@class='responsive-logo']/following-sibling::ol//a[contains(text(),'My Survey')]")
+	public static WebElement lnkMySurvey;
+	
 	/**
 	 * function to validate the redirection to plans and pricing page.
 	 * 
@@ -62,7 +65,7 @@ public class Dashboard extends TechnicalComponents {
 
 	}
 	
-	@FindBy(xpath = "//div[@id='hd']//a[contains(@href,'/pricing')]")
+	@FindBy(xpath = "//div[@id='hd']//a[contains(@href,'/pricing/')]")
 	public static WebElement lnk_PlansAndpricing;
 	
 	public void clickPlansAndPricing() {
@@ -70,4 +73,25 @@ public class Dashboard extends TechnicalComponents {
 		TechnicalComponents.click(lnk_PlansAndpricing, "plans and pricing");
 	}
 
+	
+	@FindBy(xpath = "//a[@href='/pricing/upgrade/quickview/?ut_source=header_loggedIn']")
+	public static WebElement lnk_LoggedInPlansAndpricing;
+	
+	public void clickLoggedInPlansAndPricing() {
+		
+		TechnicalComponents.click(lnk_LoggedInPlansAndpricing, "plans and pricing");
+	}
+	
+	@FindBy(xpath = "//div[@class='actions']//a[contains(@href,'/pricing/')]")
+	public static WebElement lnk_Upgrade;
+	
+	public void click_upgrade() {
+		
+		TechnicalComponents.click(lnk_Upgrade, "plans and pricing");
+	}
+	
+	public void click_MySurvey() {
+		
+		TechnicalComponents.click(lnkMySurvey, "My Survey Link");
+	}
 }

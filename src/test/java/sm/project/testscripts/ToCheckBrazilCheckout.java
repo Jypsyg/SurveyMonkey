@@ -19,13 +19,13 @@ import reusablecomponents.Utilities;
  * @author jypsy
  *
  */
-public class ToChecFlexPlanCheckout extends BusinessComponents {
+public class ToCheckBrazilCheckout extends BusinessComponents {
 
 	/**
 	 * JavaDoc
 	 */
-	@Test(dataProvider = "FlexCheckout", dataProviderClass = data.TestData.class)
-	public void FlexCheckout(String testdesc, String password, String complexity, String Firstname, String Lastname,
+	@Test(dataProvider = "BrazilCheckout", dataProviderClass = data.TestData.class)
+	public void BrazilCheckout(String testdesc, String password, String complexity, String Firstname, String Lastname,
 			String Country, String PostalCode, String Billing_Email, String CardType, String Additional_SeatCount,
 			String PlanName, String PaymentType, String FlowType, String PlanNameDetails, String Frequency,
 			String AutoRenew, String NextBillingAmount, String TaxStatus, String InvoicePaymentType,
@@ -46,32 +46,31 @@ public class ToChecFlexPlanCheckout extends BusinessComponents {
 				case "login":
 					clickOnLoginLink("homepage");
 					verify_Redirection("login");
-					loginToApp("automation20191127_163159", "automation20191127_1631591");
+					loginToApp("automation20191202_153331", "automation20191202_1533311");
 				default:
 					break;
 				}
 				verify_Redirection("dashboard");
-				clickLink("LoggedInPlansandpricingsummary");
+				clickLink("Upgrade");
 				verify_Redirection("TeamPricingsummary");
+				clickLink("IndividualPricingPage");
+				verify_Redirection("individualPricingsummary");
 				selectPlan(PlanName);
 				verify_Redirection("billingCheckout");
-				getFlexPackageIdOnURL();				
-				EnterBillingDetails(Firstname, Lastname, Country, PostalCode, Billing_Email);
+				enterBrazilBillingCheckoutDetails(Firstname, Lastname, Country, PostalCode, Billing_Email);
 				EnterPaymentDetails(PaymentType, CardType);
 				AddAdditionalUser("billingcheckout", Additional_SeatCount);
 				String ActualTotalAmount = PlanAmount("billingcheckout");
 				clickConfirmButton();
 				verify_Redirection("billingConfirmation");
 				String ActualInvoice = getInvoiceNumber("billingconfirm");
-				clickLink("billingPage");
-				verify_Redirection("billingDetail");
-				VerifyBillingDetails("US", PlanNameDetails, Frequency, getDate("annual", "MMM D,yyyy").trim(),
-						AutoRenew, NextBillingAmount, TaxStatus);
 				clickLink("transactionHistoryPage");
 				verify_Redirection("transactionhistory");
-				verifyPurchaseActivityDetails("transactionhistory", ActualInvoice, getDate("currentday", "dd-MMM-yy"),
-						PlanDescription, Additional_SeatCount, "Paid", PayNow, ActualTotalAmount, PlanDescription,
-						Frequency, TotalSeatCount);
+				clickLatestTaxamoInvoice();
+				switchToTab("Invoice");
+				verifyPlanInTaxamoInvoice(PlanName);
+				switchToWindowClose("SurveyMonkey - My Account: Transaction History");
+				verify_Redirection("transactionhistory");
 				clickLink("signOut");
 				verify_Redirection("homepage");
 

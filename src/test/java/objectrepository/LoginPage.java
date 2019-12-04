@@ -78,6 +78,7 @@ public class LoginPage extends TechnicalComponents {
 	 *
 	 */
 	public void enterUserName(String username) {
+		TechnicalComponents.waitTill(txt_Username, "visible");
 		TechnicalComponents.type(txt_Username, username, "username field");
 	}
 

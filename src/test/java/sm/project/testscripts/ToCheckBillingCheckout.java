@@ -53,10 +53,10 @@ public class ToCheckBillingCheckout extends BusinessComponents {
 				}
 
 				verify_Redirection("dashboard");
-				clickLink("plansandpricingsummary");
-				AdvantagePopupHandle();
-				verify_Redirection("pricingsummary");
+				clickLink("Upgrade");
+				verify_Redirection("TeamPricingsummary");
 				clickLink("IndividualPricingPage");
+				verify_Redirection("individualPricingsummary");
 				selectPlan(PlanName);
 				verify_Redirection("billingCheckout");
 				EnterBillingDetails(Firstname, Lastname, Country, PostalCode, Billing_Email);
@@ -101,7 +101,7 @@ public class ToCheckBillingCheckout extends BusinessComponents {
 			try {
 				navigatetoUrl(Utilities.getProperty("ENVIRONMENT_URL"));
 				verify_Redirection("homepage");
-				clickLink("plansandpricingsummary");
+				clickLink("LoggedOutPlansandpricingsummary");
 				verify_Redirection("pricingsummary");
 				clickLink("IndividualPricingPage");
 				AdvantagePopupHandle();
@@ -174,7 +174,7 @@ public class ToCheckBillingCheckout extends BusinessComponents {
 				}
 
 				verify_Redirection("dashboard");
-				clickLink("plansandpricingsummary");
+				clickLink("Upgrade");
 				AdvantagePopupHandle();
 				verify_Redirection("pricingsummary");
 				// clickLink("plansandpricingsummary");
@@ -254,7 +254,7 @@ public class ToCheckBillingCheckout extends BusinessComponents {
 				}
 
 				verify_Redirection("dashboard");
-				clickLink("plansandpricingsummary");
+				clickLink("Upgrade");
 				AdvantagePopupHandle();
 				verify_Redirection("pricingsummary");
 				// clickLink("plansandpricingsummary");

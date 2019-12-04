@@ -19,13 +19,13 @@ import reusablecomponents.Utilities;
  * @author jypsy
  *
  */
-public class ToCheckEDUCheckout extends BusinessComponents {
+public class ToCheckPSD2Checkout extends BusinessComponents {
 
 	/**
 	 * JavaDoc
 	 */
-	@Test(dataProvider = "D2PCheckout", dataProviderClass = data.TestData.class)
-	public void D2P_EDU_BillingCheckout(String testdesc, String password, String complexity, String Firstname,
+	@Test(dataProvider = "CheckPSD2Checkout", dataProviderClass = data.TestData.class)
+	public void CheckPSD2Checkout(String testdesc, String password, String complexity, String Firstname,
 			String Lastname, String Country, String PostalCode, String Billing_Email, String CardType,
 			String Additional_SeatCount, String PlanName, String PaymentType, String FlowType, String PlanNameDetails,
 			String Frequency, String AutoRenew, String NextBillingAmount, String TaxStatus, String InvoicePaymentType,
@@ -34,31 +34,44 @@ public class ToCheckEDUCheckout extends BusinessComponents {
 			try {
 				navigatetoUrl(Utilities.getProperty("ENVIRONMENT_URL"));
 				verify_Redirection("homepage");
-				clickLink("LoggedOutPlansandpricingsummary");
-				verify_Redirection("pricingsummary");
-				clickLink("eduPricing");
-				verify_Redirection("edu_pricing");
-				SignUpEDUPlan(PlanName);
-				verify_Redirection("signup");
-				String newUser = "automation" + Utilities.randomNum();
-				enterSignUpDetails(newUser, newUser + "1", Billing_Email, Firstname, Lastname);
-				verify_Redirection("edu_billingcheckout");
-				EnterBillingDetails(Firstname, Lastname, Country, PostalCode, Billing_Email);
+				switch (FlowType) {
+				case "signup":
+					clickOnSignUpLink("homepage");
+					verify_Redirection("signup");
+					String newUser = "automation" + Utilities.randomNum();
+					enterSignUpDetails(newUser, newUser + "1", Billing_Email, Firstname, Lastname);
+					verify_Redirection("profiledefault");
+					click_CrossIcon();
+					break;
+				case "login":
+					clickOnLoginLink("homepage");
+					verify_Redirection("login");
+					loginToApp("automation20191202_153331", "automation20191202_1533311");
+				default:
+					break;
+				}
+				verify_Redirection("dashboard");
+				clickLink("Upgrade");
+				verify_Redirection("TeamPricingsummary");
+				clickLink("IndividualPricingPage");
+				verify_Redirection("individualPricingsummary");
+				selectPlan(PlanName);
+				verify_Redirection("billingCheckout");
+				EnterGBBillingDetails(Firstname, Lastname, Country, Billing_Email);
 				EnterPaymentDetails(PaymentType, CardType);
 				AddAdditionalUser("billingcheckout", Additional_SeatCount);
 				String ActualTotalAmount = PlanAmount("billingcheckout");
-				clickConfirmButton();
-				verify_Redirection("profiledefault");
-				String ActualInvoice = getInvoiceNumber("profiledefault");
-				click_CrossIcon();
-				clickLink("billingPage");
-				verify_Redirection("billingDetail");
-			VerifyBillingDetails("US", PlanNameDetails, Frequency, getDate("annual", "MMM D,yyyy").trim(),
-						AutoRenew, NextBillingAmount, TaxStatus);
+				clickButton("PAY");
+				acceptPSD2PopUp();
+				verify_Redirection("billingConfirmation");
+				String ActualInvoice = getInvoiceNumber("billingconfirm");
 				clickLink("transactionHistoryPage");
 				verify_Redirection("transactionhistory");
-			//	verifyPurchaseActivityDetails("transactionhistory", ActualInvoice, getDate("currentday", "dd-MMM-yy"),						PlanDescription, Additional_SeatCount, "Paid", PayNow, ActualTotalAmount, PlanDescription,
-					//	Frequency, TotalSeatCount);
+				clickLatestTaxamoInvoice();
+				switchToTab("Invoice");
+				verifyPlanInTaxamoInvoice(PlanName);
+				switchToWindowClose("SurveyMonkey - My Account: Transaction History");
+				verify_Redirection("transactionhistory");
 				clickLink("signOut");
 				verify_Redirection("homepage");
 
@@ -73,5 +86,5 @@ public class ToCheckEDUCheckout extends BusinessComponents {
 			logger.log(LogStatus.SKIP, "Test Case: " + testdesc + "  skipped.");
 			throw new SkipException("Test Case: " + testdesc + "  skipped.");
 		}
-	}}
-
+	}
+}

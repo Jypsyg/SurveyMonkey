@@ -86,8 +86,21 @@ public class MyAccountPage extends TechnicalComponents {
 		TechnicalComponents.click(lnk_myAccount, "My Account page  clicked");
 		TechnicalComponents.click(lnk_BillingDetails, "Billing Details clicked");	
 	}
+	
+	@FindBy(xpath = "//a[@id='userAcctTab_MainMenu']/following-sibling::ul//a[contains(text(),'My Team')]")
+	public static WebElement lnk_MyTeam;
+	
+	
+	
+	public void clickMyTeam() {
+		TechnicalComponents.waitTill(menuAccountTab, "visible");
+		TechnicalComponents.click(menuAccountTab, "My Account tab clicked");
+		TechnicalComponents.click(lnk_MyTeam, "My team page  clicked");
+		
+	}
 
 	public void clickTransactionHistory() {
+		TechnicalComponents.waitTill(menuAccountTab, "enable");
 		TechnicalComponents.click(menuAccountTab, "My Account tab clicked");
 		TechnicalComponents.click(lnk_myAccount, "My Account page  clicked");
 		TechnicalComponents.click(lnk_TransactionHistory, "Transaction History clicked");	
