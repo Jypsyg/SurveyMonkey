@@ -1,6 +1,5 @@
 package reusablecomponents;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -17,16 +16,11 @@ import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Part;
 import javax.mail.Session;
-import javax.mail.Store;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.Flags.Flag;
 import javax.mail.search.FlagTerm;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -45,6 +39,7 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.InvalidElementStateException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.NoSuchFrameException;
@@ -61,12 +56,12 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.server.handler.SendKeys;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.relevantcodes.extentreports.LogStatus;
-import com.sun.jersey.core.util.Base64;
 
 import config.ElementIndex;
 import config.FrameworkException;
@@ -80,9 +75,8 @@ import objectrepository.Billing_Checkout;
  * application.
  * 
  * @author Jypsy
- * @param <EmailsFolder>
  */
-public class TechnicalComponents<EmailsFolder> extends TestSetup {
+public class TechnicalComponents extends TestSetup {
 	private static String linkFromEmail;
 	private static HashMap<String, String> links = new HashMap<String, String>();
 
@@ -729,6 +723,8 @@ public class TechnicalComponents<EmailsFolder> extends TestSetup {
 				select.selectByVisibleText(value);
 			} else if (selectBy.toLowerCase().contains("index")) {
 				select.selectByIndex(Integer.valueOf(value));
+			} else if (selectBy.toLowerCase().contains("actualdata")) {
+				select.selectByValue(value);
 			} else {
 				throw new FrameworkException(selectBy + " not configured. Please contact Automation Team.");
 			}
@@ -1394,6 +1390,26 @@ public class TechnicalComponents<EmailsFolder> extends TestSetup {
 
 	}
 
+	public static void switchtoiframe(WebElement frameEle) {
+		try {
+			driver.switchTo().frame(frameEle);
+			driverWait = Long.parseLong(Utilities.getProperty("IMPLICIT_WAIT"));
+			loggerForLogs.log(LogStatus.INFO, "Switched to '" + frameEle + "' frame. ");
+		} catch (NoSuchFrameException e) {
+			if (driverWait > 0) {
+				driverWait--;
+				waitTill(1);
+				switchtoiframe(frameEle);
+			} else {
+				throw new FrameworkException("Frame " + frameEle + " not found.");
+			}
+		} catch (Exception e) {
+			throw new FrameworkException("Unknown exception occured while switching to Frame: " + frameEle + "---"
+					+ e.getClass() + "---" + e.getMessage());
+		}
+
+	}
+
 	/**
 	 * Clears the field.
 	 * 
@@ -2009,78 +2025,99 @@ public class TechnicalComponents<EmailsFolder> extends TestSetup {
 		}
 	}
 
-	public static void backBrowser() {
-		driver.navigate().back();
+	public static void EnterKeys(WebElement element, String keyName) {
+		try {
+			element.sendKeys(Keys.valueOf(keyName.toUpperCase()));
+		} catch (Exception e) {
+			throw new FrameworkException(
+					"Unknown exception occured while handling alerts.---" + e.getClass() + "---" + e.getMessage());
+		}
 	}
 
-	public void OutlookEmail(String username, String password, String server, EmailsFolder inbox) throws Exception {
-		Properties props = System.getProperties();
-		props.setProperty("mail.store.protocol", "imap");
-		props.setProperty("mail.imap.ssl.enable", "true");
-		props.setProperty("mail.imaps.partialfetch", "false");
-		props.put("mail.mime.base64.ignoreerrors", "true");
-
-		Session mailSession = Session.getInstance(props);
-		mailSession.setDebug(true);
-		Store store = mailSession.getStore("imap");
-		store.connect("outlook.office365.com", "<jypsyg@surveymonkey.com>", "<Jazz$123>");
-
-		Folder folder = store.getFolder("Archive");
-		folder.open(Folder.READ_WRITE);
-
-		System.out.println("Total Message:" + folder.getMessageCount());
-		System.out.println("Unread Message:" + folder.getUnreadMessageCount());
-
-		Message[] messages = folder.getMessages();
-
-		for (Message mail : messages) {
-			if (!mail.isSet(Flags.Flag.SEEN)) {
-
-				System.out.println("***************************************************");
-				System.out.println("MESSAGE : \n");
-
-				System.out.println("Subject: " + mail.getSubject());
-				System.out.println("From: " + mail.getFrom()[0]);
-				System.out.println("To: " + mail.getAllRecipients()[0]);
-				System.out.println("Date: " + mail.getReceivedDate());
-				System.out.println("Size: " + mail.getSize());
-				System.out.println("Flags: " + mail.getFlags());
-				System.out.println("ContentType: " + mail.getContentType());
-				System.out.println("Body: \n" + getEmailBody(mail));
-
+	/**
+	 * Function to type the text on field. This function will first clear the text
+	 * on screen and will then enter text.
+	 * 
+	 * @param element - Element on which action needs to be performed.
+	 * @param text    - Text that needs to be entered.
+	 * @param desc    - Free text used to identify field.
+	 * @throws FrameworkException in case of Error.
+	 */
+	public static void typeWithoutClear(WebElement element, String text, String desc) {
+		try {
+			if (element.isDisplayed()) {
+				if (element.isEnabled()) {
+					Actions action = new Actions(driver);
+					action.moveToElement(element).click();
+					action.sendKeys(element, text);
+					action.build().perform();
+				} else {
+					if (driverWait > 0) {
+						driverWait--;
+						waitTill(1);
+						type(element, text, desc);
+					} else {
+						throw new FrameworkException("Field " + desc + " is disabled.");
+					}
+				}
+			} else {
+				if (driverWait > 0) {
+					driverWait--;
+					waitTill(1);
+					type(element, text, desc);
+				} else {
+					throw new FrameworkException("Field " + desc + " is not displayed.");
+				}
 			}
+			driverWait = Long.parseLong(Utilities.getProperty("IMPLICIT_WAIT"));
+			loggerForLogs.log(LogStatus.INFO, "Typed '" + text + "' to " + desc);
+		} catch (NoSuchElementException e) {
+			if (driverWait > 0) {
+				driverWait--;
+				waitTill(1);
+				type(element, text, desc);
+			} else {
+				throw new FrameworkException("Field " + desc + " not found.");
+			}
+		} catch (ElementNotVisibleException e) {
+			scroll(element);
+			type(element, text, desc);
+		} catch (FrameworkException e) {
+			throw new FrameworkException(e.getMessage());
+		} catch (Exception e) {
+			throw new FrameworkException(
+					"Unknown exception occured while typing on: " + desc + e.getClass() + "---" + e.getMessage());
 		}
+
 	}
 
-	public String getEmailBody(Message email) throws IOException, MessagingException {
+	public static void visibleInvisible(WebElement element) {
+		try {
+			TechnicalComponents.waitTill(element, "visible");
+			logger.log(LogStatus.PASS, "element","value is visible");
+			TechnicalComponents.waitTill(element, "invisible");
+			logger.log(LogStatus.PASS, "element","value is invisible");
 
-		String line, emailContentEncoded;
-		StringBuffer bufferEmailContentEncoded = new StringBuffer();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(email.getInputStream()));
-		while ((line = reader.readLine()) != null) {
-			bufferEmailContentEncoded.append(line);
+		} catch (Exception e) {
+			throw new FrameworkException(
+					"Unknown exception occured while handling alerts.---" + e.getClass() + "---" + e.getMessage());
 		}
-
-		System.out.println("**************************************************");
-
-		System.out.println(bufferEmailContentEncoded);
-
-		System.out.println("**************************************************");
-
-		emailContentEncoded = bufferEmailContentEncoded.toString();
-
-		if (email.getContentType().toLowerCase().contains("multipart/related")) {
-
-			emailContentEncoded = emailContentEncoded.substring(emailContentEncoded.indexOf("base64") + 6);
-			emailContentEncoded = emailContentEncoded.substring(0, emailContentEncoded.indexOf("Content-Type") - 1);
-
-			System.out.println(emailContentEncoded);
-
-			String emailContentDecoded = new String(new Base64().decode(emailContentEncoded.toString().getBytes()));
-			return emailContentDecoded;
-		}
-
-		return emailContentEncoded;
 
 	}
+
+	public static void switchToWindowClose(String ParentWindow) {
+		try {
+			if (ParentWindow != null) {
+				String PresentWindow = driver.getWindowHandle();
+				TechnicalComponents.switchToTab(PresentWindow);
+				driver.close();
+				TechnicalComponents.switchToTab(ParentWindow);
+			}
+		} catch (Exception e) {
+			throw new FrameworkException(
+					"switching window handle.---" + e.getClass() + "---" + e.getMessage());
+		}
+
+	}
+
 }

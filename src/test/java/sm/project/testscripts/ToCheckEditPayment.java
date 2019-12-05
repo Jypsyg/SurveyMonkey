@@ -13,17 +13,23 @@ import reusablecomponents.BusinessComponents;
 import reusablecomponents.TechnicalComponents;
 import reusablecomponents.Utilities;
 
-public class ToCheckOTCCheckout extends BusinessComponents {
+/**
+ * Test Class to validate team  checkout.
+ * 
+ * @author jypsy
+ *
+ */
+public class ToCheckEditPayment extends BusinessComponents {
 
 	/**
 	 * JavaDoc
 	 */
-	@Test(dataProvider = "OTCCheckout", dataProviderClass = data.TestData.class)
-	public void OTCCheckout(String testdesc, String password, String complexity, String Firstname, String Lastname,
+	@Test(dataProvider = "CheckEditPayment", dataProviderClass = data.TestData.class)
+	public void CheckEditPayment(String testdesc, String password, String complexity, String Firstname, String Lastname,
 			String Country, String PostalCode, String Billing_Email, String CardType, String Additional_SeatCount,
 			String PlanName, String PaymentType, String FlowType, String PlanNameDetails, String Frequency,
 			String AutoRenew, String NextBillingAmount, String TaxStatus, String InvoicePaymentType,
-			String PlanDescription, String PayNow, String TotalSeatCount) {
+			String PlanDescription, String PayNow, String TotalSeatCount, String UpgradedPlanName) {
 		if (toBeTested) {
 			try {
 				navigatetoUrl(Utilities.getProperty("ENVIRONMENT_URL"));
@@ -40,24 +46,28 @@ public class ToCheckOTCCheckout extends BusinessComponents {
 				case "login":
 					clickOnLoginLink("homepage");
 					verify_Redirection("login");
-					loginToApp("automation20190412_193929", "automation20190412_1939291");
+					loginToApp("automation20191129_171934", "automation20191129_1719341");
 				default:
 					break;
 				}
 				verify_Redirection("dashboard");
-				clickLink("MySurvey");
-				verify_Redirection("homePageLoggedIn");
-				createSurveyWithRequiredQuestion();
-				clickLink("collectResponse");
-				verify_Redirection("collectAdd");
-				clickLink("buyResponse");
-				verify_Redirection("collectAudience");
-				clickButton("proceedToCheckout");
-				verify_Redirection("billingOTC");
-				enterOTCPaymentDetails();
-				enterOTCBillingDetails();
-				clickButton("OTCConfirmInvoice");
-				verify_Redirection("BillingOTCSuccessful");
+				clickLink("Upgrade");
+				verify_Redirection("TeamPricingsummary");
+				clickLink("IndividualPricingPage");
+				verify_Redirection("individualPricingsummary");
+				selectPlan(PlanName);
+				verify_Redirection("billingCheckout");
+				EnterBillingDetails(Firstname, Lastname, Country, PostalCode, Billing_Email);
+				EnterPaymentDetails(PaymentType, CardType);
+				AddAdditionalUser("billingcheckout", Additional_SeatCount);
+				String ActualTotalAmount = PlanAmount("billingcheckout");
+				clickConfirmButton();
+				verify_Redirection("billingConfirmation");
+				clickLink("billingPage");
+				verify_Redirection("billingDetail");
+				UpdateCountry();	
+				clickLink("signOut");
+				verify_Redirection("homepage");
 			} catch (FrameworkException e) {
 
 				logger.log(LogStatus.FAIL, e.getMessage() + logger.addScreenCapture(screenshot(driver)));
@@ -70,4 +80,6 @@ public class ToCheckOTCCheckout extends BusinessComponents {
 			throw new SkipException("Test Case: " + testdesc + "  skipped.");
 		}
 	}
+	
+	
 }

@@ -13,7 +13,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.server.handler.GetCurrentUrl;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
 import com.gargoylesoftware.htmlunit.javascript.host.file.Blob;
 import com.relevantcodes.extentreports.LogStatus;
 
@@ -32,7 +31,7 @@ public class Billing_Checkout extends TechnicalComponents {
 
 	WebDriver driver;
 	String urlsuffix = "/billing/checkout/";
-	String EDUurlsuffix = "/billing/checkout/?e=edu_faq";
+	String EDUurlsuffix = "/billing/checkout/?direct_to_pro";
 	String directToProurlSuffix = "direct_to_pro";
 
 	public Billing_Checkout(WebDriver driver) {
@@ -134,7 +133,7 @@ public class Billing_Checkout extends TechnicalComponents {
 					+ "---" + e.getMessage());
 		}
 	}
-	
+
 	public boolean isEDUBillingPageOpened() {
 		try {
 			TechnicalComponents.waitTill(txt_FirstName, "visible");
@@ -167,7 +166,7 @@ public class Billing_Checkout extends TechnicalComponents {
 
 	public void selctDropDownValue(String Value) {
 		if (dropdown_Country.isEnabled()) {
-			TechnicalComponents.selectValuefromDropdown(dropdown_Country, "value", "slected");
+			TechnicalComponents.selectValuefromDropdown(dropdown_Country, "actualdata", Value);
 		}
 	}
 
@@ -196,6 +195,67 @@ public class Billing_Checkout extends TechnicalComponents {
 		enterEmail(Email);
 	}
 
+	public void enterGBBillingCheckoutDetails(String FirstName, String LastName, String Country, String Email) {
+
+		enterFirstName(FirstName);
+		enterLastName(LastName);
+		selctDropDownValue(Country);
+		TechnicalComponents.waitTill(3);
+		enterEmail(Email);
+	}
+
+	@FindBy(xpath = "//input[@name='brazil_tax_number']")
+	public static WebElement txtCNPF;
+
+	@FindBy(xpath = "//input[@name='company_name']")
+	public static WebElement txtCompanyName;
+
+	@FindBy(xpath = "//input[@name='purchase_order_number']")
+	public static WebElement txtPO;
+
+	@FindBy(xpath = "//input[@name='street_address']")
+	public static WebElement txtStreet;
+
+	@FindBy(xpath = "//input[@name='house_number']")
+	public static WebElement txtHousenum;
+
+	@FindBy(xpath = "//select[@name='country_subdivision']")
+	public static WebElement ddlCountry;
+
+	@FindBy(xpath = "//select[@name='city']")
+	public static WebElement ddlcity;
+
+	public void enterBrazilBillingCheckoutDetails(String FirstName, String LastName, String Country, String PostalCode,
+			String Email) {
+		try {
+			enterFirstName(FirstName);
+			enterLastName(LastName);
+			selctDropDownValue(Country);
+			TechnicalComponents.waitTill(3);
+			enterPostalCode(PostalCode);
+			TechnicalComponents.waitTill(txtCNPF, "visible");
+			TechnicalComponents.click(txtCNPF, "visible");
+			TechnicalComponents.type(txtCNPF, "43.337.004/0001-72", "CNPF eneterd");
+			TechnicalComponents.EnterKeys(txtCNPF, "TAB");
+			TechnicalComponents.waitTill(txtCompanyName, "visible");
+			TechnicalComponents.type(txtCompanyName, "testcompany", "company eneterd");
+			TechnicalComponents.waitTill(txtPO, "visible");	
+			TechnicalComponents.type(txtPO, "testpo", "PO eneterd");
+			TechnicalComponents.waitTill(txtStreet, "visible");		
+			TechnicalComponents.type(txtStreet, "teststreet", "strret eneterd");
+			TechnicalComponents.waitTill(txtHousenum, "visible");
+			TechnicalComponents.type(txtHousenum, "testhouse", "house eneterd");
+			TechnicalComponents.waitTill(ddlCountry, "visible");
+			TechnicalComponents.selectValuefromDropdown(ddlCountry, "actualdata", "BR-CE");
+			TechnicalComponents.waitTill(ddlcity, "visible");
+			TechnicalComponents.selectValuefromDropdown(ddlcity, "actualdata", "Ibiapina");
+			enterEmail(Email);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+	}
+
 	public void enter_BillingInvoicePFICheckoutDetails(String FirstName, String LastName, String Country,
 			String PostalCode, String Email) {
 
@@ -208,6 +268,7 @@ public class Billing_Checkout extends TechnicalComponents {
 	}
 
 	public void clickBillingDetailsNext() {
+		TechnicalComponents.waitTill(btn_BillingDetails_Next, "enable");
 		TechnicalComponents.click(btn_BillingDetails_Next, "Billing Details Next button clicked");
 	}
 
@@ -224,7 +285,7 @@ public class Billing_Checkout extends TechnicalComponents {
 				TechnicalComponents.click(icon_Invoice, "select Invoice payment method");
 				PaymentMethodSelected = true;
 				break;
-			case "sepa":
+			case "sepadirectdebit":
 				TechnicalComponents.click(icon_SEPA, "Select SEPA Payment method");
 				PaymentMethodSelected = true;
 				break;
@@ -269,6 +330,12 @@ public class Billing_Checkout extends TechnicalComponents {
 
 	}
 
+	public void enterPSD2CardAccountName() {
+
+		TechnicalComponents.type(txt_FullName, "test_test_test 3DS_V1_CHALLENGE_IDENTIFIED", "'CardName Entered");
+
+	}
+
 	public void enterCreditCardNumber(String CardType) {
 
 		TechnicalComponents.type(txt_CreditCardNumber, "4111111111111111", "Card Number entered");
@@ -281,23 +348,39 @@ public class Billing_Checkout extends TechnicalComponents {
 		TechnicalComponents.waitTill(2);
 		enterExpiryDate();
 		enterCVV();
+		TechnicalComponents.waitTill(2);
+	}
 
-		/*
-		 * JavascriptExecutor js = (JavascriptExecutor) driver;
-		 * js.executeScript("arguments[0].click();", txt_CreditCardNumber); js.
-		 * executeScript("txt_CreditCardNumber.setAttribute('value', '4111111111111111')"
-		 * );
-		 */
-
-		// Actions ac = new Actions(driver);
-		// ac.moveToElement(txt_CreditCardNumber).sendKeys(txt_CreditCardNumber,
-		// "4111111111111111").click(txt_Expirydate).perform();
-		//
+	public void enterPSD2PaymentDetails(String CardType) {
+		TechnicalComponents.waitTill(2);
+		enterCreditCardNumber(CardType);
+		enterPSD2CardAccountName();
+		TechnicalComponents.waitTill(2);
+		enterExpiryDate();
+		enterCVV();
 		TechnicalComponents.waitTill(2);
 	}
 
 	public void clickBillingPaymentNext() {
 		TechnicalComponents.click(btn_paymentMethod_Next, "Billing Payment Next button clicked");
+	}
+
+	@FindBy(xpath = "//button[contains(text(),'Pay')]")
+	public static WebElement btnPAY;
+
+	public void clickPay() {
+
+		TechnicalComponents.scroll(btnPAY);
+		TechnicalComponents.click(btnPAY, "Pay button clicked");
+	}
+
+	@FindBy(xpath = "//button[@name='submit-payment']")
+	public static WebElement btnBUY;
+
+	public void clickBuy() {
+
+		TechnicalComponents.scroll(btnBUY);
+		TechnicalComponents.click(btnBUY, "Buy button clicked");
 	}
 
 	public void addUsers(String NumOfSeats) {
@@ -325,4 +408,165 @@ public class Billing_Checkout extends TechnicalComponents {
 		}
 		return ActualTotalAmount;
 	}
+
+	@FindBy(xpath = "//iframe[@id='payment-challenge-frame']")
+	public static WebElement frame;
+
+	@FindBy(xpath = "//input[@type='submit']")
+	public static WebElement btnOK;
+
+	@FindBy(xpath = "//circle[@class='wds-spinner__path-fill']")
+	public static WebElement loading;
+
+	public void handlePSD2PopUp() {
+		try {
+			driver.switchTo().defaultContent();
+			TechnicalComponents.waitTill(frame, "visible");
+			TechnicalComponents.switchtoiframe(frame);
+			TechnicalComponents.waitTill(8);
+			PageFactory.initElements(driver, Billing_Checkout.class);
+			// TechnicalComponents.waitTill(btnOK, "visible");
+			TechnicalComponents.click_exceptional(btnOK, "Ok clicked");
+			TechnicalComponents.switchToDefaultContent();
+			TechnicalComponents.visibleInvisible(loading);
+
+		} catch (Exception e) {
+			throw new FrameworkException("not handled psd2 popup.---" + e.getClass() + "---" + e.getMessage());
+		}
+
+	}
+
+	@FindBy(xpath = "//input[@name='sort_code']")
+	public static WebElement txtSortCode;
+
+	@FindBy(xpath = "//input[@name='account_number']")
+	public static WebElement txtAccountNUmber;
+
+	@FindBy(xpath = "//input[@name='account_holder']")
+	public static WebElement txtAccountHolder;
+
+	@FindBy(xpath = "//input[@name='confirm_checkbox']")
+	public static WebElement chkBoxConfirm;
+
+	public void enterDirectDebitPaymentDetails() {
+		TechnicalComponents.type(txtSortCode, "200000", "sortcode entered");
+		TechnicalComponents.type(txtAccountNUmber, "55667711", "account number entered");
+		TechnicalComponents.type(txtAccountHolder, "test test", "account holder name entered");
+		TechnicalComponents.click(chkBoxConfirm, "CheckBox Checked");
+
+	}
+
+	@FindBy(xpath = "//div[@class='wds-type--warning wds-type--body']")
+	public static WebElement txtSortCodeError;
+
+	@FindBy(xpath = "//label[contains(text(),'Account number')]/parent::span//parent::div/following-sibling::div")
+	public static WebElement txtAcccountNumberError;
+
+	@FindBy(xpath = "//div[contains(text(),'This field needs a first and last name')][@class='wds-type--warning wds-type--body']")
+	public static WebElement txtName;
+
+	public void verifyDirectDebitPaymentErroMessage() {
+		TechnicalComponents.click(txtSortCode, "IBAN  code clciked");
+		TechnicalComponents.EnterKeys(txtSortCode, "TAB");
+		TechnicalComponents.isDisplayed(txtIBANError, "IABN Error message verified");
+		TechnicalComponents.click(txtAccountNUmber, "Account number  code clciked");
+		TechnicalComponents.EnterKeys(txtAccountNUmber, "TAB");
+		TechnicalComponents.isDisplayed(txtAcccountNumberError, "IABN Error message verified");
+		TechnicalComponents.click(txtAccountHolder, "Account number  code clciked");
+		TechnicalComponents.EnterKeys(txtAccountHolder, "TAB");
+		TechnicalComponents.isDisplayed(txtName, "IABN Error message verified");
+
+	}
+
+	@FindBy(xpath = "//div[contains(text(),'This field is required')][@class='wds-type--warning wds-type--body']")
+	public static WebElement txtIBANError;
+
+	@FindBy(xpath = "//div[contains(text(),'This field needs a first and last name')][@class='wds-type--warning wds-type--body']")
+	public static WebElement txtIBANAccountholderError;
+
+	public void verifySEPADirectDebitPaymentErroMessage() {
+		TechnicalComponents.click(txtIBAN, "IBAN  code clciked");
+		TechnicalComponents.EnterKeys(txtIBAN, "TAB");
+		TechnicalComponents.isDisplayed(txtIBANError, "IABN Error message verified");
+		TechnicalComponents.click(txtAccHold, "Account number  code clciked");
+		TechnicalComponents.EnterKeys(txtAccHold, "TAB");
+		TechnicalComponents.isDisplayed(txtIBANAccountholderError, "IABN Error message verified");
+
+	}
+
+	@FindBy(xpath = "//input[@name='iban']")
+	public static WebElement txtIBAN;
+
+	@FindBy(xpath = "//input[@name='account_holder']")
+	public static WebElement txtAccHold;
+
+	public void enterSEPADirectDebitPaymentDetails() {
+		TechnicalComponents.type(txtIBAN, "DE89370400440532013000", "IBAN  entered");
+		TechnicalComponents.type(txtAccHold, "test test", "account Holder  entered");
+		TechnicalComponents.click(chkBoxConfirm, "CheckBox Checked");
+
+	}
+
+	@FindBy(xpath = "//div[@class='bacs-logo']")
+	public static WebElement logoDirectDebit;
+
+	@FindBy(xpath = "//div[contains(text(),'200000')]")
+	public static WebElement txtDataSortCode;
+
+	@FindBy(xpath = "//div[contains(text(),'55667711')]")
+	public static WebElement txtDataAccountNumCode;
+
+	@FindBy(xpath = "//div[contains(text(),'test test')]")
+	public static WebElement txtDataAccountNameCode;
+
+	@FindBy(xpath = "//a[contains(text(),'Direct Debit Guarantee.')]")
+	public static WebElement lnkDirectDebit;
+
+	public void verifyDirectDebitModal() {
+		TechnicalComponents.waitTill(logoDirectDebit, "visible");
+		try {
+			if (logoDirectDebit.isDisplayed() || txtDataSortCode.isDisplayed() || txtDataAccountNumCode.isDisplayed()
+					|| txtDataAccountNameCode.isDisplayed() || lnkDirectDebit.isDisplayed()) {
+				logger.log(LogStatus.PASS, "Moadl data verified successfiully");
+			}
+		} catch (Exception e) {
+			throw new FrameworkException("Modal not verifed sucessfully---" + e.getClass() + "---" + e.getMessage());
+		}
+
+	}
+
+	@FindBy(xpath = "//div[contains(text(),'GB33ZZZSDDBARC0000007495895516')]")
+	public static WebElement txtCreditor;
+
+	@FindBy(xpath = "//div[contains(text(),'DE89370400440532013000')]")
+	public static WebElement txtIBANID;
+
+	@FindBy(xpath = "//div[contains(text(),'test test')]")
+	public static WebElement txtHolder;
+
+	@FindBy(xpath = "//div[contains(text(),'Available after confirmation')]")
+	public static WebElement txtConfirm;
+
+	public void verifySEPADirectDebitModal() {
+		TechnicalComponents.waitTill(txtCreditor, "visible");
+		try {
+			if (txtCreditor.isDisplayed() || txtIBANID.isDisplayed() || txtHolder.isDisplayed()
+					|| txtConfirm.isDisplayed()) {
+				logger.log(LogStatus.PASS, "SEPA Modal data verified successfiully");
+			}
+		} catch (Exception e) {
+			throw new FrameworkException(
+					"SEPA Modal not verifed sucessfully---" + e.getClass() + "---" + e.getMessage());
+		}
+
+	}
+
+	@FindBy(xpath = "//button[contains(text(),'Confirm')]")
+	public static WebElement btnModalConfirm;
+
+	public void clickConfirmOnModal() {
+		TechnicalComponents.click(btnModalConfirm, "confirm button clicked");
+
+	}
+
 }

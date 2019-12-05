@@ -2,6 +2,7 @@ package sm.project.testscripts;
 
 import static org.testng.Assert.assertTrue;
 
+import org.openqa.selenium.remote.server.handler.ClickElement;
 import org.testng.SkipException;
 import org.testng.annotations.Test;
 
@@ -13,13 +14,19 @@ import reusablecomponents.BusinessComponents;
 import reusablecomponents.TechnicalComponents;
 import reusablecomponents.Utilities;
 
-public class ToCheckOTCCheckout extends BusinessComponents {
+/**
+ * Test Class to validate team checkout.
+ * 
+ * @author jypsy
+ *
+ */
+public class ToCheckAddCreditCheckout extends BusinessComponents {
 
 	/**
 	 * JavaDoc
 	 */
-	@Test(dataProvider = "OTCCheckout", dataProviderClass = data.TestData.class)
-	public void OTCCheckout(String testdesc, String password, String complexity, String Firstname, String Lastname,
+	@Test(dataProvider = "AddCreditCheckout", dataProviderClass = data.TestData.class)
+	public void AddCreditCheckout(String testdesc, String password, String complexity, String Firstname, String Lastname,
 			String Country, String PostalCode, String Billing_Email, String CardType, String Additional_SeatCount,
 			String PlanName, String PaymentType, String FlowType, String PlanNameDetails, String Frequency,
 			String AutoRenew, String NextBillingAmount, String TaxStatus, String InvoicePaymentType,
@@ -40,24 +47,25 @@ public class ToCheckOTCCheckout extends BusinessComponents {
 				case "login":
 					clickOnLoginLink("homepage");
 					verify_Redirection("login");
-					loginToApp("automation20190412_193929", "automation20190412_1939291");
+					loginToApp("automation20191126_152753", "automation20191126_1527531");
 				default:
 					break;
 				}
 				verify_Redirection("dashboard");
-				clickLink("MySurvey");
-				verify_Redirection("homePageLoggedIn");
-				createSurveyWithRequiredQuestion();
-				clickLink("collectResponse");
-				verify_Redirection("collectAdd");
-				clickLink("buyResponse");
-				verify_Redirection("collectAudience");
-				clickButton("proceedToCheckout");
-				verify_Redirection("billingOTC");
-				enterOTCPaymentDetails();
-				enterOTCBillingDetails();
-				clickButton("OTCConfirmInvoice");
-				verify_Redirection("BillingOTCSuccessful");
+				clickLink("transactionHistoryPage");
+				verify_Redirection("transactionhistory");
+				clickButton("AddCredit");
+				verify_Redirection("billingPwCreditsInvoice");
+				enterAddCreditBillingDetails();
+				verify_Redirection("CreditConfirmationPageWithoutPay");
+				clickButton("PayNow");
+				verify_Redirection("billingInvoiceCheckout");
+				enterAddCreditPaymentDetails();
+				clickButton("ConfirmOnInvoice");
+				verify_Redirection("BillingPWCreditConfirmationPage");
+				clickLink("signOut");
+				verify_Redirection("homepage");
+				
 			} catch (FrameworkException e) {
 
 				logger.log(LogStatus.FAIL, e.getMessage() + logger.addScreenCapture(screenshot(driver)));

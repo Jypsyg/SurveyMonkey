@@ -13,13 +13,19 @@ import reusablecomponents.BusinessComponents;
 import reusablecomponents.TechnicalComponents;
 import reusablecomponents.Utilities;
 
-public class ToCheckOTCCheckout extends BusinessComponents {
+/**
+ * Test Class to validate edu checkout.
+ * 
+ * @author jypsy
+ *
+ */
+public class ToCheckOverageInvoice extends BusinessComponents {
 
 	/**
 	 * JavaDoc
 	 */
-	@Test(dataProvider = "OTCCheckout", dataProviderClass = data.TestData.class)
-	public void OTCCheckout(String testdesc, String password, String complexity, String Firstname, String Lastname,
+	@Test(dataProvider = "OverageInvoice", dataProviderClass = data.TestData.class)
+	public void OverageInvoice(String testdesc, String password, String complexity, String Firstname, String Lastname,
 			String Country, String PostalCode, String Billing_Email, String CardType, String Additional_SeatCount,
 			String PlanName, String PaymentType, String FlowType, String PlanNameDetails, String Frequency,
 			String AutoRenew, String NextBillingAmount, String TaxStatus, String InvoicePaymentType,
@@ -44,20 +50,38 @@ public class ToCheckOTCCheckout extends BusinessComponents {
 				default:
 					break;
 				}
+
 				verify_Redirection("dashboard");
-				clickLink("MySurvey");
-				verify_Redirection("homePageLoggedIn");
-				createSurveyWithRequiredQuestion();
-				clickLink("collectResponse");
-				verify_Redirection("collectAdd");
-				clickLink("buyResponse");
-				verify_Redirection("collectAudience");
-				clickButton("proceedToCheckout");
-				verify_Redirection("billingOTC");
-				enterOTCPaymentDetails();
-				enterOTCBillingDetails();
-				clickButton("OTCConfirmInvoice");
-				verify_Redirection("BillingOTCSuccessful");
+				clickLink("Upgrade");
+				verify_Redirection("TeamPricingsummary");
+				clickLink("IndividualPricingPage");
+				verify_Redirection("individualPricingsummary");
+				selectPlan(PlanName);
+				verify_Redirection("billingCheckout");
+				EnterBillingDetails(Firstname, Lastname, Country, PostalCode, Billing_Email);
+				EnterPaymentDetails(PaymentType, CardType);
+				AddAdditionalUser("billingcheckout", Additional_SeatCount);
+				String ActualTotalAmount = PlanAmount("billingcheckout");
+				clickConfirmButton();
+				verify_Redirection("teamsetup");
+				String ActualInvoice = getInvoiceNumber("teamsetup");
+				clickLink("myteam");
+				verify_Redirection("team");
+				clickButton("sendInvitation");
+				verify_Redirection("teamadd");
+				sendInvite("jypsy.gangwal@infobeans.com");
+				sendInvite("jypsyg@surveymonkey.com");
+				handleInvitationPopup();
+				clickLink("transactionHistoryPage");
+				verify_Redirection("transactionhistory");
+				clickLatestInvoice();
+				verify_Redirection("billinginvoice");
+				verifyOverage();
+				clickButton("close");
+				verify_Redirection("transactionhistory");
+				clickLink("signOut");
+				verify_Redirection("homepage");
+
 			} catch (FrameworkException e) {
 
 				logger.log(LogStatus.FAIL, e.getMessage() + logger.addScreenCapture(screenshot(driver)));

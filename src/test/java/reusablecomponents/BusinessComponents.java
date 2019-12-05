@@ -9,10 +9,12 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.UUID;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.server.handler.SendKeys;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.springframework.beans.factory.config.ProviderCreatingFactoryBean;
@@ -25,20 +27,35 @@ import config.TestSetup;
 import net.sourceforge.htmlunit.corejs.javascript.ast.SwitchCase;
 import objectrepository.BillingConfirmedPage;
 import objectrepository.BillingDetailspage;
+import objectrepository.BillingInvoice;
+import objectrepository.BillingOTC;
+import objectrepository.BillingOTCSuccessful;
+import objectrepository.BillingPWCreditConfirmationPage;
 import objectrepository.Billing_Checkout;
+import objectrepository.Billing_InvoiceCheckoutPage;
 import objectrepository.Billing_PFI_Invoice_CheckoutPage;
+import objectrepository.CollectAddPage;
+import objectrepository.CollectAudience;
+import objectrepository.CreatePage;
+import objectrepository.CreditConfirmationPageWithoutPay;
 import objectrepository.Dashboard;
 import objectrepository.Edu_Pricing;
 import objectrepository.HomePage;
+import objectrepository.HomePageLoggedIn;
+import objectrepository.IndividualPlansAndPricingSummaryPage;
 import objectrepository.LoginPage;
 import objectrepository.MyAccountPage;
 import objectrepository.PlansAndPricingSummaryPage;
-import objectrepository.PricingAnalyze;
 import objectrepository.ProfileDefaultPage;
 import objectrepository.SignUpPage;
+import objectrepository.TeamAdd;
+import objectrepository.TeamPage;
 import objectrepository.TeamPricing;
 import objectrepository.TeamSetUp;
 import objectrepository.TransactionHistoryPage;
+import objectrepository.UpgradePage;
+import objectrepository.billingPwCreditsInvoice;
+import objectrepository.BillingOTCSuccessful;
 
 /**
  * Application layer class which have functions specific to Application.
@@ -47,6 +64,8 @@ import objectrepository.TransactionHistoryPage;
  *
  */
 public class BusinessComponents extends TechnicalComponents {
+
+	private static final Keys TAB = null;
 
 	public void loginToApp(String username, String password) {
 		LoginPage lp = new LoginPage(driver);
@@ -118,9 +137,13 @@ public class BusinessComponents extends TechnicalComponents {
 				ProfileDefaultPage pd = new ProfileDefaultPage(driver);
 				redirectionsuccess = pd.isPageOpened();
 				break;
-			case "pricingsummary":
-				PlansAndPricingSummaryPage ps = new PlansAndPricingSummaryPage(driver);
-				redirectionsuccess = ps.isPageOpened();
+			case "individualPricingsummary":
+				IndividualPlansAndPricingSummaryPage ip = new IndividualPlansAndPricingSummaryPage(driver);
+				redirectionsuccess = ip.isPageOpened();
+				break;
+			case "TeamPricingsummary":
+				PlansAndPricingSummaryPage ps1 = new PlansAndPricingSummaryPage(driver);
+				redirectionsuccess = ps1.isPageOpened();
 				break;
 			case "billingCheckout":
 				Billing_Checkout br = new Billing_Checkout(driver);
@@ -154,9 +177,62 @@ public class BusinessComponents extends TechnicalComponents {
 				TeamSetUp t2 = new TeamSetUp(driver);
 				redirectionsuccess = t2.isPageOpened();
 				break;
-			case "pricingAnalyze":
-				PricingAnalyze pr = new PricingAnalyze(driver);
-				redirectionsuccess = pr.isPageOpened();
+
+			case "homePageLoggedIn":
+				HomePageLoggedIn hpl = new HomePageLoggedIn(driver);
+				redirectionsuccess = hpl.isPageOpened();
+				break;
+			case "create":
+				CreatePage cp = new CreatePage(driver);
+				redirectionsuccess = cp.isPageOpened();
+				break;
+			case "collectAdd":
+				CollectAddPage ca = new CollectAddPage(driver);
+				redirectionsuccess = ca.isPageOpened();
+				break;
+			case "collectAudience":
+				CollectAudience cr = new CollectAudience(driver);
+				redirectionsuccess = cr.isPageOpened();
+				break;
+			case "billingOTC":
+				BillingOTC bo = new BillingOTC(driver);
+				redirectionsuccess = bo.isPageOpened();
+				break;
+			case "BillingOTCSuccessful":
+				BillingOTCSuccessful bos = new BillingOTCSuccessful(driver);
+				redirectionsuccess = bos.isPageOpened();
+				break;
+			case "billingPwCreditsInvoice":
+				billingPwCreditsInvoice ba = new billingPwCreditsInvoice(driver);
+				redirectionsuccess = ba.isPageOpened();
+				break;
+			case "CreditConfirmationPageWithoutPay":
+				CreditConfirmationPageWithoutPay ba1 = new CreditConfirmationPageWithoutPay(driver);
+				redirectionsuccess = ba1.isPageOpened();
+				break;
+			case "billingInvoiceCheckout":
+				Billing_InvoiceCheckoutPage bp1 = new Billing_InvoiceCheckoutPage(driver);
+				redirectionsuccess = bp1.isPageOpened();
+				break;
+			case "BillingPWCreditConfirmationPage":
+				BillingPWCreditConfirmationPage bp2 = new BillingPWCreditConfirmationPage(driver);
+				redirectionsuccess = bp2.isPageOpened();
+				break;
+			case "upgardePage":
+				UpgradePage up = new UpgradePage(driver);
+				redirectionsuccess = up.isPageOpened();
+				break;
+			case "team":
+				TeamPage tp = new TeamPage(driver);
+				redirectionsuccess = tp.isPageOpened();
+				break;
+			case "teamadd":
+				TeamAdd ta = new TeamAdd(driver);
+				redirectionsuccess = ta.isPageOpened();
+				break;
+			case "billinginvoice":
+				BillingInvoice bi = new BillingInvoice(driver);
+				redirectionsuccess = bi.isPageOpened();
 				break;
 			default:
 				throw new FrameworkException("redirection verification not configure " + ScreenName);
@@ -180,7 +256,7 @@ public class BusinessComponents extends TechnicalComponents {
 		BillingDetailspage bd = new BillingDetailspage(driver);
 		bd.verifyPlanType(PlanName);
 		bd.verifyBillingFrequency(Frequncy);
-		bd.verifyNextBillingDate(NextBillingDate);
+		// bd.verifyNextBillingDate(NextBillingDate);
 		bd.verifyAutorenew(AutoRenew);
 		bd.verifyBillingNextAmount(NextBillingAmount);
 		switch (Locale) {
@@ -342,11 +418,22 @@ public class BusinessComponents extends TechnicalComponents {
 	public void clickLink(String LinkName) {
 		MyAccountPage mc = new MyAccountPage(driver);
 		switch (LinkName) {
-		case "plansandpricingsummary":
+		case "LoggedOutPlansandpricingsummary":
 			Dashboard d = new Dashboard(driver);
 			d.clickPlansAndPricing();
 			logger.log(LogStatus.PASS, "clicked Succesfully" + LinkName);
 
+			break;
+		case "LoggedInPlansandpricingsummary":
+			Dashboard dloggedIn = new Dashboard(driver);
+			dloggedIn.clickLoggedInPlansAndPricing();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + LinkName);
+
+			break;
+		case "Upgrade":
+			Dashboard d1 = new Dashboard(driver);
+			d1.click_upgrade();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + LinkName);
 			break;
 		case "billingPage":
 			mc.clickBillingDetails();
@@ -369,24 +456,39 @@ public class BusinessComponents extends TechnicalComponents {
 			HomePage hp = new HomePage(driver);
 			hp.click_LogOut();
 			logger.log(LogStatus.PASS, "clicked Succesfully" + LinkName);
-
 			break;
 		case "eduPricing":
 			PlansAndPricingSummaryPage pr = new PlansAndPricingSummaryPage(driver);
 			pr.clickeduPlans();
 			logger.log(LogStatus.PASS, "clicked Succesfully" + LinkName);
 			break;
-
 		case "pricingAnalyze":
 			BillingDetailspage br = new BillingDetailspage(driver);
 			br.clickPricingAnalyzeLink();
 			logger.log(LogStatus.PASS, "clicked Succesfully" + LinkName);
 			break;
-		case "mySurvey":
-			Dashboard de = new 	Dashboard(driver);
-			de.clickMySurveys();
+		case "MySurvey":
+			Dashboard s = new Dashboard(driver);
+			s.click_MySurvey();
 			logger.log(LogStatus.PASS, "clicked Succesfully" + LinkName);
 			break;
+		case "collectResponse":
+			CreatePage cp = new CreatePage(driver);
+			cp.clickCollectResponse();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + LinkName);
+			break;
+		case "buyResponse":
+			CollectAddPage ca = new CollectAddPage(driver);
+			ca.clickBuyAudience();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + LinkName);
+			break;
+		case "myteam":
+			mc.clickBillingDetails();
+			verify_Redirection("billingDetail");
+			mc.clickMyTeam();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + LinkName);
+			break;
+
 		default:
 			logger.log(LogStatus.INFO, "No link found" + LinkName);
 			break;
@@ -441,6 +543,23 @@ public class BusinessComponents extends TechnicalComponents {
 
 	}
 
+	public void EnterGBBillingDetails(String FirstName, String LastName, String Country, String Email) {
+		Billing_Checkout br = new Billing_Checkout(driver);
+
+		br.enterGBBillingCheckoutDetails(FirstName, LastName, Country, Email);
+		br.clickBillingDetailsNext();
+
+	}
+
+	public void enterBrazilBillingCheckoutDetails(String FirstName, String LastName, String Country, String PostalCode,
+			String Email) {
+		Billing_Checkout br = new Billing_Checkout(driver);
+
+		br.enterBrazilBillingCheckoutDetails(FirstName, LastName, Country, PostalCode, Email);
+		br.clickBillingDetailsNext();
+
+	}
+
 	public void EnterPaymentDetails(String PaymentType, String Cardtype) {
 		Billing_Checkout br = new Billing_Checkout(driver);
 		try {
@@ -452,6 +571,12 @@ public class BusinessComponents extends TechnicalComponents {
 				br.clickBillingPaymentNext();
 				PaymentDetailsEntered = true;
 				break;
+			case "PSD2creditcard":
+				br.SelectPaymentMethod(PaymentType);
+				br.enterPSD2PaymentDetails(Cardtype);
+				br.clickBillingPaymentNext();
+				PaymentDetailsEntered = true;
+				break;
 			case "invoice":
 				br.SelectPaymentMethod(PaymentType);
 				br.clickBillingPaymentNext();
@@ -459,6 +584,22 @@ public class BusinessComponents extends TechnicalComponents {
 				break;
 			case "invoicePFI":
 				br.enterPaymentDetails(Cardtype);
+				PaymentDetailsEntered = true;
+
+				break;
+			case "directdebit":
+				br.SelectPaymentMethod(PaymentType);
+				br.verifyDirectDebitPaymentErroMessage();
+				br.enterDirectDebitPaymentDetails();
+				br.clickBillingPaymentNext();
+				PaymentDetailsEntered = true;
+
+				break;
+			case "sepadirectdebit":
+				br.SelectPaymentMethod(PaymentType);
+				br.verifySEPADirectDebitPaymentErroMessage();
+				br.enterSEPADirectDebitPaymentDetails();
+				br.clickBillingPaymentNext();
 				PaymentDetailsEntered = true;
 
 				break;
@@ -599,6 +740,20 @@ public class BusinessComponents extends TechnicalComponents {
 		br.verifyContactDetails();
 	}
 
+	public void UpdateCountry() {
+		try {
+			BillingDetailspage br = new BillingDetailspage(driver);
+			br.clickEditPaymentButton();
+			br.UpadteBillingCountry("GB");
+			logger.log(LogStatus.PASS, "details updated  Succesfully");
+			logger.log(LogStatus.INFO, logger.addScreenCapture(screenshot(driver)));
+		} catch (Exception e) {
+			throw new FrameworkException("Billing details upadted  Not verified within specified time.---"
+					+ e.getClass() + "---" + e.getMessage());
+		}
+
+	}
+
 	public void getFlexPackageIdOnURL() {
 
 		String id;
@@ -609,7 +764,189 @@ public class BusinessComponents extends TechnicalComponents {
 
 	}
 
-	public void getPlanOnCheckoutPage(String Package_id) {
+	public void createSurveyWithRequiredQuestion() {
+
+		HomePageLoggedIn hp = new HomePageLoggedIn(driver);
+		CreatePage cp = new CreatePage(driver);
+		hp.enterSurveyName("team");
+		hp.clickAddQuestion();
+		verify_Redirection("create");
+		cp.enterQuestion("What is team");
+		cp.enterAnswer("a");
+		cp.clickOption();
+		cp.clickRequireOptions();
+		cp.clickRequireSAVE();
+	}
+
+	public void enterOTCPaymentDetails() {
+
+		BillingOTC br = new BillingOTC(driver);
+		br.enterCardNum();
+		br.enterCardName();
+		br.selectExpDate();
+		br.enterCVV();
+	}
+
+	public void enterOTCBillingDetails() {
+
+		BillingOTC br = new BillingOTC(driver);
+		br.enterPostal();
+		br.enterFirstLast();
+
+	}
+
+	public void clickButton(String ButtonName) {
+
+		switch (ButtonName) {
+		case "AddCredit":
+			TransactionHistoryPage tr = new TransactionHistoryPage(driver);
+			tr.clickAddCreditButton();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
+			break;
+		case "PayNow":
+			CreditConfirmationPageWithoutPay cp = new CreditConfirmationPageWithoutPay(driver);
+			cp.clickPayNow();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
+			break;
+		case "ConfirmOnInvoice":
+			Billing_InvoiceCheckoutPage bg = new Billing_InvoiceCheckoutPage(driver);
+			bg.clickConfirm();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
+			break;
+		case "OTCConfirmInvoice":
+			BillingOTC br = new BillingOTC(driver);
+			br.clickConfirm();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
+			break;
+		case "proceedToCheckout":
+			CollectAudience c = new CollectAudience(driver);
+			c.clickProceedToCheckout();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
+			break;
+		case "CreateTeam":
+			BillingConfirmedPage bc = new BillingConfirmedPage(driver);
+			bc.clickOnCreatTeam();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
+			break;
+		case "upgradeConfirm":
+			UpgradePage up = new UpgradePage(driver);
+			up.clickUpgradeConfirm();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
+			break;
+		case "upgrade":
+			TeamSetUp ts = new TeamSetUp(driver);
+			ts.clickUpgarde();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
+			break;
+		case "sendInvitation":
+			TeamPage tp = new TeamPage(driver);
+			tp.clickSendInviattion();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
+			break;
+		case "close":
+			BillingInvoice ba = new BillingInvoice(driver);
+			ba.clickClose();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
+			break;
+		case "PAY":
+			Billing_Checkout bch = new Billing_Checkout(driver);
+			bch.clickPay();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
+			break;
+		case "Buy":
+			Billing_Checkout bc1h = new Billing_Checkout(driver);
+			bc1h.clickBuy();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
+			break;
+		case "modalConfirm":
+			Billing_Checkout bcc = new Billing_Checkout(driver);
+			bcc.clickConfirmOnModal();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
+			break;
+		default:
+			logger.log(LogStatus.INFO, "No link found" + ButtonName);
+			break;
+		}
+
+	}
+
+	public void enterAddCreditBillingDetails() {
+
+		billingPwCreditsInvoice br = new billingPwCreditsInvoice(driver);
+		br.enterAmount();
+		br.enterPostalCode();
+		br.enterFirstnameLastName();
+		br.clickConfirm();
+
+	}
+
+	public void enterAddCreditPaymentDetails() {
+
+		Billing_InvoiceCheckoutPage br = new Billing_InvoiceCheckoutPage(driver);
+		br.enterAddCreditCardNum();
+		br.enterAddCreditCardName();
+		br.selectExpDateYear();
+		br.enterCVV();
+
+	}
+
+	public void sendInvite(String email) {
+		TeamAdd ta = new TeamAdd(driver);
+		ta.enterEmail(email);
+		ta.clickCheckbox();
+		ta.clickSendInvitation();
+	}
+
+	public void clickLatestInvoice() {
+		TransactionHistoryPage ta = new TransactionHistoryPage(driver);
+		ta.clickLatestInvoice();
+	}
+
+	public void verifyOverage() {
+		BillingInvoice ta = new BillingInvoice(driver);
+		ta.verifyOverage();
+	}
+
+	public void handleInvitationPopup() {
+		TeamAdd ta = new TeamAdd(driver);
+		ta.visibleInvisible();
+	}
+
+	public void acceptPSD2PopUp() {
+		Billing_Checkout bc = new Billing_Checkout(driver);
+		bc.handlePSD2PopUp();
+	}
+
+	public void clickLatestTaxamoInvoice() {
+		TransactionHistoryPage ta = new TransactionHistoryPage(driver);
+		ta.clickLatestTaxamoInvoice();
+	}
+
+	public void verifyPlanInTaxamoInvoice(String PlanName) {
+		TransactionHistoryPage ta = new TransactionHistoryPage(driver);
+		ta.verifyTaxamoInvoice(PlanName);
+	}
+
+	public void verifyandProceedDirectDebitModal() {
+		Billing_Checkout bc = new Billing_Checkout(driver);
+		bc.verifyDirectDebitModal();
+
+	}
+
+	public void verifyandProceedSEPADirectDebitModal() {
+		Billing_Checkout bc = new Billing_Checkout(driver);
+		bc.verifySEPADirectDebitModal();
+
+	}
+
+	public void verifyDirectDebitDisclaimer(String Data) {
+		BillingConfirmedPage bc = new BillingConfirmedPage(driver);
+		if (Data.equals(bc.getRecepitDisclaimer())) {
+			logger.log(LogStatus.PASS, "Data  verified Succesfully");
+		} else {
+			logger.log(LogStatus.FAIL, "Data not Verified Successfully ");
+
+		}
 
 	}
 

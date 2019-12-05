@@ -3,7 +3,17 @@
 <suite name="Test Suite" verbose="1">
 	<test name="Test">
 		<classes>
-			<class name="sm.project.testscripts.ToCheckBillingCheckout" />
+	<!-- 		<class name="sm.project.testscripts.ToCheckBillingCheckout" />
+			<class name="sm.project.testscripts.ToChecFlexPlanCheckout" />
+			<class name="sm.project.testscripts.ToCheckOTCCheckout" />
+			<class name="sm.project.testscripts.ToCheckSEPADirectDebitCheckout" />
+			<class name="sm.project.testscripts.ToCheckDirectDebitCheckout" />
+			<class name="sm.project.testscripts.ToCheckTeamCheckout" /> -->
+			<class name="sm.project.testscripts.ToCheckEDUCheckout" />	
+			<class name="sm.project.testscripts.ToCheckAddCreditCheckout" />
+			<class name="sm.project.testscripts.ToCheckUpgradeFlow" />
+			<class name="sm.project.testscripts.ToCheckOverageInvoice" />
+			<class name="sm.project.testscripts.ToCheckEditPayment" />			
 		</classes>
 	</test> <!-- Test -->
 </suite> <!-- Suite -->

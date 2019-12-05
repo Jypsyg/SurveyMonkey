@@ -30,8 +30,7 @@ public class BillingConfirmedPage extends TechnicalComponents {
 
 	WebDriver driver;
 	public static String urlsuffix = "/billing/confirmed";
-	
-	
+
 	public BillingConfirmedPage(WebDriver driver) {
 
 		this.driver = driver;
@@ -39,9 +38,15 @@ public class BillingConfirmedPage extends TechnicalComponents {
 	}
 
 
-	@FindBy(xpath = "//h3")
-	public static WebElement txtConfirmation;
+	public String thanksData = "Thanks for your";
 
+	@FindBy(xpath = "//h5[@class='wds-type--card-title'][contains(text(),'NEED HELP?')]")
+	public static WebElement txtNeedHelp;
+	
+	
+	
+	@FindBy(xpath = "//h3")
+	public static WebElement txtThanks;
 
 	/**
 	 * function to validate the redirection to billing/confirm page.
@@ -51,28 +56,46 @@ public class BillingConfirmedPage extends TechnicalComponents {
 	 */
 	public boolean isPageOpened() {
 		try {
-			TechnicalComponents.waitTill(txtConfirmation, "visible");
-			if (driver.getCurrentUrl().contains(urlsuffix)) {
-				return true;
-			} else {
-				return false;
-			}
-		} catch (FrameworkException e) {
-			throw new FrameworkException(
-					"Billing confirm page Not Loaded within specified time.---" + e.getClass() + "---" + e.getMessage());
-		}
+			TechnicalComponents.waitTill(txtNeedHelp, "visible");
+			String ThanksText = TechnicalComponents.getAttribute(txtThanks, "text", "Thanks Data");
+			if (ThanksText.contains(thanksData) || driver.getCurrentUrl().contains(urlsuffix)) {
 
+				return true;
+			}
+
+			else
+				return false;
+
+		} catch (
+
+		FrameworkException e) {
+			throw new FrameworkException("Billing confirm page Not Loaded within specified time.---" + e.getClass()
+					+ "---" + e.getMessage());
+		}
 	}
-	
+
 	@FindBy(xpath = "//span[@class='notranslate']")
 	public static WebElement txtInvoiceNumber;
-	
-	
 
 	public String getInvoice() {
-		
+
 		String ActualInvoice = TechnicalComponents.getAttribute(txtInvoiceNumber, "text", "invoice number");
 		return ActualInvoice;
+	}
+
+	@FindBy(xpath = "//a[contains(text(),'CREATE TEAM')]")
+	public static WebElement btnCreateTeam;
+
+	public void clickOnCreatTeam() {
+		TechnicalComponents.click(btnCreateTeam, "Create Team clicked");
+
+	}
+
+	@FindBy(xpath = "((//div[@class='success-head large-margin xlarge-gutter']//p)[2]//span)[2]")
+	public static WebElement txtDisclaimerData;
+
+	public String getRecepitDisclaimer() {
+		return TechnicalComponents.getAttribute(txtDisclaimerData, "text", "Receipt number");
 	}
 
 }

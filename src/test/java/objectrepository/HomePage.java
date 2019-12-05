@@ -31,14 +31,14 @@ public class HomePage extends TechnicalComponents {
 	@FindBy(xpath = "//a[@class='sign-up static-buttons']")
 	public static WebElement lnk_SignUp;
 	
-	@FindBy(xpath = "//span[@class='title-text']")
-	public static WebElement txt_Title;
+	@FindBy(xpath = "//ol[@class='nav clearfix']")
+	public static WebElement txt_Header;
 	
 
 	public boolean isPageOpened() {
 		try {
 			TechnicalComponents.waitTill(lnk_LogIn, "visible");
-			if (lnk_LogIn.isDisplayed() || txt_Title.isDisplayed()) {
+			if (lnk_LogIn.isDisplayed() || txt_Header.isDisplayed()) {
 				return true;
 			} else {
 				return false;
@@ -57,8 +57,8 @@ public class HomePage extends TechnicalComponents {
 	 *
 	 */
 	public void click_LoginLink() {
-
 		TechnicalComponents.click(lnk_LogIn, "login link");
+	
 	}
 
 	/**

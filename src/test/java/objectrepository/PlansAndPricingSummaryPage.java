@@ -153,19 +153,19 @@ public class PlansAndPricingSummaryPage extends TechnicalComponents {
 	@FindBy(xpath = "//th//a[@class='wds-button ft__cta-btn advantage']")
 	public static WebElement lnkSignupAdvantagePlan;
 
+	@FindBy(xpath = "//thead//a[@class='wds-button ft__cta-btn premier']")
+	public static WebElement lnkSignupPremierPlan;
+
 	public void signupAdvantagePlan() {
 		TechnicalComponents.click(lnkSignupAdvantagePlan, "Sign Up Advantage Plan");
 
 	}
 
-	@FindBy(xpath = "//th//a[@class='wds-button ft__cta-btn premier']")
-	public static WebElement lnkSignupPremierPlan;
-
 	public void signupPremierPlan() {
 		TechnicalComponents.click(lnkSignupPremierPlan, "Sign Up Premier  Plan");
 
 	}
-	
+
 	@FindBy(xpath = "//a[@class='learn-more-link']/preceding::a[@class='learn-more-link']")
 	public static WebElement lnkEduPricing;
 

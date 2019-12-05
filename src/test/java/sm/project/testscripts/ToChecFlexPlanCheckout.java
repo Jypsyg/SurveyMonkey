@@ -46,13 +46,13 @@ public class ToChecFlexPlanCheckout extends BusinessComponents {
 				case "login":
 					clickOnLoginLink("homepage");
 					verify_Redirection("login");
-					loginToApp("automation20190412_193929", "automation20190412_1939291");
+					loginToApp("automation20191127_163159", "automation20191127_1631591");
 				default:
 					break;
 				}
 				verify_Redirection("dashboard");
-				clickLink("plansandpricingsummary");
-				verify_Redirection("pricingsummary");
+				clickLink("LoggedInPlansandpricingsummary");
+				verify_Redirection("TeamPricingsummary");
 				selectPlan(PlanName);
 				verify_Redirection("billingCheckout");
 				getFlexPackageIdOnURL();				
@@ -67,7 +67,7 @@ public class ToChecFlexPlanCheckout extends BusinessComponents {
 				verify_Redirection("billingDetail");
 				clickLink("pricingAnalyze");
 				verify_Redirection("pricingAnalyze");
-				backBrowser();
+				driver.navigate().back();
 				verify_Redirection("billingDetail");
 				VerifyBillingDetails("US", PlanNameDetails, Frequency, getDate("1month", "MMM dd,yyyy").trim(),
 						AutoRenew, NextBillingAmount, TaxStatus);			

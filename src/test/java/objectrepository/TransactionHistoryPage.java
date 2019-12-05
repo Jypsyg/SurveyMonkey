@@ -39,8 +39,8 @@ public class TransactionHistoryPage extends TechnicalComponents {
 		PageFactory.initElements(driver, this);
 	}
 
-	@FindBy(xpath = "//div[@id='billing-history-panel']")
-	public static WebElement billingHistoryTabel;
+	@FindBy(xpath = "//div[@class='customer-support-info']")
+	public static WebElement customerupportInfo;
 
 	@FindBy(xpath = "//div[@id='billing-history-panel']/table/tbody/tr/td[1]")
 	public static WebElement txtInvoiceNumber;
@@ -71,7 +71,7 @@ public class TransactionHistoryPage extends TechnicalComponents {
 	 */
 	public boolean isPageOpened() {
 		try {
-			TechnicalComponents.waitTill(billingHistoryTabel, "visible");
+			TechnicalComponents.waitTill(customerupportInfo, "visible");
 			if (driver.getCurrentUrl().contains(urlsuffix)) {
 				return true;
 			} else {
@@ -79,7 +79,7 @@ public class TransactionHistoryPage extends TechnicalComponents {
 			}
 		} catch (FrameworkException e) {
 			throw new FrameworkException(
-					"About Us Page Not Loaded within specified time.---" + e.getClass() + "---" + e.getMessage());
+					"Transaction history Not Loaded within specified time.---" + e.getClass() + "---" + e.getMessage());
 		}
 
 	}
@@ -139,4 +139,31 @@ public class TransactionHistoryPage extends TechnicalComponents {
 		logger.log(LogStatus.PASS, "Trnsaction History details verified successfully " + invoice + " : " + BillingDate
 				+ ":" + Description + ":" + Seats + ":" + Status + ":" + PayNow + ":" + Amount);
 	}
+	
+	@FindBy(xpath = "(//table[@class='info-table']//tr//a)[1]")
+	public static WebElement lnkLatest;
+	
+	@FindBy(xpath = "(//table[@class='info-table']//tr//a//a)[1]")
+	public static WebElement lnkTaxamoLatest;
+	
+	
+			
+	public void clickLatestInvoice() {
+		TechnicalComponents.click(lnkLatest, "latest invoice clciked");
+	}
+	
+	public void clickLatestTaxamoInvoice() {
+		TechnicalComponents.click(lnkTaxamoLatest, "latest taxamo invoice clciked");
+	}
+	public void verifyTaxamoInvoice(String PlanName) {
+		try {
+			WebElement ele = driver.findElement(By.xpath("//td[contains(text(),'" + PlanName + "')])"));
+			TechnicalComponents.isDisplayed(ele, "taxamo data");
+			logger.log(LogStatus.PASS, "data verified", "data verified");
+		} catch (Exception e) {
+			throw new FrameworkException("taxamo data not present.---" + e.getClass() + "---" + e.getMessage());
+		}
+
+	}
+	
 }

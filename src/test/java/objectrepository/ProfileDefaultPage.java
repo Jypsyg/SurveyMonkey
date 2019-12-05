@@ -32,15 +32,15 @@ public class ProfileDefaultPage extends TechnicalComponents {
 	WebDriver driver;
 
 	public static String ProfileDefault_title = "SurveyMonkey - Profile Set-Up";
-	public static String urlsuffix = "profile/default/";
+	public static String urlsuffix = "profile/default";
 
-	public ProfileDefaultPage(WebDriver driver) {
+	public ProfileDefaultPage(WebDriver driver) {	
 
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}
 
-	@FindBy(xpath = "//div[@class='groupHeaderLinks' or @class='sm-profile__header-exit wds-grid__col']//a")
+	@FindBy(xpath = "//a[@class='sm-profile__wf-exit-link']")
 	public static WebElement lnk_CrossIconClose;
 	
 	@FindBy(xpath = "//div[text()='Tell us a little about yourself.']")
