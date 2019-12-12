@@ -51,7 +51,7 @@ public class BillingPWCreditConfirmationPage extends TechnicalComponents {
 	public boolean isPageOpened() {
 		try {
 			TechnicalComponents.waitTill(txtNeedHelp, "visible");
-			if (driver.getCurrentUrl().endsWith(urlsuffix)) {
+			if (driver.getCurrentUrl().contains(urlsuffix)) {
 				return true;
 			} else {
 				return false;

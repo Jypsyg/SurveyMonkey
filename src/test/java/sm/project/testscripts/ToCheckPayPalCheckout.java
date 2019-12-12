@@ -13,13 +13,19 @@ import reusablecomponents.BusinessComponents;
 import reusablecomponents.TechnicalComponents;
 import reusablecomponents.Utilities;
 
-public class ToCheckOTCCheckout extends BusinessComponents {
+/**
+ * Test Class to validate team  checkout.
+ * 
+ * @author jypsy
+ *
+ */
+public class ToCheckPayPalCheckout extends BusinessComponents {
 
 	/**
 	 * JavaDoc
 	 */
-	@Test(dataProvider = "OTCCheckout", dataProviderClass = data.TestData.class)
-	public void OTCCheckout(String testdesc, String password, String complexity, String Firstname, String Lastname,
+	@Test(dataProvider = "PayPalCheckout", dataProviderClass = data.TestData.class)
+	public void PayPalCheckout(String testdesc, String password, String complexity, String Firstname, String Lastname,
 			String Country, String PostalCode, String Billing_Email, String CardType, String Additional_SeatCount,
 			String PlanName, String PaymentType, String FlowType, String PlanNameDetails, String Frequency,
 			String AutoRenew, String NextBillingAmount, String TaxStatus, String InvoicePaymentType,
@@ -45,20 +51,33 @@ public class ToCheckOTCCheckout extends BusinessComponents {
 					break;
 				}
 				verify_Redirection("dashboard");
-				clickLink("MySurvey");
-				verify_Redirection("homePageLoggedIn");
-				createSurveyWithRequiredQuestion();
-				clickLink("collectResponse");
-				verify_Redirection("collectAdd");
-				clickLink("buyResponse");
-				verify_Redirection("collectAudience");
-				moveSlider();
-				clickButton("proceedToCheckout");
-				verify_Redirection("billingOTC");
-				enterOTCPaymentDetails();
-				enterOTCBillingDetails();
-				clickButton("OTCConfirmInvoice");
-				verify_Redirection("BillingOTCSuccessful");
+				clickLink("Upgrade");
+				verify_Redirection("TeamPricingsummary");
+				clickLink("IndividualPricingPage");
+				verify_Redirection("individualPricingsummary");
+				selectPlan(PlanName);
+				verify_Redirection("billingCheckout");
+				EnterGBBillingDetails(Firstname, Lastname, Country, Billing_Email);
+				EnterPaymentDetails(PaymentType, CardType);
+				AddAdditionalUser("billingcheckout", Additional_SeatCount);
+				String ActualTotalAmount = PlanAmount("billingcheckout");
+				clickConfirmButton();
+				verify_Redirection("sandboxpaypal");
+				enterPayPalDetails();
+				verify_Redirection("billingConfirmation");
+				String ActualInvoice = getInvoiceNumber("billingconfirm");
+				clickLink("billingPage");
+				verify_Redirection("billingDetail");
+			//	VerifyBillingDetails("US", PlanNameDetails, Frequency, getDate("annual", "MMM D,yyyy").trim(),
+				//		AutoRenew, NextBillingAmount, TaxStatus);
+				clickLink("transactionHistoryPage");
+				verify_Redirection("transactionhistory");
+//				verifyPurchaseActivityDetails("transactionhistory", ActualInvoice, getDate("currentday", "dd-MMM-yy"),
+//						PlanDescription, Additional_SeatCount, "Paid", PayNow, ActualTotalAmount, PlanDescription,
+//						Frequency, TotalSeatCount);
+				clickLink("signOut");
+				verify_Redirection("homepage");
+
 			} catch (FrameworkException e) {
 
 				logger.log(LogStatus.FAIL, e.getMessage() + logger.addScreenCapture(screenshot(driver)));

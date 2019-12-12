@@ -73,14 +73,14 @@ public class ToCheckBillingCheckout extends BusinessComponents {
 				verify_Redirection("billingDetail");
 				VerifyBillingDetails("US", PlanNameDetails, Frequency, getDate("annual", "MMM D,yyyy").trim(),
 						AutoRenew, NextBillingAmount, TaxStatus);
+				
 				clickLink("transactionHistoryPage");
 				verify_Redirection("transactionhistory");
 				verifyPurchaseActivityDetails("transactionhistory", ActualInvoice, getDate("currentday", "dd-MMM-yy"),
 						PlanDescription, Additional_SeatCount, "Paid", PayNow, ActualTotalAmount, PlanDescription,
 						Frequency, TotalSeatCount);
-				clickLink("signOut");
-				verify_Redirection("homepage");
-				//OutlookEmail("Jypsyg@surveymonkey.com","Jazz$123",)
+//				clickLink("signOut");
+//				verify_Redirection("homepage");
 
 			} catch (FrameworkException e) {
 
@@ -131,8 +131,8 @@ public class ToCheckBillingCheckout extends BusinessComponents {
 				verifyPurchaseActivityDetails("transactionhistory", ActualInvoice, getDate("currentday", "dd-MMM-yy"),
 						PlanDescription, Additional_SeatCount, "Paid", PayNow, ActualTotalAmount, PlanDescription,
 						Frequency, TotalSeatCount);
-				clickLink("signOut");
-				verify_Redirection("homepage");
+//				clickLink("signOut");
+//				verify_Redirection("homepage");
 
 			} catch (FrameworkException e) {
 
@@ -213,8 +213,8 @@ public class ToCheckBillingCheckout extends BusinessComponents {
 				verifyPurchaseActivityDetails("transactionhistory", ActualInvoice, getDate("currentday", "MMM DD,yyyy"),
 						PlanDescription, Additional_SeatCount, "Paid", PayNow, ActualTotalAmount, PlanDescription,
 						Frequency, TotalSeatCount);
-				clickLink("signOut");
-				verify_Redirection("homepage");
+//				clickLink("signOut");
+//				verify_Redirection("homepage");
 
 			} catch (FrameworkException e) {
 
@@ -287,8 +287,8 @@ public class ToCheckBillingCheckout extends BusinessComponents {
 				clickLink("billingPage");
 				verify_Redirection("billingDetail");
 				verifyEditContactDetails();
-				clickLink("signOut");
-				verify_Redirection("homepage");
+//				clickLink("signOut");
+//				verify_Redirection("homepage");
 
 			} catch (FrameworkException e) {
 

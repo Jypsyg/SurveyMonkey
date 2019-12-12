@@ -97,5 +97,15 @@ public class BillingConfirmedPage extends TechnicalComponents {
 	public String getRecepitDisclaimer() {
 		return TechnicalComponents.getAttribute(txtDisclaimerData, "text", "Receipt number");
 	}
+	
+	@FindBy(xpath = "//a[@class='close-btn smf-icon']")
+	public static WebElement btnCloseCross;
+	
+	public void clickIPPMCrossbtn() {
+		TechnicalComponents.waitTill(btnCloseCross, "visible");
+		TechnicalComponents.click(btnCloseCross, "clciked cross cion");
+		
+	}
+	
 
 }

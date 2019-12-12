@@ -13,13 +13,13 @@ import reusablecomponents.BusinessComponents;
 import reusablecomponents.TechnicalComponents;
 import reusablecomponents.Utilities;
 
-public class ToCheckOTCCheckout extends BusinessComponents {
+public class ToCheckIPPMCheckout extends BusinessComponents {
 
 	/**
 	 * JavaDoc
 	 */
-	@Test(dataProvider = "OTCCheckout", dataProviderClass = data.TestData.class)
-	public void OTCCheckout(String testdesc, String password, String complexity, String Firstname, String Lastname,
+	@Test(dataProvider = "IPPMCheckout", dataProviderClass = data.TestData.class)
+	public void IPPMCheckout(String testdesc, String password, String complexity, String Firstname, String Lastname,
 			String Country, String PostalCode, String Billing_Email, String CardType, String Additional_SeatCount,
 			String PlanName, String PaymentType, String FlowType, String PlanNameDetails, String Frequency,
 			String AutoRenew, String NextBillingAmount, String TaxStatus, String InvoicePaymentType,
@@ -32,7 +32,7 @@ public class ToCheckOTCCheckout extends BusinessComponents {
 				case "signup":
 					clickOnSignUpLink("homepage");
 					verify_Redirection("signup");
-					String newUser = "automation" + Utilities.randomNum();
+					String newUser = "automationtest" + Utilities.randomNum();
 					enterSignUpDetails(newUser, newUser + "1", Billing_Email, Firstname, Lastname);
 					verify_Redirection("profiledefault");
 					click_CrossIcon();
@@ -40,25 +40,38 @@ public class ToCheckOTCCheckout extends BusinessComponents {
 				case "login":
 					clickOnLoginLink("homepage");
 					verify_Redirection("login");
-					loginToApp("automation20190412_193929", "automation20190412_1939291");
+					loginToApp("autippm", "test$123");
 				default:
 					break;
 				}
 				verify_Redirection("dashboard");
 				clickLink("MySurvey");
-				verify_Redirection("homePageLoggedIn");
-				createSurveyWithRequiredQuestion();
+				verify_Redirection("homePageLoggedIn");	
+				createSurveyWithoutQuestion();
+				clickButton("hideFooter");	
 				clickLink("collectResponse");
-				verify_Redirection("collectAdd");
-				clickLink("buyResponse");
-				verify_Redirection("collectAudience");
-				moveSlider();
-				clickButton("proceedToCheckout");
-				verify_Redirection("billingOTC");
-				enterOTCPaymentDetails();
-				enterOTCBillingDetails();
-				clickButton("OTCConfirmInvoice");
-				verify_Redirection("BillingOTCSuccessful");
+				selctIPPMPlan();
+				verify_Redirection("billingCheckout");
+				EnterBillingDetails(Firstname, Lastname, Country, PostalCode, Billing_Email);
+				EnterPaymentDetails(PaymentType, CardType);
+				AddAdditionalUser("billingcheckout", Additional_SeatCount);
+				String ActualTotalAmount = PlanAmount("billingcheckout");
+				clickConfirmButton();
+				verify_Redirection("billingConfirmation");
+				String ActualInvoice = getInvoiceNumber("billingconfirm");
+				IPPMcrossbtn();
+				verify_Redirection("create");
+				clickLink("billingPage");
+				verify_Redirection("billingDetail");
+				VerifyBillingDetails("US", PlanNameDetails, Frequency, getDate("annual", "MMM D,yyyy").trim(),
+						AutoRenew, NextBillingAmount, TaxStatus);
+				clickLink("transactionHistoryPage");
+				verify_Redirection("transactionhistory");
+				verifyPurchaseActivityDetails("transactionhistory", ActualInvoice, getDate("currentday", "dd-MMM-yy"),
+						PlanDescription, Additional_SeatCount, "Paid", PayNow, ActualTotalAmount, PlanDescription,
+						Frequency, TotalSeatCount);
+				clickLink("signOut");
+				verify_Redirection("homepage");
 			} catch (FrameworkException e) {
 
 				logger.log(LogStatus.FAIL, e.getMessage() + logger.addScreenCapture(screenshot(driver)));

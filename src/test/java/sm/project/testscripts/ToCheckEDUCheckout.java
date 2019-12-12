@@ -24,7 +24,7 @@ public class ToCheckEDUCheckout extends BusinessComponents {
 	/**
 	 * JavaDoc
 	 */
-	@Test(dataProvider = "D2PCheckout", dataProviderClass = data.TestData.class)
+	@Test(dataProvider = "D2PEDUCheckout", dataProviderClass = data.TestData.class)
 	public void D2P_EDU_BillingCheckout(String testdesc, String password, String complexity, String Firstname,
 			String Lastname, String Country, String PostalCode, String Billing_Email, String CardType,
 			String Additional_SeatCount, String PlanName, String PaymentType, String FlowType, String PlanNameDetails,

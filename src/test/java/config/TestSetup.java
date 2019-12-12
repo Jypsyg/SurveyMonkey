@@ -342,7 +342,7 @@ public class TestSetup {
 		testCaseResult.put(testCaseCount, testCaseStatus);
 		testCaseExecuted = testCasePassed + testCaseFailed;
 		if (toBeTested && (!testCaseCategory.get(testName).equalsIgnoreCase("api"))){
-			//driver.quit();
+			driver.quit();
 		}
 	}
 

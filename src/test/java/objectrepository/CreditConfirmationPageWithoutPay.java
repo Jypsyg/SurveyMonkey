@@ -49,7 +49,7 @@ public class CreditConfirmationPageWithoutPay extends TechnicalComponents {
 	public boolean isPageOpened() {
 		try {
 			TechnicalComponents.waitTill(btnPayNow, "visible");
-			if (driver.getCurrentUrl().endsWith(urlsuffix)) {
+			if (driver.getCurrentUrl().contains(urlsuffix)) {
 				return true;
 			} else {
 				return false;
@@ -62,7 +62,7 @@ public class CreditConfirmationPageWithoutPay extends TechnicalComponents {
 	}
 	
 
-	@FindBy(xpath = "//a[contains(text(),'PAY NOW')]")
+	@FindBy(xpath = "//button[contains(text(),'Confirm') or contains(text(),'Buy') or contains(text(),'Pay') or contains(text(), 'Kaufen') or contains(text(),'CONFIRM') or contains(text(),'PAY')or contains(text(),'BUY') or contains(text(),'submit')or contains(@type,'submit')] | //input[contains(@value,'Confirm')or contains(@value,'Buy') or contains(@value,'Pay') or contains(@value, 'Kaufen') or contains(@value,'CONFIRM') or contains(@value,'PAY') or contains(@value,'BUY') or contains(@type,'submit')]")
 	public static WebElement btnPayNow;
 	
 	public void clickPayNow() {

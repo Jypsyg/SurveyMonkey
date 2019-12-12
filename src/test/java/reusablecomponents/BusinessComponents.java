@@ -31,6 +31,7 @@ import objectrepository.BillingInvoice;
 import objectrepository.BillingOTC;
 import objectrepository.BillingOTCSuccessful;
 import objectrepository.BillingPWCreditConfirmationPage;
+import objectrepository.BillingPWMessages;
 import objectrepository.Billing_Checkout;
 import objectrepository.Billing_InvoiceCheckoutPage;
 import objectrepository.Billing_PFI_Invoice_CheckoutPage;
@@ -47,6 +48,7 @@ import objectrepository.LoginPage;
 import objectrepository.MyAccountPage;
 import objectrepository.PlansAndPricingSummaryPage;
 import objectrepository.ProfileDefaultPage;
+import objectrepository.SandBoxPayPal;
 import objectrepository.SignUpPage;
 import objectrepository.TeamAdd;
 import objectrepository.TeamPage;
@@ -233,6 +235,14 @@ public class BusinessComponents extends TechnicalComponents {
 			case "billinginvoice":
 				BillingInvoice bi = new BillingInvoice(driver);
 				redirectionsuccess = bi.isPageOpened();
+				break;
+			case "sandboxpaypal":
+				SandBoxPayPal bi1 = new SandBoxPayPal(driver);
+				redirectionsuccess = bi1.isPageOpened();
+				break;
+			case "billingPWMismatch":
+				BillingPWMessages bm = new BillingPWMessages(driver);
+				redirectionsuccess = bm.isPageOpened();
 				break;
 			default:
 				throw new FrameworkException("redirection verification not configure " + ScreenName);
@@ -543,9 +553,14 @@ public class BusinessComponents extends TechnicalComponents {
 
 	}
 
+	public void clickPaymentNext() {
+		Billing_Checkout br = new Billing_Checkout(driver);
+		br.clickBillingPaymentNext();
+
+	}
+
 	public void EnterGBBillingDetails(String FirstName, String LastName, String Country, String Email) {
 		Billing_Checkout br = new Billing_Checkout(driver);
-
 		br.enterGBBillingCheckoutDetails(FirstName, LastName, Country, Email);
 		br.clickBillingDetailsNext();
 
@@ -569,6 +584,12 @@ public class BusinessComponents extends TechnicalComponents {
 				br.SelectPaymentMethod(PaymentType);
 				br.enterPaymentDetails(Cardtype);
 				br.clickBillingPaymentNext();
+				PaymentDetailsEntered = true;
+				break;
+			case "creditcardmonthly":
+				br.SelectPaymentMethod(PaymentType);
+				br.enterPaymentDetails(Cardtype);
+				br.clickReviewOrderNext();
 				PaymentDetailsEntered = true;
 				break;
 			case "PSD2creditcard":
@@ -602,6 +623,11 @@ public class BusinessComponents extends TechnicalComponents {
 				br.clickBillingPaymentNext();
 				PaymentDetailsEntered = true;
 
+				break;
+			case "paypal":
+				br.SelectPaymentMethod(PaymentType);
+				br.clickBillingPaymentNext();
+				PaymentDetailsEntered = true;
 				break;
 
 			default:
@@ -744,7 +770,7 @@ public class BusinessComponents extends TechnicalComponents {
 		try {
 			BillingDetailspage br = new BillingDetailspage(driver);
 			br.clickEditPaymentButton();
-			br.UpadteBillingCountry("GB");
+			br.UpdateBillingCountry("GB");
 			logger.log(LogStatus.PASS, "details updated  Succesfully");
 			logger.log(LogStatus.INFO, logger.addScreenCapture(screenshot(driver)));
 		} catch (Exception e) {
@@ -765,17 +791,33 @@ public class BusinessComponents extends TechnicalComponents {
 	}
 
 	public void createSurveyWithRequiredQuestion() {
+		try {
+			HomePageLoggedIn hp = new HomePageLoggedIn(driver);
+			CreatePage cp = new CreatePage(driver);
+			hp.enterSurveyName("team");
+			hp.clickAddQuestion();
+			verify_Redirection("create");
+			cp.enterQuestion("What is team");
+			Thread.sleep(2000);
+			cp.enterAnswer("a");
+			Thread.sleep(2000);
+			cp.clickOption();
+			cp.clickRequireOptions();
+			cp.clickRequireSAVE();
+		} catch (Exception e) {
+			throw new FrameworkException("Billing details upadted  Not verified within specified time.---"
+					+ e.getClass() + "---" + e.getMessage());
+		}
+
+	}
+
+	public void createSurveyWithoutQuestion() {
 
 		HomePageLoggedIn hp = new HomePageLoggedIn(driver);
 		CreatePage cp = new CreatePage(driver);
 		hp.enterSurveyName("team");
 		hp.clickAddQuestion();
 		verify_Redirection("create");
-		cp.enterQuestion("What is team");
-		cp.enterAnswer("a");
-		cp.clickOption();
-		cp.clickRequireOptions();
-		cp.clickRequireSAVE();
 	}
 
 	public void enterOTCPaymentDetails() {
@@ -798,7 +840,7 @@ public class BusinessComponents extends TechnicalComponents {
 	public void clickButton(String ButtonName) {
 
 		switch (ButtonName) {
-		case "AddCredit":
+		case "AddCreditHistioryPage":
 			TransactionHistoryPage tr = new TransactionHistoryPage(driver);
 			tr.clickAddCreditButton();
 			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
@@ -863,6 +905,21 @@ public class BusinessComponents extends TechnicalComponents {
 			bcc.clickConfirmOnModal();
 			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
 			break;
+		case "addcredit":
+			BillingOTC bo = new BillingOTC(driver);
+			bo.clickAddCredit();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
+			break;
+		case "confirm":
+			billingPwCreditsInvoice pw = new billingPwCreditsInvoice(driver);
+			pw.clickConfirm();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
+			break;
+		case "hideFooter":
+			CreatePage ca = new CreatePage(driver);
+			ca.HideFooter();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
+			break;
 		default:
 			logger.log(LogStatus.INFO, "No link found" + ButtonName);
 			break;
@@ -870,11 +927,11 @@ public class BusinessComponents extends TechnicalComponents {
 
 	}
 
-	public void enterAddCreditBillingDetails() {
+	public void enterAddCreditBillingDetails(String PostalCode) {
 
 		billingPwCreditsInvoice br = new billingPwCreditsInvoice(driver);
 		br.enterAmount();
-		br.enterPostalCode();
+		br.enterPostalCode(PostalCode);
 		br.enterFirstnameLastName();
 		br.clickConfirm();
 
@@ -948,6 +1005,81 @@ public class BusinessComponents extends TechnicalComponents {
 
 		}
 
+	}
+
+	public void enterPayPalDetails() {
+		SandBoxPayPal b1 = new SandBoxPayPal(driver);
+		b1.enterEmail();
+		b1.clickNext();
+		b1.enterPassword();
+		b1.clickLogin();
+		b1.clickAgreeContinue();
+
+	}
+
+	public void switchPaymentmethod() {
+		BillingOTC bo = new BillingOTC(driver);
+		bo.selectMyCreditPayMethod();
+	}
+
+	public void enterOTCCreditDetails(String PostalCode) {
+		billingPwCreditsInvoice ba = new billingPwCreditsInvoice(driver);
+		ba.enterPostalCode(PostalCode);
+		ba.enterFirstnameLastName();
+	}
+
+	public void enterOTCGBCreditDetails(String PostalCode) {
+		billingPwCreditsInvoice ba = new billingPwCreditsInvoice(driver);
+		ba.enterPostalCode(PostalCode);
+		ba.enterFirstnameLastName();
+		ba.enterAddressTownPhone();
+	}
+
+	public void enterOTCCreditPaymentDetails() {
+		Billing_InvoiceCheckoutPage bi = new Billing_InvoiceCheckoutPage(driver);
+		bi.enterAddCreditCardNum();
+		bi.enterAddCreditCardName();
+		bi.selectExpDateYear();
+		bi.enterCVV();
+
+	}
+
+	public void selctIPPMPlan() {
+		CreatePage cp = new CreatePage(driver);
+		cp.clickAdv();
+
+	}
+
+	public void IPPMcrossbtn() {
+		BillingConfirmedPage bc = new BillingConfirmedPage(driver);
+		bc.clickIPPMCrossbtn();
+
+	}
+
+	public void verifAudienceMismatchError() {
+		BillingPWMessages pw = new BillingPWMessages(driver);
+		pw.verifyMismatchError();
+
+	}
+
+	public void handleCookieBanner() {
+		SignUpPage sg = new SignUpPage(driver);
+		sg.handleCookieBanner();
+	}
+
+	public void moveSlider() {
+		CollectAudience ca = new CollectAudience(driver);
+		ca.moveSliderT0100();
+	}
+
+	public void verifyAutoRenewOff(String AutorenewEnable , String AutorenewDisabled) {
+		BillingDetailspage bd = new BillingDetailspage(driver);
+		bd.clickCancelAutorenew();
+		bd.checkAllBoxes();
+		bd.cancelAuto();
+		bd.verifyAutorenewOff(AutorenewDisabled);
+		bd.clickEnable();
+		bd.verifyAutorenew(AutorenewEnable);
 	}
 
 }

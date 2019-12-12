@@ -13,13 +13,19 @@ import reusablecomponents.BusinessComponents;
 import reusablecomponents.TechnicalComponents;
 import reusablecomponents.Utilities;
 
-public class ToCheckOTCCheckout extends BusinessComponents {
+/**
+ * Test Class to validate team  checkout.
+ * 
+ * @author jypsy
+ *
+ */
+public class ToCheckMisMatchCurrency extends BusinessComponents {
 
 	/**
 	 * JavaDoc
 	 */
-	@Test(dataProvider = "OTCCheckout", dataProviderClass = data.TestData.class)
-	public void OTCCheckout(String testdesc, String password, String complexity, String Firstname, String Lastname,
+	@Test(dataProvider = "CheckMissMatchCurrency", dataProviderClass = data.TestData.class)
+	public void CheckMissMatchCurrency(String testdesc, String password, String complexity, String Firstname, String Lastname,
 			String Country, String PostalCode, String Billing_Email, String CardType, String Additional_SeatCount,
 			String PlanName, String PaymentType, String FlowType, String PlanNameDetails, String Frequency,
 			String AutoRenew, String NextBillingAmount, String TaxStatus, String InvoicePaymentType,
@@ -32,7 +38,7 @@ public class ToCheckOTCCheckout extends BusinessComponents {
 				case "signup":
 					clickOnSignUpLink("homepage");
 					verify_Redirection("signup");
-					String newUser = "automation" + Utilities.randomNum();
+					String newUser = "sample" + Utilities.randomNum();
 					enterSignUpDetails(newUser, newUser + "1", Billing_Email, Firstname, Lastname);
 					verify_Redirection("profiledefault");
 					click_CrossIcon();
@@ -40,25 +46,31 @@ public class ToCheckOTCCheckout extends BusinessComponents {
 				case "login":
 					clickOnLoginLink("homepage");
 					verify_Redirection("login");
-					loginToApp("automation20190412_193929", "automation20190412_1939291");
+					loginToApp("checkdigitEditauto", "test$123");
 				default:
 					break;
 				}
 				verify_Redirection("dashboard");
-				clickLink("MySurvey");
-				verify_Redirection("homePageLoggedIn");
-				createSurveyWithRequiredQuestion();
-				clickLink("collectResponse");
-				verify_Redirection("collectAdd");
-				clickLink("buyResponse");
-				verify_Redirection("collectAudience");
-				moveSlider();
-				clickButton("proceedToCheckout");
-				verify_Redirection("billingOTC");
-				enterOTCPaymentDetails();
-				enterOTCBillingDetails();
-				clickButton("OTCConfirmInvoice");
-				verify_Redirection("BillingOTCSuccessful");
+				clickLink("transactionHistoryPage");
+				verify_Redirection("transactionhistory");
+				clickButton("AddCreditHistioryPage");
+				verify_Redirection("billingPwCreditsInvoice");
+				enterAddCreditBillingDetails(PostalCode);
+				verify_Redirection("CreditConfirmationPageWithoutPay");
+				clickButton("PayNow");
+				verify_Redirection("billingInvoiceCheckout");
+				enterAddCreditPaymentDetails();
+				clickButton("ConfirmOnInvoice");
+				verify_Redirection("BillingPWCreditConfirmationPage");
+				clickLink("billingPage");
+				UpdateCountry();
+				clickLink("transactionHistoryPage");
+				verify_Redirection("transactionhistory");
+				clickButton("AddCreditHistioryPage");
+				verify_Redirection("billingPWMismatch");
+				verifAudienceMismatchError();	
+				clickLink("signOut");
+				verify_Redirection("homepage");
 			} catch (FrameworkException e) {
 
 				logger.log(LogStatus.FAIL, e.getMessage() + logger.addScreenCapture(screenshot(driver)));
@@ -71,4 +83,6 @@ public class ToCheckOTCCheckout extends BusinessComponents {
 			throw new SkipException("Test Case: " + testdesc + "  skipped.");
 		}
 	}
+	
+	
 }

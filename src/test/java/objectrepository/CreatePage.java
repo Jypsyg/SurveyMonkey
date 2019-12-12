@@ -109,4 +109,32 @@ public class CreatePage extends TechnicalComponents {
 		TechnicalComponents.click(lnkCollectResponse, "collect response link  Clicked");
 	}
 
+	
+	@FindBy(xpath = "//a[contains(@class,'hideFooterBtn')]")
+	public static WebElement btnHideFooter;
+	
+	@FindBy(xpath = "//p[@class='sm-banner__text']")
+	public static WebElement txtBAnner;
+	
+	
+	public void HideFooter() {
+		try {
+			TechnicalComponents.click(btnHideFooter, "HideFooter");
+			TechnicalComponents.visibleInvisible(txtBAnner);
+		} catch (Exception e) {
+			throw new FrameworkException(
+					"Hide footer---" + e.getClass() + "---" + e.getMessage());
+		}
+	
+		
+	}
+	
+	@FindBy(xpath = "//a[contains(@href,'34')]")
+	public static WebElement btnAdvanatge;
+	
+	public void clickAdv() {
+		TechnicalComponents.waitTill(btnAdvanatge, "visible");
+		TechnicalComponents.click(btnAdvanatge, "Plans elected");
+	}
+	
 }

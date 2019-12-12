@@ -54,9 +54,9 @@ public class ToCheckAddCreditCheckout extends BusinessComponents {
 				verify_Redirection("dashboard");
 				clickLink("transactionHistoryPage");
 				verify_Redirection("transactionhistory");
-				clickButton("AddCredit");
+				clickButton("AddCreditHistioryPage");
 				verify_Redirection("billingPwCreditsInvoice");
-				enterAddCreditBillingDetails();
+				enterAddCreditBillingDetails(PostalCode);
 				verify_Redirection("CreditConfirmationPageWithoutPay");
 				clickButton("PayNow");
 				verify_Redirection("billingInvoiceCheckout");

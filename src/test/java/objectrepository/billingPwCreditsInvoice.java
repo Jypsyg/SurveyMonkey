@@ -75,8 +75,8 @@ public class billingPwCreditsInvoice extends TechnicalComponents {
 	@FindBy(xpath = "//input[@name='postal_code']")
 	public static WebElement txtPostalCode;
 
-	public void enterPostalCode() {
-		TechnicalComponents.type(txtPostalCode, "06001", "Zip code  enetered");
+	public void enterPostalCode(String PostalCode) {
+		TechnicalComponents.type(txtPostalCode, PostalCode, "Zip code  enetered");
 		TechnicalComponents.EnterKeys(txtPostalCode, "TAB");
 	}
 
@@ -88,23 +88,39 @@ public class billingPwCreditsInvoice extends TechnicalComponents {
 
 	@FindBy(xpath = "//button[@name='submit-payment']")
 	public static WebElement btnSubmit;
-	
+
 	@FindBy(xpath = "//div[contains(@class,'base-header')]")
 	public static WebElement lblHeader;
-	
 
 	public void enterFirstnameLastName() {
 		TechnicalComponents.type(txtFirst, "First", "First Name  enetered");
-		TechnicalComponents.type(txtLast, "Last", "Last Name  enetered");	
+		TechnicalComponents.type(txtLast, "Last", "Last Name  enetered");
 	}
-	
-	
+
+	@FindBy(xpath = "//button[contains(text(),'Confirm') or contains(text(),'Buy') or contains(text(),'Pay') or contains(text(), 'Kaufen') or contains(text(),'CONFIRM') or contains(text(),'PAY')or contains(text(),'BUY') or contains(text(),'submit')or contains(@type,'submit')] | //input[contains(@value,'Confirm')or contains(@value,'Buy') or contains(@value,'Pay') or contains(@value, 'Kaufen') or contains(@value,'CONFIRM') or contains(@value,'PAY') or contains(@value,'BUY') or contains(@type,'submit')]")
+	public static WebElement btnConfirm;
 
 	public void clickConfirm() {
-		Actions action = new Actions(driver);
-		action.moveToElement(lblHeader).click().perform();
-		TechnicalComponents.waitTill(btnSubmit, "enable");
-		TechnicalComponents.click(btnSubmit, "Confirm button entered");
+		TechnicalComponents.waitTill(btnConfirm, "enable");
+		TechnicalComponents.click(btnConfirm, "confirm clciked");
 
 	}
+
+	@FindBy(xpath = "//input[@name='street_address']")
+	public static WebElement txtAddress;
+
+	@FindBy(xpath = "//input[@name='city']")
+	public static WebElement txtTown;
+
+	@FindBy(xpath = "//input[@name='phone_number']")
+	public static WebElement txtPhone;
+
+	public void enterAddressTownPhone() {
+		TechnicalComponents.type(txtAddress, "test", "testAdress");
+		TechnicalComponents.type(txtTown, "testTown", "testTown");
+		TechnicalComponents.type(txtAddress, "test", "testAdress");
+		TechnicalComponents.type(txtPhone, "1010", "testAdress");
+
+	}
+
 }

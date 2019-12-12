@@ -55,10 +55,9 @@ public class BillingDetailspage extends TechnicalComponents {
 
 	@FindBy(xpath = "//div[@id='contact-details-modal']")
 	public static WebElement editBillingDetailModal;
-	
+
 	@FindBy(xpath = "//a[@class='action-links']")
 	public static WebElement lnkPricingAnalyze;
-	
 
 	/**
 	 * function to validate the redirection to billing details page.
@@ -172,7 +171,7 @@ public class BillingDetailspage extends TechnicalComponents {
 	public void clickEditContactButton() {
 		TechnicalComponents.click(btnEditContact, "Edit Billing contact button clicked");
 	}
-	
+
 	public void clickPricingAnalyzeLink() {
 		TechnicalComponents.click(lnkPricingAnalyze, "Pricing Analyze link  clicked");
 	}
@@ -287,12 +286,13 @@ public class BillingDetailspage extends TechnicalComponents {
 	@FindBy(xpath = "(//span[contains(@class,'loading-indicator')])[2]")
 	private WebElement loadingicon;
 
-	public void UpadteBillingCountry(String CountryName) {
+	public void UpdateBillingCountry(String CountryName) throws InterruptedException {
 		try {
 			TechnicalComponents.waitTill(ddlCountry, "enable");
 			TechnicalComponents.selectValuefromDropdown(ddlCountry, "actualdata", CountryName);
 			TechnicalComponents.waitTill(loadingicon, "invisible");
-			TechnicalComponents.waitTill(txtPostalCode, "visible");
+			Thread.sleep(3000);
+			TechnicalComponents.waitTill(txtPostalCode, "enable");
 			TechnicalComponents.type(txtPostalCode, "SK13TA", "postalcode");
 			TechnicalComponents.waitTill(txtCity, "visible");
 			TechnicalComponents.type(txtCity, "TestCity", "City");
@@ -301,8 +301,8 @@ public class BillingDetailspage extends TechnicalComponents {
 			TechnicalComponents.click(btnConfirm, "Confirm Clicked");
 			TechnicalComponents.waitTill(txtCVV, "invisible");
 		} catch (FrameworkException e) {
-			throw new FrameworkException("Billing update page Not Loaded within specified time.---" + e.getClass()
-					+ "---" + e.getMessage());
+			throw new FrameworkException(
+					"Billing update page Not Loaded within specified time.---" + e.getClass() + "---" + e.getMessage());
 		}
 
 	}
@@ -326,6 +326,58 @@ public class BillingDetailspage extends TechnicalComponents {
 					+ "FirstName" + "LastName" + "jypsyg@surveymonkey.com" + "TestCompany" + "yes");
 		}
 
+	}
+
+	@FindBy(xpath = "//a[contains(@class,'cancel-renewal')]      ")
+	private WebElement btnCancel;
+
+	public void clickCancelAutorenew() {
+		TechnicalComponents.click(btnCancel, "cancel autorenew");
+	}
+
+	@FindBy(xpath = "//label[contains(text(),' You will lose access to over 100 responses for any survey.')]//input")
+	private WebElement chkfirstCheckbox;
+
+	@FindBy(xpath = "//label[contains(text(),' You cannot apply survey logic, survey customization, or export data.')]//input")
+	private WebElement chkSecondCheckbox;
+
+	@FindBy(xpath = "//label[contains(text(),' You will forfeit any discounts applied to your account.')]//input")
+	private WebElement chkthirdCheckbox;
+
+	public void checkAllBoxes() {
+		TechnicalComponents.waitTill(chkfirstCheckbox, "visible");
+		TechnicalComponents.click(chkfirstCheckbox, "chkfirstCheckbox");
+		TechnicalComponents.click(chkSecondCheckbox, "chkSecondCheckbox");
+		TechnicalComponents.click(chkthirdCheckbox, "chkthirdCheckbox");
+	}
+
+	@FindBy(xpath = "//a[contains(@class,'cancel-auto-renew')]")
+	private WebElement btnCancelAutoRenew;
+
+	public void cancelAuto() {
+		TechnicalComponents.click(btnCancelAutoRenew, "cancel on dialog");
+	}
+
+	@FindBy(xpath = "//span[contains(text(),'Disabled')]")
+	private WebElement txtDisbaled;
+
+	@FindBy(xpath = "//div[@class='smcx-modal-close']")
+	private WebElement btnModalCloseSurvey;
+
+	public void verifyAutorenewOff(String AutoRenew) {
+		if (btnModalCloseSurvey.isDisplayed()) {
+			TechnicalComponents.click(btnModalCloseSurvey, "modal Close");
+		}
+		TechnicalComponents.waitTill(txtDisbaled, "visible");
+		verifyAutorenew(AutoRenew);
+	}
+
+	@FindBy(xpath = "//a[contains(@class,'reinstate-btn ')]")
+	private WebElement btnEnable;
+
+	public void clickEnable() {
+		TechnicalComponents.click(btnEnable, "btnEnable");
+		TechnicalComponents.waitTill(btnEnable, "invisible");
 	}
 
 }

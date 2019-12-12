@@ -48,7 +48,7 @@ public class BillingInvoice extends TechnicalComponents {
 	public boolean isPageOpened() {
 		try {
 			TechnicalComponents.waitTill(btnPrint, "visible");
-			if (driver.getCurrentUrl().endsWith(urlsuffix)) {
+			if (driver.getCurrentUrl().contains(urlsuffix)) {
 				return true;
 			} else {
 				return false;

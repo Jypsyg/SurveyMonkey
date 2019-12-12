@@ -89,7 +89,35 @@ public class TestData {
 	public static Object[][] BrazilCheckout() throws FileNotFoundException, IOException {
 		return Utilities.Read_Excel(Utilities.getProperty("TEST_DATA_LOCATION"), "BrazilCheckout");
 	}
+	@DataProvider(name = "PayPalCheckout")
+	public static Object[][] PayPalCheckout() throws FileNotFoundException, IOException {
+		return Utilities.Read_Excel(Utilities.getProperty("TEST_DATA_LOCATION"), "PayPalCheckout");
+	}
+	
+	@DataProvider(name = "OTCCheckoutwithCredit")
+	public static Object[][] OTCCheckoutwithCredit() throws FileNotFoundException, IOException {
+		return Utilities.Read_Excel(Utilities.getProperty("TEST_DATA_LOCATION"), "OTCCheckoutwithCredit");
+	}
+	
+	@DataProvider(name = "OTCCheckoutwithGBCredit")
+	public static Object[][] OTCCheckoutwithGBCredit() throws FileNotFoundException, IOException {
+		return Utilities.Read_Excel(Utilities.getProperty("TEST_DATA_LOCATION"), "OTCCheckoutwithGBCredit");
+	}
 	
 	
+	@DataProvider(name = "IPPMCheckout")
+	public static Object[][] IPPMCheckout() throws FileNotFoundException, IOException {
+		return Utilities.Read_Excel(Utilities.getProperty("TEST_DATA_LOCATION"), "IPPMCheckout");
+	}
+	@DataProvider(name = "CheckMissMatchCurrency")
+	public static Object[][] CheckMissMatchCurrency() throws FileNotFoundException, IOException {
+		return Utilities.Read_Excel(Utilities.getProperty("TEST_DATA_LOCATION"), "CheckMissMatchCurrency");
+	}
+	
+	@DataProvider(name = "MonthlyCheckoutAutorenew")
+	public static Object[][] MonthlyCheckoutAutorenew() throws FileNotFoundException, IOException {
+		return Utilities.Read_Excel(Utilities.getProperty("TEST_DATA_LOCATION"), "MonthlyCheckoutAutorenew");
+	}
+
 	
 }

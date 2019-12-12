@@ -2,6 +2,7 @@ package objectrepository;
 
 import java.lang.reflect.Array;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -13,6 +14,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.server.handler.GetCurrentUrl;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
 import com.gargoylesoftware.htmlunit.javascript.host.file.Blob;
 import com.relevantcodes.extentreports.LogStatus;
 
@@ -236,7 +239,13 @@ public class Billing_Checkout extends TechnicalComponents {
 			TechnicalComponents.waitTill(txtCNPF, "visible");
 			TechnicalComponents.click(txtCNPF, "visible");
 			TechnicalComponents.type(txtCNPF, "43.337.004/0001-72", "CNPF eneterd");
-			TechnicalComponents.EnterKeys(txtCNPF, "TAB");
+			
+			txtCNPF.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+			TechnicalComponents.EnterKeys(txtCNPF, "BACK_SPACE");
+			TechnicalComponents.type(txtCNPF, "43.337.004/0001-72", "CNPF eneterd");
+			
+			
+			
 			TechnicalComponents.waitTill(txtCompanyName, "visible");
 			TechnicalComponents.type(txtCompanyName, "testcompany", "company eneterd");
 			TechnicalComponents.waitTill(txtPO, "visible");	
@@ -251,7 +260,8 @@ public class Billing_Checkout extends TechnicalComponents {
 			TechnicalComponents.selectValuefromDropdown(ddlcity, "actualdata", "Ibiapina");
 			enterEmail(Email);
 		} catch (Exception e) {
-			// TODO: handle exception
+			throw new FrameworkException(
+					"Unknown exception occured while handling alerts.---" + e.getClass() + "---" + e.getMessage());
 		}
 
 	}
@@ -365,7 +375,7 @@ public class Billing_Checkout extends TechnicalComponents {
 		TechnicalComponents.click(btn_paymentMethod_Next, "Billing Payment Next button clicked");
 	}
 
-	@FindBy(xpath = "//button[contains(text(),'Pay')]")
+	@FindBy(xpath = "//button[contains(text(),'Confirm') or contains(text(),'Buy') or contains(text(),'Pay') or contains(text(), 'Kaufen') or contains(text(),'CONFIRM') or contains(text(),'PAY')or contains(text(),'BUY') or contains(text(),'submit')or contains(@type,'submit')] | //input[contains(@value,'Confirm')or contains(@value,'Buy') or contains(@value,'Pay') or contains(@value, 'Kaufen') or contains(@value,'CONFIRM') or contains(@value,'PAY') or contains(@value,'BUY') or contains(@type,'submit')]")
 	public static WebElement btnPAY;
 
 	public void clickPay() {
@@ -412,7 +422,7 @@ public class Billing_Checkout extends TechnicalComponents {
 	@FindBy(xpath = "//iframe[@id='payment-challenge-frame']")
 	public static WebElement frame;
 
-	@FindBy(xpath = "//input[@type='submit']")
+	@FindBy(xpath = "//input[@value='OK']")
 	public static WebElement btnOK;
 
 	@FindBy(xpath = "//circle[@class='wds-spinner__path-fill']")
@@ -420,15 +430,15 @@ public class Billing_Checkout extends TechnicalComponents {
 
 	public void handlePSD2PopUp() {
 		try {
-			driver.switchTo().defaultContent();
 			TechnicalComponents.waitTill(frame, "visible");
 			TechnicalComponents.switchtoiframe(frame);
-			TechnicalComponents.waitTill(8);
-			PageFactory.initElements(driver, Billing_Checkout.class);
-			// TechnicalComponents.waitTill(btnOK, "visible");
-			TechnicalComponents.click_exceptional(btnOK, "Ok clicked");
-			TechnicalComponents.switchToDefaultContent();
-			TechnicalComponents.visibleInvisible(loading);
+		    driver.manage().timeouts().implicitlyWait(8,TimeUnit.SECONDS) ;
+			String OK="OK";
+			if (OK.equals(TechnicalComponents.getAttribute(btnOK, "value", "test"))) {
+				TechnicalComponents.click(btnOK, "Ok clicked");	
+			}		
+			//TechnicalComponents.switchToDefaultContent();
+			//TechnicalComponents.visibleInvisible(loading);
 
 		} catch (Exception e) {
 			throw new FrameworkException("not handled psd2 popup.---" + e.getClass() + "---" + e.getMessage());
@@ -567,6 +577,20 @@ public class Billing_Checkout extends TechnicalComponents {
 	public void clickConfirmOnModal() {
 		TechnicalComponents.click(btnModalConfirm, "confirm button clicked");
 
+	}
+	
+	public void clickMonthlyNext() {
+		TechnicalComponents.click(btnModalConfirm, "confirm button clicked");
+
+	}
+	
+	@FindBy(xpath = "//button[@id='next-2']")
+	public static WebElement btnReviewOrder_Next;
+	
+	
+
+	public void clickReviewOrderNext() {
+		TechnicalComponents.click(btnReviewOrder_Next, "Billing Payment Next button clicked");
 	}
 
 }

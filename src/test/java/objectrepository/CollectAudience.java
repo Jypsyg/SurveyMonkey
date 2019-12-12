@@ -8,6 +8,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -34,8 +36,6 @@ public class CollectAudience extends TechnicalComponents {
 	@FindBy(xpath = "//button[@id='checkout-button']")
 	public static WebElement btncheckout;
 
-	
-
 	public CollectAudience(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
@@ -49,7 +49,7 @@ public class CollectAudience extends TechnicalComponents {
 	 */
 	public boolean isPageOpened() {
 		try {
-			TechnicalComponents.waitTill(btncheckout, "visible");
+			TechnicalComponents.waitTill(btnSlider, "visible");
 			if (driver.getCurrentUrl().contains(urlsuffix)) {
 				return true;
 			} else {
@@ -62,9 +62,27 @@ public class CollectAudience extends TechnicalComponents {
 
 	}
 
-
 	public void clickProceedToCheckout() throws FrameworkException {
 		TechnicalComponents.waitTill(btncheckout, "enable");
-		TechnicalComponents.click(btncheckout, "click on proceed to checkout");;
+		TechnicalComponents.click(btncheckout, "click on proceed to checkout");
+		;
+	}
+
+	@FindBy(xpath = "//div[@class='wds-slider__handle-fill']")
+	public static WebElement btnSlider;
+
+	public void moveSliderT0100() throws FrameworkException {
+		try {
+			Actions move = new Actions(driver);
+			move.clickAndHold(btnSlider);
+			move.moveByOffset(110, 0).build().perform();
+			move.release(btnSlider).build().perform();
+	
+		} catch (Exception e) {
+			throw new FrameworkException(
+					"move sliderLoaded within specified time.---" + e.getClass() + "---" + e.getMessage());
+		}
+
+
 	}
 }

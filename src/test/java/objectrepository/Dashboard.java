@@ -2,6 +2,8 @@ package objectrepository;
 
 import java.util.List;
 
+import reusablecomponents.Utilities;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -96,8 +98,8 @@ public class Dashboard extends TechnicalComponents {
 	public static WebElement lnk_Upgrade;
 	
 	public void click_upgrade() {
-		
-		TechnicalComponents.click(lnk_Upgrade, "plans and pricing");
+		TechnicalComponents.navigatetoUrl(Utilities.getProperty("ENVIRONMENT_URL")+Utilities.getProperty("URL_TEAMPRICINGPAGE"));
+		//TechnicalComponents.click(lnk_Upgrade, "plans and pricing");
 	}
 	
 	public void click_MySurvey() {

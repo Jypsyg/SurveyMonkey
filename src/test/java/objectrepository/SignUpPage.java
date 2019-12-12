@@ -93,4 +93,22 @@ public class SignUpPage extends TechnicalComponents {
 	public void clickCreatAccountbtn() {
 		TechnicalComponents.click(btn_CreatAccount, "Create account");
 	}
+	
+	
+	@FindBy(xpath = "//div[@class='gdpr-cookie-popup-banner__content']//button[@aria-label='Close']")
+	public static WebElement btnCookieCross;
+	
+	@FindBy(xpath = "//button[contains(text(),'AGREE')]")
+	public static WebElement btnAgree;
+	
+	
+	public void handleCookieBanner() {
+		
+		if(btnCookieCross.isDisplayed()) {
+			TechnicalComponents.click(btnCookieCross, "clciked cross button");
+			//TechnicalComponents.waitTill(btnAgree, "inviisble");
+		}
+		
+		
+	}
 }

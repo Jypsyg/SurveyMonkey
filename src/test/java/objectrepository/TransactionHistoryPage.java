@@ -57,7 +57,7 @@ public class TransactionHistoryPage extends TechnicalComponents {
 	@FindBy(xpath = "//div[@id='billing-history-panel']/table/tbody/tr/td[7]")
 	public static WebElement txtAmount;
 
-	@FindBy(xpath = "//a[@data-track-ui-trigger=\"add_credits_button\"]")
+	@FindBy(xpath = "//a[contains(text(),'ADD CREDITS')]")
 	public static WebElement btnAddCredit;
 
 	@FindBy(xpath = "//a[@data-action='print']")

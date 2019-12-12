@@ -34,18 +34,20 @@ public class ProfileDefaultPage extends TechnicalComponents {
 	public static String ProfileDefault_title = "SurveyMonkey - Profile Set-Up";
 	public static String urlsuffix = "profile/default";
 
-	public ProfileDefaultPage(WebDriver driver) {	
+	public ProfileDefaultPage(WebDriver driver) {
 
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}
 
-	@FindBy(xpath = "//a[@class='sm-profile__wf-exit-link']")
+	@FindBy(xpath = "//div[@class='groupHeaderLinks']//a")
 	public static WebElement lnk_CrossIconClose;
-	
+
+	@FindBy(xpath = "//a[@class='sm-profile__wf-exit-link']")
+	public static WebElement lnk_CrossIconCloseinAnchorTag;
+
 	@FindBy(xpath = "//div[text()='Tell us a little about yourself.']")
 	public static WebElement textHeader;
-	
 
 	/**
 	 * function to validate the redirection to about us page.
@@ -68,14 +70,38 @@ public class ProfileDefaultPage extends TechnicalComponents {
 
 	}
 
+//	public void click_CrossIcon() {
+//		WebElement element = null;
+//		try {
+//			element = lnk_CrossIconCloseinAnchorTag;
+//			System.out.println();			TechnicalComponents.waitTill(lnk_CrossIconCloseinAnchorTag, "visible");
+//
+//		} catch (NoSuchElementException e) {
+//			TechnicalComponents.waitTill(lnk_CrossIconClose, "visible");
+//			element = lnk_CrossIconClose;
+//		}
+//		if (element != null) {
+//			TechnicalComponents.click_exceptional(element, "Cross Icon clicked");
+//		}
+//	}
+
 	public void click_CrossIcon() {
+		WebElement element = null;
 		try {
-			TechnicalComponents.waitTill(lnk_CrossIconClose, "visible");
-			while (lnk_CrossIconClose.isDisplayed()) {
-				TechnicalComponents.click_exceptional(lnk_CrossIconClose, "Cross Icon clicked");
-		} }catch (Exception e) {
-			
+			if (driver.getCurrentUrl().contains("4.com")) {
+				element = lnk_CrossIconClose;
+			} 
+			if(driver.getCurrentUrl().contains("1.com")) {
+				element = lnk_CrossIconCloseinAnchorTag;
+			}
+			if (element != null) {
+				TechnicalComponents.click_exceptional(element, "Cross Icon clicked");
+			}
+		} catch (Exception e) {
+			throw new FrameworkException(
+					"profile default page Loaded within specified time.---" + e.getClass() + "---" + e.getMessage());
 		}
+		
 	}
 
 	@FindBy(xpath = "//span[@class='smf-icon notranslate']/following-sibling::b")

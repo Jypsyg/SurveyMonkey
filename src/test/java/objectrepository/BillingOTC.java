@@ -142,5 +142,22 @@ public class BillingOTC extends TechnicalComponents {
 			action.moveToElement(btnConfirm).click().perform();
 
 	}
+	
+	@FindBy(xpath = "//input[@id='payment-credits']")
+	public static WebElement radioAudience;
+	
+	public void selectMyCreditPayMethod() {
+		TechnicalComponents.waitTill(radioAudience, "visible");
+		TechnicalComponents.click(radioAudience, "credit payment method selected");
+	}
+	
+	@FindBy(xpath = "(//a[@data-track-ui-trigger='add_credits_button'])[1]")
+	public static WebElement btnAddcredit;
+	
 
+	public void clickAddCredit() {
+		TechnicalComponents.waitTill(btnAddcredit, "visible");
+		TechnicalComponents.click(btnAddcredit, "Add credit clcikd");
+	}
+	
 }
