@@ -19,17 +19,17 @@ import reusablecomponents.Utilities;
  * @author jypsy
  *
  */
-public class ToCheckMonthlyPlanCheckoutWithAutoRenew extends BusinessComponents {
+public class ToCheckMonthlyToAnnualUpgradeWithFrequency extends BusinessComponents {
 
 	/**
 	 * JavaDoc
 	 */
-	@Test(dataProvider = "MonthlyCheckoutAutorenew", dataProviderClass = data.TestData.class)
-	public void MonthlyCheckoutAutorenew(String testdesc, String password, String complexity, String Firstname, String Lastname,
+	@Test(dataProvider = "MonthlyToAnnualUpgrade", dataProviderClass = data.TestData.class)
+	public void MonthlyToAnnualUpgrade(String testdesc, String password, String complexity, String Firstname, String Lastname,
 			String Country, String PostalCode, String Billing_Email, String CardType, String Additional_SeatCount,
 			String PlanName, String PaymentType, String FlowType, String PlanNameDetails, String Frequency,
 			String AutoRenew, String NextBillingAmount, String TaxStatus, String InvoicePaymentType,
-			String PlanDescription, String PayNow, String TotalSeatCount, String AutoRenewDisbaled, String DisabledBillingAmount) {
+			String PlanDescription, String PayNow, String TotalSeatCount) {
 		if (toBeTested) {
 			try {
 				navigatetoUrl(Utilities.getProperty("ENVIRONMENT_URL"));
@@ -72,12 +72,10 @@ public class ToCheckMonthlyPlanCheckoutWithAutoRenew extends BusinessComponents 
 				verify_Redirection("billingDetail");
 				VerifyBillingDetails("US", PlanNameDetails, Frequency, getDate("annual", "MMM D,yyyy").trim(),
 						AutoRenew, NextBillingAmount, TaxStatus);
-				verifyAutoRenewOff(AutoRenew,AutoRenewDisbaled,DisabledBillingAmount);
-				clickLink("transactionHistoryPage");
-				verify_Redirection("transactionhistory");
-				verifyPurchaseActivityDetails("transactionhistory", ActualInvoice, getDate("currentday", "dd-MMM-yy"),
-						PlanDescription, Additional_SeatCount, "Paid", PayNow, ActualTotalAmount, PlanDescription,
-						Frequency, TotalSeatCount);
+				changeToAnnualFreq();
+				verify_Redirection("upgardePage");
+				clickButton("confirm");
+				verify_Redirection("billingConfirmation");			
 				clickLink("signOut");
 				verify_Redirection("homepage");
 

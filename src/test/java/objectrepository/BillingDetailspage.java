@@ -67,7 +67,7 @@ public class BillingDetailspage extends TechnicalComponents {
 	 */
 	public boolean isPageOpened() {
 		try {
-			TechnicalComponents.waitTill(txt_NextRenewalAmount, "visible");
+			TechnicalComponents.waitTill(btnEditContact, "visible");
 			if (driver.getCurrentUrl().contains(urlsuffix)) {
 				return true;
 			} else {
@@ -75,16 +75,26 @@ public class BillingDetailspage extends TechnicalComponents {
 			}
 		} catch (FrameworkException e) {
 			throw new FrameworkException(
-					"About Us Page Not Loaded within specified time.---" + e.getClass() + "---" + e.getMessage());
+					"Billing page Not Loaded within specified time.---" + e.getClass() + "---" + e.getMessage());
 		}
 	}
 
 	@FindBy(xpath = "//a[contains(@class,'action-links')]/preceding-sibling::span")
 	public static WebElement txt_PlanName;
+	
+	
+	@FindBy(xpath = "//div[@class='info-container']//dl//dd//span")
+	public static WebElement txt_EUPlanName;
+	
 
 	public void verifyPlanType(String PlanName) {
 
 		TechnicalComponents.verifyAttribute(txt_PlanName, "text-equals", PlanName, "Planname");
+	}
+	
+	public void verifyEUPlanType(String PlanName) {
+
+		TechnicalComponents.verifyAttribute(txt_EUPlanName, "text-equals", PlanName, "Planname");
 	}
 
 	@FindBy(xpath = "//dd[@class='billing-frequency']/span")
@@ -112,6 +122,16 @@ public class BillingDetailspage extends TechnicalComponents {
 	public void verifyAutorenew(String AutoRenew) {
 
 		TechnicalComponents.verifyAttribute(txt_AutoRenew, "text-contains", AutoRenew, "Autorenew Status");
+
+	}
+	
+	@FindBy(xpath = "//a[@data-track-action-type='enable_auto_renew']/preceding-sibling::span")
+	public static WebElement txt_AutoDisbaledRenew;
+	
+	
+	public void verifyDisabledAutorenew(String AutoRenew) {
+
+		TechnicalComponents.verifyAttribute(txt_AutoDisbaledRenew, "text-contains", AutoRenew, "Autorenew Status");
 
 	}
 
@@ -364,12 +384,14 @@ public class BillingDetailspage extends TechnicalComponents {
 	@FindBy(xpath = "//div[@class='smcx-modal-close']")
 	private WebElement btnModalCloseSurvey;
 
-	public void verifyAutorenewOff(String AutoRenew) {
+	public void verifyAutorenewOff(String DisbaledAutoRenew,String DisabledBillingAmount) {
 		if (btnModalCloseSurvey.isDisplayed()) {
 			TechnicalComponents.click(btnModalCloseSurvey, "modal Close");
 		}
 		TechnicalComponents.waitTill(txtDisbaled, "visible");
-		verifyAutorenew(AutoRenew);
+		verifyDisabledAutorenew(DisbaledAutoRenew);
+		verifyBillingNextAmount(DisabledBillingAmount);
+	
 	}
 
 	@FindBy(xpath = "//a[contains(@class,'reinstate-btn ')]")
@@ -377,7 +399,41 @@ public class BillingDetailspage extends TechnicalComponents {
 
 	public void clickEnable() {
 		TechnicalComponents.click(btnEnable, "btnEnable");
-		TechnicalComponents.waitTill(btnEnable, "invisible");
 	}
 
+	@FindBy(xpath = "//p//a[@href='/billing/history/']")
+	private WebElement lnkBillingHistory;
+	
+	public void TransHistoryLinkVerify() {
+		lnkBillingHistory.isDisplayed();
+	}
+	
+	@FindBy(xpath = "//p[contains(text(),'Contact your CSM to change your payment or billing information. ')]")
+	private WebElement txtCSM;
+	
+	
+	public void CSMText() {
+		txtCSM.isDisplayed();
+	}
+	
+	@FindBy(xpath = "//a[@title='Change Billing Frequency']")
+	private WebElement lnkChangeBillingFreq;
+	
+	@FindBy(xpath = "//input[@package_id='32']")
+	private WebElement radioAnnual;
+	
+	
+	@FindBy(xpath = "//div[@class='ft']//a[contains(@class,'apply')][contains(text(),'SAVE')]")
+	private WebElement btnSave;
+	
+	
+	
+	public void changeBillingFreq() {
+	TechnicalComponents.waitTill(lnkChangeBillingFreq, "visible");
+	TechnicalComponents.click(lnkChangeBillingFreq, "lnkChangeBillingFreq");	
+	TechnicalComponents.waitTill(radioAnnual, "visible");
+	TechnicalComponents.click(radioAnnual, "radioAnnual");
+	TechnicalComponents.click(btnSave, "btnSave");
+	}
+	
 }

@@ -45,6 +45,7 @@ import objectrepository.HomePage;
 import objectrepository.HomePageLoggedIn;
 import objectrepository.IndividualPlansAndPricingSummaryPage;
 import objectrepository.LoginPage;
+import objectrepository.MPContactSales;
 import objectrepository.MyAccountPage;
 import objectrepository.PlansAndPricingSummaryPage;
 import objectrepository.ProfileDefaultPage;
@@ -216,6 +217,10 @@ public class BusinessComponents extends TechnicalComponents {
 				Billing_InvoiceCheckoutPage bp1 = new Billing_InvoiceCheckoutPage(driver);
 				redirectionsuccess = bp1.isPageOpened();
 				break;
+			case "billingInvoiceCheckoutforAudiencecredit":
+				Billing_InvoiceCheckoutPage bp21 = new Billing_InvoiceCheckoutPage(driver);
+				redirectionsuccess = bp21.isPageOpenedForAudienceCredit();
+				break;
 			case "BillingPWCreditConfirmationPage":
 				BillingPWCreditConfirmationPage bp2 = new BillingPWCreditConfirmationPage(driver);
 				redirectionsuccess = bp2.isPageOpened();
@@ -243,6 +248,14 @@ public class BusinessComponents extends TechnicalComponents {
 			case "billingPWMismatch":
 				BillingPWMessages bm = new BillingPWMessages(driver);
 				redirectionsuccess = bm.isPageOpened();
+				break;
+			case "EUSignIn":
+				SignUpPage sp1 = new SignUpPage(driver);
+				redirectionsuccess = sp1.isEUPageOpened();
+				break;
+			case "mpContactSales":
+				MPContactSales mp = new MPContactSales(driver);	
+				redirectionsuccess = mp.isPageOpened();
 				break;
 			default:
 				throw new FrameworkException("redirection verification not configure " + ScreenName);
@@ -920,6 +933,12 @@ public class BusinessComponents extends TechnicalComponents {
 			ca.HideFooter();
 			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
 			break;
+		case "clickEUSignIN":
+			HomePage hp = new HomePage(driver);
+			hp.clickEUSignIN();
+			logger.log(LogStatus.PASS, "clicked Succesfully" + ButtonName);
+			break;
+
 		default:
 			logger.log(LogStatus.INFO, "No link found" + ButtonName);
 			break;
@@ -1072,14 +1091,45 @@ public class BusinessComponents extends TechnicalComponents {
 		ca.moveSliderT0100();
 	}
 
-	public void verifyAutoRenewOff(String AutorenewEnable , String AutorenewDisabled) {
+	public void verifyAutoRenewOff(String AutorenewEnable, String AutorenewDisabled, String DisabledBillingAmount) {
+		try {
+			BillingDetailspage bd = new BillingDetailspage(driver);
+			bd.clickCancelAutorenew();
+			bd.checkAllBoxes();
+			bd.cancelAuto();
+			verify_Redirection("billingDetail");
+			bd.verifyAutorenewOff(AutorenewDisabled, DisabledBillingAmount);
+			bd.clickEnable();
+			verify_Redirection("billingDetail");
+			bd.verifyAutorenew(AutorenewEnable);
+		} catch (Exception e) {
+			throw new FrameworkException(
+					"Auto renew   Not verified within specified time.---" + e.getClass() + "---" + e.getMessage());
+		}
+
+	}
+	
+	public void verifyPlanType(String PlanName) {
 		BillingDetailspage bd = new BillingDetailspage(driver);
-		bd.clickCancelAutorenew();
-		bd.checkAllBoxes();
-		bd.cancelAuto();
-		bd.verifyAutorenewOff(AutorenewDisabled);
-		bd.clickEnable();
-		bd.verifyAutorenew(AutorenewEnable);
+		bd.verifyEUPlanType(PlanName);
+		bd.TransHistoryLinkVerify();
+	}
+	
+	
+	public void VerifyCSMText () {
+		BillingDetailspage bd = new BillingDetailspage(driver);
+		bd.CSMText();
 	}
 
+	
+	public void VerifyCSMTInvoiceText () {
+		TransactionHistoryPage bd = new TransactionHistoryPage(driver);
+		bd.verifyCSMInvoice();
+	}
+	
+	public void changeToAnnualFreq () {
+		BillingDetailspage bd = new BillingDetailspage(driver);
+		bd.changeBillingFreq();
+	}
+	
 }

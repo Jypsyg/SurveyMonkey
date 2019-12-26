@@ -59,7 +59,7 @@ public class ToCheckAddCreditCheckout extends BusinessComponents {
 				enterAddCreditBillingDetails(PostalCode);
 				verify_Redirection("CreditConfirmationPageWithoutPay");
 				clickButton("PayNow");
-				verify_Redirection("billingInvoiceCheckout");
+				verify_Redirection("billingInvoiceCheckoutforAudiencecredit");
 				enterAddCreditPaymentDetails();
 				clickButton("ConfirmOnInvoice");
 				verify_Redirection("BillingPWCreditConfirmationPage");

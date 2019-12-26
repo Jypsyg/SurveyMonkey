@@ -39,7 +39,8 @@ public class SignUpPage extends TechnicalComponents {
 	public static String SignUp_Title = "Sign up for a FREE SurveyMonkey account";
 
 	public static String urlsuffix = "/user/sign-up/";
-
+	public static String euurlsuffix = "eu.monkeytest1.com";
+	
 	@FindBy(xpath = "//input[@id='username']")
 	public static WebElement text_Username;
 
@@ -79,6 +80,31 @@ public class SignUpPage extends TechnicalComponents {
 
 	}
 
+	@FindBy(xpath = "//a[contains(text(),'SIGN IN')]")
+	public static WebElement btnSignin;
+	
+	/**
+	 * function to validate the redirection to SignUp page.
+	 * 
+	 * @author Dsavita
+	 *
+	 */
+	public boolean isEUPageOpened() {
+		try {
+			TechnicalComponents.waitTill(btnSignin, "visible");
+			if (driver.getCurrentUrl().contains(euurlsuffix)) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (FrameworkException e) {
+			throw new FrameworkException(
+					"EU Signup Not Loaded within specified time.---" + e.getClass() + "---" + e.getMessage());
+		}
+
+	}
+	
+	
 	public void enterSignUpformsDetails(String username, String password, String email, String firstname,
 			String LastName) {
 

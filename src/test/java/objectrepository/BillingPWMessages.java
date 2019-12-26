@@ -26,9 +26,7 @@ import reusablecomponents.TechnicalComponents;
  *
  */
 public class BillingPWMessages extends TechnicalComponents {
-
 	WebDriver driver;
-
 	public static String urlsuffix = "/billing/pw/messages/mismatched_audience_currency";
 
 	@FindBy(xpath = "//a[contains(text(),'Customer Support')]")

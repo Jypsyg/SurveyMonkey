@@ -119,5 +119,20 @@ public class TestData {
 		return Utilities.Read_Excel(Utilities.getProperty("TEST_DATA_LOCATION"), "MonthlyCheckoutAutorenew");
 	}
 
+	@DataProvider(name = "EUTeamMemberCheck")
+	public static Object[][] EUTeamMemberCheck() throws FileNotFoundException, IOException {
+		return Utilities.Read_Excel(Utilities.getProperty("TEST_DATA_LOCATION"), "EUTeamMemberCheck");
+	}
+	
+	@DataProvider(name = "EUPrimaryMemberCheck")
+	public static Object[][] EUPrimaryMemberCheck() throws FileNotFoundException, IOException {
+		return Utilities.Read_Excel(Utilities.getProperty("TEST_DATA_LOCATION"), "EUPrimaryMemberCheck");
+	}
+	
+	@DataProvider(name = "MonthlyToAnnualUpgrade")
+	public static Object[][] MonthlyToAnnualUpgrade() throws FileNotFoundException, IOException {
+		return Utilities.Read_Excel(Utilities.getProperty("TEST_DATA_LOCATION"), "MonthlyToAnnualUpgrade");
+	}
+	
 	
 }

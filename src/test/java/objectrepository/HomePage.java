@@ -90,5 +90,16 @@ public class HomePage extends TechnicalComponents {
 		TechnicalComponents.click(menuAccountTab, "my account tab link");
 		TechnicalComponents.click(tabSignOut, "signout");
 	}
+	
+
+	@FindBy(xpath = "//a[contains(text(),'SIGN IN')]")
+	public static WebElement btnSIgnin;
+	
+	
+	public void clickEUSignIN() {
+
+		TechnicalComponents.click(btnSIgnin, "my account tab link");
+
+	}
 
 }

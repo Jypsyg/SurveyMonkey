@@ -19,21 +19,21 @@ import reusablecomponents.Utilities;
  * @author jypsy
  *
  */
-public class ToCheckMonthlyPlanCheckoutWithAutoRenew extends BusinessComponents {
+public class ToCheckEUPrimaryMember extends BusinessComponents {
 
 	/**
 	 * JavaDoc
 	 */
-	@Test(dataProvider = "MonthlyCheckoutAutorenew", dataProviderClass = data.TestData.class)
-	public void MonthlyCheckoutAutorenew(String testdesc, String password, String complexity, String Firstname, String Lastname,
+	@Test(dataProvider = "EUPrimaryMemberCheck", dataProviderClass = data.TestData.class)
+	public void EUTeamMemberCheck(String testdesc, String password, String complexity, String Firstname, String Lastname,
 			String Country, String PostalCode, String Billing_Email, String CardType, String Additional_SeatCount,
 			String PlanName, String PaymentType, String FlowType, String PlanNameDetails, String Frequency,
 			String AutoRenew, String NextBillingAmount, String TaxStatus, String InvoicePaymentType,
-			String PlanDescription, String PayNow, String TotalSeatCount, String AutoRenewDisbaled, String DisabledBillingAmount) {
+			String PlanDescription, String PayNow, String TotalSeatCount) {
 		if (toBeTested) {
 			try {
-				navigatetoUrl(Utilities.getProperty("ENVIRONMENT_URL"));
-				verify_Redirection("homepage");
+				navigatetoUrl(Utilities.getProperty("EU_ENVIRONMENT_URL"));
+				verify_Redirection("EUSignIn");
 				switch (FlowType) {
 				case "signup":
 					clickOnSignUpLink("homepage");
@@ -44,43 +44,26 @@ public class ToCheckMonthlyPlanCheckoutWithAutoRenew extends BusinessComponents 
 					click_CrossIcon();
 					break;
 				case "login":
-					clickOnLoginLink("homepage");
+					clickButton("clickEUSignIN");			
 					verify_Redirection("login");
-					loginToApp("automation20190412_193929", "automation20190412_1939291");
+					loginToApp("qa_idc_eu_39387048-6e1e-4476-9ce2-39ec09dd59c0", "TestMonkey");
 				default:
 					break;
 				}
+				verify_Redirection("team");
+				clickLink("LoggedInPlansandpricingsummary");	
+				verify_Redirection("mpContactSales");
+				driver.navigate().back();
 				verify_Redirection("dashboard");
-				clickLink("clickMySurveys");
-				AdvantagePopupHandle();
-				verify_Redirection("pricingsummary");
-				clickLink("Upgrade");
-				verify_Redirection("TeamPricingsummary");
-				clickLink("IndividualPricingPage");
-				verify_Redirection("individualPricingsummary");
-				selectPlan(PlanName);
-				verify_Redirection("billingCheckout");
-				EnterBillingDetails(Firstname, Lastname, Country, PostalCode, Billing_Email);
-				clickPaymentNext();
-				EnterPaymentDetails(PaymentType, CardType);		
-				AddAdditionalUser("billingcheckout", Additional_SeatCount);
-				String ActualTotalAmount = PlanAmount("billingcheckout");
-				clickConfirmButton();
-				verify_Redirection("billingConfirmation");
-				String ActualInvoice = getInvoiceNumber("billingconfirm");
 				clickLink("billingPage");
 				verify_Redirection("billingDetail");
-				VerifyBillingDetails("US", PlanNameDetails, Frequency, getDate("annual", "MMM D,yyyy").trim(),
-						AutoRenew, NextBillingAmount, TaxStatus);
-				verifyAutoRenewOff(AutoRenew,AutoRenewDisbaled,DisabledBillingAmount);
+				verifyPlanType(PlanNameDetails);
+				VerifyCSMText();
 				clickLink("transactionHistoryPage");
 				verify_Redirection("transactionhistory");
-				verifyPurchaseActivityDetails("transactionhistory", ActualInvoice, getDate("currentday", "dd-MMM-yy"),
-						PlanDescription, Additional_SeatCount, "Paid", PayNow, ActualTotalAmount, PlanDescription,
-						Frequency, TotalSeatCount);
+				VerifyCSMTInvoiceText();
 				clickLink("signOut");
-				verify_Redirection("homepage");
-
+				verify_Redirection("EUSignIn");			
 			} catch (FrameworkException e) {
 
 				logger.log(LogStatus.FAIL, e.getMessage() + logger.addScreenCapture(screenshot(driver)));

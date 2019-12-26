@@ -109,7 +109,32 @@ public class Billing_InvoiceCheckoutPage extends TechnicalComponents {
 	public boolean isPageOpened() {
 		try {
 			TechnicalComponents.waitTill(txt_FirstName, "visible");
-			if (driver.getCurrentUrl().endsWith(urlsuffix)) {
+			if (driver.getCurrentUrl().contains(urlsuffix)) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (FrameworkException e) {
+			throw new FrameworkException(
+					"Invoice checkout page  Not Loaded within specified time.---" + e.getClass() + "---" + e.getMessage());
+		}
+
+	}
+	
+	@FindBy(xpath = "//a[contains(text(),'CLOSE')]")
+	public static WebElement btnClose;
+	
+	
+	/**
+	 * function to validate the redirection to invoice checkout  page for audienec credit.
+	 * 
+	 * @author Jypsy
+	 *
+	 */
+	public boolean isPageOpenedForAudienceCredit() {
+		try {
+			TechnicalComponents.waitTill(btnClose, "visible");
+			if (driver.getCurrentUrl().contains(urlsuffix)) {
 				return true;
 			} else {
 				return false;

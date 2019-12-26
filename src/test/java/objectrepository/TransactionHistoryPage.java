@@ -57,7 +57,7 @@ public class TransactionHistoryPage extends TechnicalComponents {
 	@FindBy(xpath = "//div[@id='billing-history-panel']/table/tbody/tr/td[7]")
 	public static WebElement txtAmount;
 
-	@FindBy(xpath = "//a[contains(text(),'ADD CREDITS')]")
+	@FindBy(xpath = "//a[contains(@href,'/billing/pw/credits-invoice')]")
 	public static WebElement btnAddCredit;
 
 	@FindBy(xpath = "//a[@data-action='print']")
@@ -165,5 +165,13 @@ public class TransactionHistoryPage extends TechnicalComponents {
 		}
 
 	}
+	
+	@FindBy(xpath = "//p[contains(text(),'Contact your CSM to access past invoices.')]")
+	public static WebElement txtCSMInvoice;
+	
+	public void verifyCSMInvoice() {
+		txtCSMInvoice.isDisplayed();
+	}
+	
 	
 }

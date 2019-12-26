@@ -21,45 +21,54 @@ import reusablecomponents.BusinessComponents;
 import reusablecomponents.TechnicalComponents;
 
 /**
- * Object repository of the credit confirmation page.
+ * Object repository of the about us page.
  * 
- * @author Jypsy
+ * @author Dsavita
  *
  */
-public class BillingPWCreditConfirmationPage extends TechnicalComponents {
+public class MPContactSales extends TechnicalComponents {
 
 	WebDriver driver;
 
-	private String Credit_confirmation_title = "SurveyMonkey - Thank you for your credits purchase";
-	public static String urlsuffix = "/billing/pw/credits-confirmation";
-
-	public BillingPWCreditConfirmationPage(WebDriver driver) {
+	public static String urlsuffix = "/mp/contact-sales/";
+	
+	public MPContactSales(WebDriver driver) {
 
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}
 
-	@FindBy(xpath = "//h1[@class='wds-card__title'] | //h1[@class='wds-card__title'][contains(text(),'NEED HELP?')]")
-	public static WebElement txtNeedHelp;
+
+	@FindBy(xpath = "//h2[contains(text(),'SurveyMonkey Enterprise')]")
+	public static WebElement txtEnterprise;
+
+	
+	
 
 	/**
-	 * function to validate the redirection to credit confirmation page.
+	 * function to validate the redirection to My Account page.
 	 * 
 	 * @author Jypsy
 	 *
 	 */
 	public boolean isPageOpened() {
 		try {
-			TechnicalComponents.waitTill(txtNeedHelp, "visible");
+			TechnicalComponents.waitTill(txtEnterprise, "visible");
 			if (driver.getCurrentUrl().contains(urlsuffix)) {
 				return true;
 			} else {
 				return false;
 			}
 		} catch (FrameworkException e) {
-			throw new FrameworkException("Credit Confirmation  Page Not Loaded within specified time.---" + e.getClass()
-					+ "---" + e.getMessage());
+			throw new FrameworkException(
+					"mp contact sales Loaded within specified time.---" + e.getClass() + "---" + e.getMessage());
 		}
 
 	}
+
+	
+	
+	
+	
+	
 }
