@@ -2,6 +2,7 @@ package sm.project.testscripts;
 
 import static org.testng.Assert.assertTrue;
 
+import org.openqa.selenium.Cookie;
 import org.testng.SkipException;
 import org.testng.annotations.Test;
 
@@ -35,6 +36,8 @@ public class ToCheckBillingCheckout extends BusinessComponents {
 
 				navigatetoUrl(Utilities.getProperty("ENVIRONMENT_URL"));
 				verify_Redirection("homepage");
+				Cookie ck = new Cookie("sm_test_geo", "US");
+				driver.manage().addCookie(ck);
 				switch (FlowType) {
 				case "signup":
 					clickOnSignUpLink("homepage");
@@ -105,6 +108,8 @@ public class ToCheckBillingCheckout extends BusinessComponents {
 			try {
 				navigatetoUrl(Utilities.getProperty("ENVIRONMENT_URL"));
 				verify_Redirection("homepage");
+				Cookie ck = new Cookie("sm_test_geo", "US");
+				driver.manage().addCookie(ck);
 				clickLink("LoggedOutPlansandpricingsummary");
 				verify_Redirection("pricingsummary");
 				clickLink("IndividualPricingPage");
@@ -160,6 +165,8 @@ public class ToCheckBillingCheckout extends BusinessComponents {
 
 				navigatetoUrl(Utilities.getProperty("ENVIRONMENT_URL"));
 				verify_Redirection("homepage");
+				Cookie ck = new Cookie("sm_test_geo", "US");
+				driver.manage().addCookie(ck);
 				switch (FlowType) {
 				case "signup":
 					clickOnSignUpLink("homepage");
@@ -240,6 +247,8 @@ public class ToCheckBillingCheckout extends BusinessComponents {
 			try {
 				navigatetoUrl(Utilities.getProperty("ENVIRONMENT_URL"));
 				verify_Redirection("homepage");
+				Cookie ck = new Cookie("sm_test_geo", "US");
+				driver.manage().addCookie(ck);
 				switch (FlowType) {
 				case "signup":
 					clickOnSignUpLink("homepage");

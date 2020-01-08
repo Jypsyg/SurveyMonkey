@@ -87,8 +87,8 @@ public class HomePage extends TechnicalComponents {
 	 */
 	public void click_LogOut() {
 
-		TechnicalComponents.click(menuAccountTab, "my account tab link");
-		TechnicalComponents.click(tabSignOut, "signout");
+		TechnicalComponents.click_exceptional(menuAccountTab, "my account tab link");
+		TechnicalComponents.click_exceptional(tabSignOut, "signout");
 	}
 	
 

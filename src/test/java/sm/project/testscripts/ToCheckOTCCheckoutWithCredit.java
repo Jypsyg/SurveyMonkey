@@ -29,6 +29,8 @@ public class ToCheckOTCCheckoutWithCredit extends BusinessComponents {
 			try {
 				navigatetoUrl(Utilities.getProperty("ENVIRONMENT_URL"));
 				verify_Redirection("homepage");
+				Cookie ck = new Cookie("sm_test_geo", "US");
+				driver.manage().addCookie(ck);
 				switch (FlowType) {
 				case "signup":
 					clickOnSignUpLink("homepage");

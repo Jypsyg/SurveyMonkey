@@ -2,6 +2,7 @@ package sm.project.testscripts;
 
 import static org.testng.Assert.assertTrue;
 
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.remote.server.handler.ClickElement;
 import org.testng.SkipException;
 import org.testng.annotations.Test;
@@ -35,6 +36,8 @@ public class ToCheckAddCreditCheckout extends BusinessComponents {
 			try {
 				navigatetoUrl(Utilities.getProperty("ENVIRONMENT_URL"));
 				verify_Redirection("homepage");
+				Cookie ck = new Cookie("sm_test_geo", "US");
+				driver.manage().addCookie(ck);
 				switch (FlowType) {
 				case "signup":
 					clickOnSignUpLink("homepage");

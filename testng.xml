@@ -3,24 +3,24 @@
 <suite name="Test Suite" verbose="1">
 	<test name="Test">
 		<classes>
-<!-- 			<class name="sm.project.testscripts.ToCheckEditPayment" />		
-			<class name="sm.project.testscripts.ToCheckPayPalCheckout"/>	 -->	
-	<!-- 		<class name="sm.project.testscripts.ToCheckAddCreditCheckout" />
+			<class name="sm.project.testscripts.ToCheckEditPayment" />		
+			<class name="sm.project.testscripts.ToCheckPayPalCheckout"/>			
 			<class name="sm.project.testscripts.ToCheckOTCCheckoutWithCredit"/>		
-			<class name="sm.project.testscripts.ToCheckIPPMCheckout"/> -->
-			<class name="sm.project.testscripts.ToCheckMisMatchCurrency"/>
-			<class name="sm.project.testscripts.ToCheckMonthlyPlanCheckoutWithAutoRenew"/>
+			<class name="sm.project.testscripts.ToCheckIPPMCheckout"/>	
 			<class name="sm.project.testscripts.ToCheckEUTeamMemeber"/>
-			<class name="sm.projeJazzct.testscripts.ToCheckMonthlyToAnnualUpgradeWithFrequency"/>
+			<class name="sm.project.testscripts.ToCheckMonthlyToAnnualUpgradeWithFrequency"/>
 			<class name="sm.project.testscripts.ToCheckBillingCheckout"/>
 			<class name="sm.project.testscripts.ToChecFlexPlanCheckout"/>
 			<class name="sm.project.testscripts.ToCheckOTCCheckout" />
 			<class name="sm.project.testscripts.ToCheckSEPADirectDebitCheckout"/>
 			<class name="sm.project.testscripts.ToCheckDirectDebitCheckout"/>
-			<class name="sm.project.testscripts.ToCheckTeamCheckout"/>
 			<class name="sm.project.testscripts.ToCheckEDUCheckout"/>		
 			<class name="sm.project.testscripts.ToCheckUpgradeFlow" />
 			<class name="sm.project.testscripts.ToCheckOverageInvoice" />		
+			<class name="sm.project.testscripts.ToCheckAddCreditCheckout" />
+			<class name="sm.project.testscripts.ToCheckMisMatchCurrency"/>	
+			<class name="sm.project.testscripts.ToCheckMonthlyPlanCheckoutWithAutoRenew"/>
+			<class name="sm.project.testscripts.ToCheckTeamCheckout"/>
 	</classes>
 	</test> <!-- Test -->
 </suite> <!-- Suite -->

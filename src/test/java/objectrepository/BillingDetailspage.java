@@ -376,6 +376,7 @@ public class BillingDetailspage extends TechnicalComponents {
 
 	public void cancelAuto() {
 		TechnicalComponents.click(btnCancelAutoRenew, "cancel on dialog");
+		TechnicalComponents.waitTill(btnCancelAutoRenew, "invisible");
 	}
 
 	@FindBy(xpath = "//span[contains(text(),'Disabled')]")

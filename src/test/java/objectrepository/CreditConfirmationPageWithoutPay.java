@@ -61,7 +61,7 @@ public class CreditConfirmationPageWithoutPay extends TechnicalComponents {
 
 	}
 	
-	@FindBy(xpath = "//button[contains(text(),'Confirm') or contains(text(),'Buy') or contains(text(),'Pay') or contains(text(), 'Kaufen') or contains(text(),'CONFIRM') or contains(text(),'PAY')or contains(text(),'BUY') or contains(text(),'submit')or contains(@type,'submit')] | //input[contains(@value,'Confirm')or contains(@value,'Buy') or contains(@value,'Pay') or contains(@value, 'Kaufen') or contains(@value,'CONFIRM') or contains(@value,'PAY') or contains(@value,'BUY') or contains(@type,'submit')] | //a[contains(text(),'PAY NOW')] | //a[contains(@class,'wds-button')][contains(text(),'Pay now')]")
+	@FindBy(xpath = "//a[contains(text(),'PAY NOW')] | //a[contains(@class,'wds-button')][contains(text(),'Pay now')]")
 	public static WebElement btnPayNow;
 	
 	public void clickPayNow() {
